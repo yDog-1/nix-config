@@ -1,0 +1,19 @@
+{
+  imports = [
+    ./hardware-configuration.nix
+
+    ../../modules/nixos/boot.nix
+    ../../modules/nixos/desktop.nix
+    ../../modules/nixos/fonts
+    ../../modules/nixos/input.nix
+    ../../modules/nixos/locale.nix
+    ../../modules/nixos/networking.nix
+    ../../modules/nixos/nix.nix
+    ../../modules/nixos/nvidia.nix
+    ../../modules/nixos/packages.nix
+    ../../modules/nixos/sound.nix
+    ../../modules/nixos/users.nix
+  ];
+
+  system.stateVersion = "25.11";
+}
