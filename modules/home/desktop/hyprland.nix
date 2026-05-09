@@ -68,6 +68,7 @@
           "$mod SHIFT, M, exit"
           "$mod, G, togglefloating"
           "$mod, F, fullscreen"
+          "$mod SHIFT, L, exec, loginctl lock-session"
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
           "$mod, up, movefocus, u"

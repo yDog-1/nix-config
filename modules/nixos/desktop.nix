@@ -14,6 +14,8 @@
 
   services.printing.enable = true;
 
+  security.pam.services.hyprlock = {};
+
   programs.firefox.enable = true;
   programs.zsh.enable = true;
 
