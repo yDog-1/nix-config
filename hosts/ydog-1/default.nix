@@ -13,6 +13,7 @@
     ../../modules/nixos/packages.nix
     ../../modules/nixos/sound.nix
     ../../modules/nixos/users.nix
+    ../../modules/nixos/gaming.nix
   ];
 
   system.stateVersion = "25.11";
