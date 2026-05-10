@@ -3,6 +3,7 @@
     ./hypridle.nix
     ./hyprland.nix
     ./hyprlock.nix
+    ./ironbar.nix
     ./pyprland.nix
     ./packages.nix
     ./swaync.nix

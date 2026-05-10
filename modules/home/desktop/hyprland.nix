@@ -51,7 +51,7 @@
       animations.enabled = true;
 
       exec-once = [
-        "waybar"
+        "ironbar"
         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
         "pypr"
         "fcitx5-remote -r"
