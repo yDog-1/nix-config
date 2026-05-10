@@ -13,10 +13,13 @@
   };
 
   services.printing.enable = true;
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 
   security.pam.services.hyprlock = {};
 
   programs.firefox.enable = true;
+  programs.dconf.enable = true;
   programs.zsh.enable = true;
 
   programs.hyprland = {
