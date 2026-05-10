@@ -41,10 +41,22 @@
       input = {
         kb_layout = "jp";
         follow_mouse = 1;
+        accel_profile = "flat";
         touchpad = {
           natural_scroll = true;
         };
       };
+
+      device = [
+        {
+          name = "getech-huge-trackball-1";
+          accel_profile = "adaptive";
+        }
+        {
+          name = "logitech-g603-1";
+          sensitivity = 0.4;
+        }
+      ];
 
       general = {
         gaps_in = 4;
