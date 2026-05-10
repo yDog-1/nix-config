@@ -53,6 +53,14 @@
             on_click: '!shutdown now'
           - type: button
             class: power-btn
+            label: <span>󰒲</span>
+            on_click: '!systemctl suspend'
+          - type: button
+            class: power-btn
+            label: <span>󰍃</span>
+            on_click: '!uwsm stop'
+          - type: button
+            class: power-btn
             label: <span>󰜉</span>
             on_click: '!reboot'
     - type: tray
@@ -149,6 +157,11 @@
         padding: var(--margin-lg);
     }
 
+    .popup,[class^="popup-"] {
+        transition: all 200ms ease;
+        box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.5);
+    }
+
     /* --- clock --- */
 
     .clock {
@@ -171,37 +184,6 @@
 
     .popup-clipboard .item + .item {
         border-top: 1px solid var(--color-border-light);
-    }
-
-    /* --- launcher --- */
-
-    .launcher .item + .item {
-        margin-left: 4px;
-    }
-
-    .launcher .item.open {
-        box-shadow: inset 0 -1px var(--color-white);
-    }
-
-    .launcher .item.focused {
-        box-shadow: inset 0 -1px var(--color-active);
-    }
-
-    .launcher .item.urgent {
-        box-shadow: inset 0 -1px var(--color-urgent);
-    }
-
-    .popup-launcher {
-        padding: var(--margin-sm);
-    }
-
-    .popup-launcher .popup-item {
-        padding: var(--margin-lg);
-        border-radius: 10px;
-    }
-
-    .popup-launcher .popup-item label {
-        margin-top: var(--margin-sm);
     }
 
     /* --- menu --- */
