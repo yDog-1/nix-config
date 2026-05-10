@@ -52,7 +52,6 @@
 
       exec-once = [
         "waybar"
-        "mako"
         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
         "pypr"
         "fcitx5-remote -r"

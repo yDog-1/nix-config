@@ -2,7 +2,6 @@
   home.packages = with pkgs; [
     rofi
     waybar
-    mako
     hyprshot
     hypridle
     hyprlock
