@@ -9,6 +9,7 @@
     hyprpaper
     nwg-displays
     pyprland
+    wtype
     xdg-utils
     polkit_gnome
 

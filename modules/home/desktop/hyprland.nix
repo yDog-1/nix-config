@@ -54,6 +54,7 @@
         "waybar"
         "mako"
         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+        "pypr"
         "fcitx5-remote -r"
         "fcitx5 -d --replace"
       ];
@@ -67,6 +68,7 @@
           "$mod, Q, killactive"
           "$mod SHIFT, M, exit"
           "$mod, G, togglefloating"
+          "$mod, I, exec, vim-anywhere-wayland"
           "$mod, F, fullscreen"
           "$mod CTRL, L, exec, loginctl lock-session"
           "$mod, left, movefocus, l"
