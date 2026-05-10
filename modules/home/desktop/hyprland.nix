@@ -10,8 +10,22 @@
       "$terminal" = "wezterm";
       "$browser" = "vivaldi --ozone-platform=wayland";
 
-      source = [
-        "~/.config/hypr/monitors.conf"
+      monitor = [
+        "DP-3,2560x1440@144.0,0x0,1.0"
+        "HDMI-A-1,1920x1080@75.0,2560x360,1.0"
+      ];
+
+      workspace = [
+        "1,m[DP-3]"
+        "2,m[DP-3]"
+        "3,m[DP-3]"
+        "4,m[DP-3]"
+        "5,m[DP-3]"
+        "6,m[HDMI-A-1]"
+        "7,m[HDMI-A-1]"
+        "8,m[HDMI-A-1]"
+        "9,m[HDMI-A-1]"
+        "10,m[HDMI-A-1]"
       ];
 
       env = [
@@ -69,7 +83,6 @@
           "$mod, G, togglefloating"
           "$mod, I, exec, vim-anywhere-wayland"
           "$mod, F, fullscreen"
-          "$mod CTRL, L, exec, loginctl lock-session"
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
           "$mod, up, movefocus, u"
@@ -86,6 +99,8 @@
           "$mod SHIFT, L, movewindow, r"
           "$mod SHIFT, K, movewindow, u"
           "$mod SHIFT, J, movewindow, d"
+          "$mod CTRL, H, workspace, -1"
+          "$mod CTRL, L, workspace, +1"
           ", Print, exec, hyprshot -m window -o ~/Pictures/Screenshots"
         ]
         ++ (
