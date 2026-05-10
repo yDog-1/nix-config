@@ -8,6 +8,7 @@
     ../../modules/nixos/fonts
     ../../modules/nixos/input.nix
     ../../modules/nixos/locale.nix
+    ../../modules/nixos/mounts.nix
     ../../modules/nixos/networking.nix
     ../../modules/nixos/nix.nix
     ../../modules/nixos/nvidia.nix
