@@ -3,6 +3,7 @@
     ./hardware-configuration.nix
 
     ../../modules/nixos/boot.nix
+    ../../modules/nixos/bluetooth.nix
     ../../modules/nixos/desktop.nix
     ../../modules/nixos/fonts
     ../../modules/nixos/input.nix
