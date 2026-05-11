@@ -15,6 +15,10 @@
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";
     };
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # taskbar for wayland
     # It's provided from the nixpkgs, but it version is 0.18.0.
     # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)
@@ -34,6 +38,7 @@
   };
 
   outputs = inputs @ {
+    self,
     nixpkgs,
     home-manager,
     nixos-hardware,
@@ -51,6 +56,33 @@
     };
     inherit nixos-hardware;
   in {
+    checks.${system} = {
+      pre-commit-check = inputs.git-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          alejandra.enable = true;
+        };
+      };
+
+      nixos-ydog-1 = self.nixosConfigurations.ydog-1.config.system.build.toplevel;
+      home-ydog-1 = self.homeConfigurations."ydog-1".activationPackage;
+    };
+
+    formatter.${system} = let
+      inherit (self.checks.${system}.pre-commit-check.config) package configFile;
+    in
+      pkgs.writeShellScriptBin "pre-commit-run" ''
+        ${pkgs.lib.getExe package} run --all-files --config ${configFile}
+      '';
+
+    devShells.${system}.default = let
+      inherit (self.checks.${system}.pre-commit-check) shellHook enabledPackages;
+    in
+      pkgs.mkShell {
+        inherit shellHook;
+        buildInputs = enabledPackages;
+      };
+
     nixosConfigurations.ydog-1 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {inherit inputs;}; # Pass inputs to homeManagerConfiguration
