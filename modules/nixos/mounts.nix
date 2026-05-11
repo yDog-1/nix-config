@@ -1,7 +1,7 @@
 {
   fileSystems = {
-    "/mnt/sdd1" = {
-      device = "/dev/sdd1";
+    "/mnt/sda1" = {
+      device = "/dev/sda1";
       fsType = "auto";
     };
 
