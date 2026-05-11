@@ -3,7 +3,6 @@
   stdenvNoCC,
   ...
 }:
-
 stdenvNoCC.mkDerivation {
   pname = "moralerspace-hw";
   version = "2.0.0";

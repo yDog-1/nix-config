@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   terminalTargetClasses = [
     "org.wezfurlong.wezterm"
   ];
@@ -46,55 +50,55 @@
       wtype
     ];
     text = ''
-      set -euo pipefail
+            set -euo pipefail
 
-      runtime_dir="''${XDG_RUNTIME_DIR:-/tmp}/vim-anywhere"
-      target_file="$runtime_dir/target-address"
-      target_window_file="$runtime_dir/target-window.json"
-      history_dir="''${TMPDIR:-/tmp}/vim-anywhere"
-      tmp_file="$history_dir/doc-$(date +%y%m%d%H%M%S)"
+            runtime_dir="''${XDG_RUNTIME_DIR:-/tmp}/vim-anywhere"
+            target_file="$runtime_dir/target-address"
+            target_window_file="$runtime_dir/target-window.json"
+            history_dir="''${TMPDIR:-/tmp}/vim-anywhere"
+            tmp_file="$history_dir/doc-$(date +%y%m%d%H%M%S)"
 
-      terminal_target_classes=(
-${terminalTargetClassLines}
-      )
+            terminal_target_classes=(
+      ${terminalTargetClassLines}
+            )
 
-      mkdir -p "$runtime_dir" "$history_dir"
-      chmod 700 "$runtime_dir" "$history_dir"
-      touch "$tmp_file"
-      chmod 600 "$tmp_file"
+            mkdir -p "$runtime_dir" "$history_dir"
+            chmod 700 "$runtime_dir" "$history_dir"
+            touch "$tmp_file"
+            chmod 600 "$tmp_file"
 
-      is_terminal_target() {
-        if [ ! -s "$target_window_file" ]; then
-          return 1
-        fi
+            is_terminal_target() {
+              if [ ! -s "$target_window_file" ]; then
+                return 1
+              fi
 
-        target_class="$(jq -r '.class // empty' "$target_window_file")"
-        target_initial_class="$(jq -r '.initialClass // empty' "$target_window_file")"
+              target_class="$(jq -r '.class // empty' "$target_window_file")"
+              target_initial_class="$(jq -r '.initialClass // empty' "$target_window_file")"
 
-        for terminal_class in "''${terminal_target_classes[@]}"; do
-          if [ "$target_class" = "$terminal_class" ] || [ "$target_initial_class" = "$terminal_class" ]; then
-            return 0
-          fi
-        done
+              for terminal_class in "''${terminal_target_classes[@]}"; do
+                if [ "$target_class" = "$terminal_class" ] || [ "$target_initial_class" = "$terminal_class" ]; then
+                  return 0
+                fi
+              done
 
-        return 1
-      }
+              return 1
+            }
 
-      editor_cmd="''${EDITOR:-vi}"
-      eval "set -- $editor_cmd"
-      "$@" "$tmp_file"
+            editor_cmd="''${EDITOR:-vi}"
+            eval "set -- $editor_cmd"
+            "$@" "$tmp_file"
 
-      wl-copy < "$tmp_file"
+            wl-copy < "$tmp_file"
 
-      if [ -s "$target_file" ]; then
-        target_address="$(cat "$target_file")"
-        hyprctl dispatch focuswindow "address:$target_address" >/dev/null || true
-        sleep 0.1
-      fi
+            if [ -s "$target_file" ]; then
+              target_address="$(cat "$target_file")"
+              hyprctl dispatch focuswindow "address:$target_address" >/dev/null || true
+              sleep 0.1
+            fi
 
-      if ! is_terminal_target; then
-        wtype -M ctrl -k v -m ctrl
-      fi
+            if ! is_terminal_target; then
+              wtype -M ctrl -k v -m ctrl
+            fi
     '';
   };
 in {
