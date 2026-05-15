@@ -25,6 +25,13 @@
 
     gtk4 = {
       theme = config.gtk.theme;
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
+    };
+
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
     };
   };
 
@@ -32,5 +39,11 @@
     enable = true;
     platformTheme.name = "qtct";
     style.name = "kvantum";
+  };
+
+  dconf.settings."org/gnome/desktop/interface" = {
+    color-scheme = "prefer-dark";
+    gtk-theme = config.gtk.theme.name;
+    icon-theme = config.gtk.iconTheme.name;
   };
 }
