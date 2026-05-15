@@ -44,7 +44,18 @@
     nixos-hardware,
     ...
   }: let
-    system = "x86_64-linux";
+    configurations = {
+      ydog-1 = rec {
+        system = "x86_64-linux";
+        userName = "ydog-1";
+        nixosConfigName = "ydog-1";
+        homeConfigName = userName;
+        hostPath = ./hosts/ydog-1;
+        homePath = ./home/ydog-1;
+      };
+    };
+    cfg = configurations.ydog-1;
+    system = cfg.system;
     pkgs = import nixpkgs {
       inherit system;
 
@@ -83,12 +94,12 @@
         buildInputs = enabledPackages;
       };
 
-    nixosConfigurations.ydog-1 = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+    nixosConfigurations.${cfg.nixosConfigName} = nixpkgs.lib.nixosSystem {
+      inherit (cfg) system;
       specialArgs = {inherit inputs;}; # Pass inputs to homeManagerConfiguration
       modules =
         [
-          ./hosts/ydog-1
+          cfg.hostPath
         ]
         ++ (with nixos-hardware.nixosModules; [
           common-cpu-amd
@@ -97,11 +108,14 @@
         ]);
     };
 
-    homeConfigurations."ydog-1" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations.${cfg.homeConfigName} = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
-      extraSpecialArgs = {inherit inputs;}; # Pass inputs to homeManagerConfiguration
+      extraSpecialArgs = {
+        inherit inputs;
+        inherit (cfg) nixosConfigName homeConfigName;
+      }; # Pass inputs to homeManagerConfiguration
 
-      modules = [./home/ydog-1];
+      modules = [cfg.homePath];
     };
   };
 }

@@ -7,6 +7,10 @@
     '';
   };
 in {
+  imports = [
+    ./nixd.nix
+  ];
+
   home.packages = with pkgs; [
     # LSP Servers
     lua-language-server
@@ -21,7 +25,6 @@ in {
     taplo
     astro-language-server
     tailwindcss-language-server
-    nixd
     python313Packages.python-lsp-server
 
     # Linters
