@@ -13,11 +13,6 @@
         "@wheel"
       ];
     };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 14d";
-    };
   };
 
   programs.nix-index-database.comma.enable = true;
@@ -25,5 +20,10 @@
   programs.nh = {
     enable = true;
     flake = flakePath;
+    clean = {
+      enable = true;
+      dates = "weekly";
+      extraArgs = "--keep-since 14d --keep 5";
+    };
   };
 }
