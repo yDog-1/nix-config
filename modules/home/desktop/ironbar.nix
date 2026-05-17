@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  catppuccin = import ./catppuccin-colors.nix;
+  c = catppuccin.colors;
+  alpha = catppuccin.withAlpha;
+in {
   home.packages = [
     pkgs.ironbar
   ];
@@ -71,17 +75,17 @@
 
   xdg.configFile."ironbar/style.css".text = ''
     :root {
-        --color-dark-primary: #1c1c1caa;
-        --color-dark-secondary: #2d2d2daa;
+        --color-dark-primary: ${alpha c.base "CC"};
+        --color-dark-secondary: ${alpha c.surface0 "DD"};
 
-        --color-border-dark: #776DE844;
-        --color-border-light: #776DE822;
+        --color-border-dark: ${alpha c.mauve "66"};
+        --color-border-light: ${alpha c.mauve "33"};
 
-        --color-white: #fff;
-        --color-active: #776DE8CC;
-        --color-urgent: #8f0a0a;
+        --color-white: ${c.text};
+        --color-active: ${alpha c.mauve "CC"};
+        --color-urgent: ${c.red};
 
-        --gradient: linear-gradient(90deg, #6699CC19 35%, #CC99CC19 100%);
+        --gradient: linear-gradient(90deg, ${alpha c.blue "26"} 35%, ${alpha c.mauve "26"} 100%);
 
         --margin-lg: 1em;
         --margin-sm: 0.5em;
@@ -111,7 +115,7 @@
     }
 
     box, button, label, calendar {
-        background-color: #0000;
+        background-color: transparent;
     }
 
     #bar, popover contents {
@@ -119,11 +123,11 @@
     }
 
     scale.horizontal highlight {
-        background: linear-gradient(90deg, #6699CCCC 35%, #CC99CCB2 100%);
+        background: linear-gradient(90deg, ${alpha c.blue "CC"} 35%, ${alpha c.mauve "B2"} 100%);
     }
 
     scale.vertical highlight {
-        background: linear-gradient(0, #6699CCCC 35%, #CC99CCB2 100%);
+        background: linear-gradient(0, ${alpha c.blue "CC"} 35%, ${alpha c.mauve "B2"} 100%);
     }
 
     slider {
@@ -174,7 +178,7 @@
     }
 
     .popup-clock .calendar .today {
-        background-color: #776DE899;
+        background-color: ${alpha c.mauve "99"};
         border-radius: 0.25em;
     }
 

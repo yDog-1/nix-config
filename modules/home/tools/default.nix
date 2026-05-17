@@ -1,8 +1,14 @@
 {
+  inputs,
   pkgs,
   _config,
   ...
 }: let
+  catppuccin = import ../desktop/catppuccin-colors.nix;
+  catppuccinYazi = pkgs.runCommand "catppuccin-yazi-${catppuccin.flavor}-${catppuccin.accent}" {} ''
+    mkdir -p $out
+    cp ${inputs.catppuccin-yazi}/themes/${catppuccin.flavor}/catppuccin-${catppuccin.flavor}-${catppuccin.accent}.toml $out/flavor.toml
+  '';
   gtrashCompletion =
     pkgs.runCommand "gtrash-completion" {
       buildInputs = [pkgs.gtrash];
@@ -87,16 +93,11 @@ in {
     enableZshIntegration = true;
     shellWrapperName = "y";
     flavors = {
-      monokai-vibrant = pkgs.fetchFromGitHub {
-        owner = "sanjinso";
-        repo = "monokai-vibrant.yazi";
-        rev = "main";
-        sha256 = "sha256-f3IaeDJ4gZf5glk4RIVQ1/DqH0ON2Sv5UzGvdAnLEbw=";
-      };
+      catppuccin-mocha-mauve = catppuccinYazi;
     };
     theme = {
       flavor = {
-        dark = "monokai-vibrant";
+        dark = "catppuccin-mocha-mauve";
       };
     };
   };

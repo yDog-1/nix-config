@@ -1,4 +1,8 @@
-{...}: {
+{...}: let
+  catppuccin = import ./catppuccin-colors.nix;
+  c = catppuccin.colors;
+  alpha = catppuccin.withAlpha;
+in {
   services.swaync = {
     enable = true;
     settings = {
@@ -54,12 +58,12 @@
       };
     };
     style = ''
-      @define-color foreground #fff;
-      @define-color background #1c1c1caa;
-      @define-color background-second #2d2d2daa;
-      @define-color accent #989898;
-      @define-color current-line #776DE844;
-      @define-color comment #776DE8CC;
+      @define-color foreground ${c.text};
+      @define-color background ${alpha c.base "CC"};
+      @define-color background-second ${alpha c.surface0 "DD"};
+      @define-color accent ${c.mauve};
+      @define-color current-line ${alpha c.mauve "66"};
+      @define-color comment ${alpha c.mauve "CC"};
 
       .notification-row {
         transition: all 200ms ease;

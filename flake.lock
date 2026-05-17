@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "catppuccin-yazi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778781723,
+        "narHash": "sha256-Og33IGS9pTim6LEH33CO102wpGnPomiperFbqfgrJjw=",
+        "owner": "catppuccin",
+        "repo": "yazi",
+        "rev": "41f24ed142e34109a9a65a5dfe58c1b4eb6d2fd9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "yazi",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -272,6 +288,7 @@
     },
     "root": {
       "inputs": {
+        "catppuccin-yazi": "catppuccin-yazi",
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",
         "ironbar": "ironbar",
