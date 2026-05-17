@@ -18,6 +18,8 @@
     nemo-fileroller
     file-roller
     ffmpegthumbnailer
+    simple-scan
+    system-config-printer
 
     libsForQt5.qt5ct
     qt6Packages.qt6ct

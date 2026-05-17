@@ -2,7 +2,7 @@
   users.users.ydog-1 = {
     isNormalUser = true;
     description = "yDog";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "lp" "scanner" "lpadmin"];
     packages = with pkgs; [
       vivaldi
     ];
