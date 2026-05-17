@@ -34,6 +34,7 @@
     cargo
     rustc
     gdscript-formatter
+    gcc
 
     xclip
     wl-clipboard
