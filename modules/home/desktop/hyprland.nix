@@ -10,6 +10,12 @@
       "$terminal" = "wezterm";
       "$browser" = "vivaldi --ozone-platform=wayland";
 
+      misc = {
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        force_default_wallpaper = 0;
+      };
+
       monitor = [
         "DP-3,2560x1440@144.0,0x0,1.0"
         "HDMI-A-1,1920x1080@75.0,2560x360,1.0"
