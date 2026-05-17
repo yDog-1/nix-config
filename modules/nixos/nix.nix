@@ -1,4 +1,4 @@
-{
+{flakePath, ...}: {
   nixpkgs.config.allowUnfree = true;
 
   nix = {
@@ -21,4 +21,9 @@
   };
 
   programs.nix-index-database.comma.enable = true;
+
+  programs.nh = {
+    enable = true;
+    flake = flakePath;
+  };
 }

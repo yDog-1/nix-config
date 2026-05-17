@@ -67,6 +67,7 @@
       };
     };
     cfg = configurations.ydog-1;
+    flakePath = "/home/${cfg.userName}/nix-config";
     system = cfg.system;
     pkgs = import nixpkgs {
       inherit system;
@@ -108,7 +109,9 @@
 
     nixosConfigurations.${cfg.nixosConfigName} = nixpkgs.lib.nixosSystem {
       inherit (cfg) system;
-      specialArgs = {inherit inputs;}; # Pass inputs to homeManagerConfiguration
+      specialArgs = {
+        inherit inputs flakePath;
+      };
       modules =
         [
           cfg.hostPath
@@ -126,7 +129,7 @@
       extraSpecialArgs = {
         inherit inputs;
         inherit (cfg) nixosConfigName homeConfigName;
-      }; # Pass inputs to homeManagerConfiguration
+      };
 
       modules = [
         cfg.homePath
