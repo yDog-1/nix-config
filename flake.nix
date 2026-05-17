@@ -28,16 +28,19 @@
     # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)
     # The version isn't released yet, but the master branch has the feature.
     ironbar.url = "github:JakeStanger/ironbar";
+    vicinae.url = "github:vicinaehq/vicinae";
   };
 
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://cache.garnix.io"
+      "https://vicinae.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
     ];
   };
 
@@ -46,6 +49,7 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
+    vicinae,
     ...
   }: let
     configurations = {
@@ -119,7 +123,10 @@
         inherit (cfg) nixosConfigName homeConfigName;
       }; # Pass inputs to homeManagerConfiguration
 
-      modules = [cfg.homePath];
+      modules = [
+        cfg.homePath
+        vicinae.homeManagerModules.default
+      ];
     };
   };
 }
