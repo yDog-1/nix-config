@@ -8,6 +8,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     moralerspace-hw = {
       url = "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip";
       flake = false;
@@ -108,6 +112,7 @@
       modules =
         [
           cfg.hostPath
+          inputs.nix-index-database.nixosModules.default
         ]
         ++ (with nixos-hardware.nixosModules; [
           common-cpu-amd

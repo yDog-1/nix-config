@@ -19,4 +19,6 @@
       options = "--delete-older-than 14d";
     };
   };
+
+  programs.nix-index-database.comma.enable = true;
 }
