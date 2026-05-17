@@ -22,4 +22,8 @@
     "$PYENV_ROOT/bin"
     "$DPRINT_INSTALL/bin"
   ];
+
+  systemd.user.sessionVariables = {
+    PATH = "$HOME/.nix-profile/bin";
+  };
 }
