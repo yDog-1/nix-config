@@ -5,6 +5,7 @@
     hypridle
     hyprlock
     hyprpaper
+    waypaper
     nwg-displays
     pyprland
     wtype

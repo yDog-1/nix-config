@@ -80,6 +80,10 @@
         "ironbar"
         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
         "pypr"
+        # first, run waypaper
+        "waypaper --random"
+        # automatically change wallpaper every 10 minutes
+        "while true; do sleep 600; waypaper --random; done"
         "fcitx5-remote -r"
         "fcitx5 -d --replace"
       ];

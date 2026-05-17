@@ -9,6 +9,7 @@
     ./swaync.nix
     ./theme.nix
     ./vim-anywhere.nix
+    ./waypaper.nix
     ./xdg-user-dirs.nix
   ];
 }
