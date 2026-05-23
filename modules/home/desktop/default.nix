@@ -5,6 +5,7 @@
     ./hyprlock.nix
     ./ironbar.nix
     ./pyprland.nix
+    ./rofi.nix
     ./packages.nix
     ./swaync.nix
     ./theme.nix

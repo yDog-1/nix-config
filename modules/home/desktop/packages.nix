@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    rofi
     hyprshot
     hypridle
     hyprlock
