@@ -102,7 +102,7 @@
         [
           "$mod, T, exec, $terminal"
           "$mod, B, exec, $browser"
-          "$mod, D, exec, rofi -show drun"
+          "$mod, Space, exec, rofi -show drun"
           "$mod, E, exec, $terminal start -- yazi"
           "$mod, Q, killactive"
           "$mod SHIFT, M, exit"
