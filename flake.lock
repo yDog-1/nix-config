@@ -306,22 +306,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
-      "locked": {
-        "lastModified": 1772542754,
-        "narHash": "sha256-WGV2hy+VIeQsYXpsLjdr4GvHv5eECMISX1zKLTedhdg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "8c809a146a140c5c8806f13399592dbcb1bb5dc4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "catppuccin-yazi": "catppuccin-yazi",
@@ -332,8 +316,7 @@
         "moralerspace-hw": "moralerspace-hw",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_3",
-        "vicinae": "vicinae"
+        "nixpkgs": "nixpkgs_3"
       }
     },
     "rust-analyzer-src": {
@@ -365,25 +348,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "vicinae": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_4",
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1779481002,
-        "narHash": "sha256-EbIepv79FSCZ2nOdbQn5lXaPJs4zTFwyVQwDKVfsVgQ=",
-        "owner": "vicinaehq",
-        "repo": "vicinae",
-        "rev": "c88debfbdd68cfcec32a32dc06a26607178270fc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vicinaehq",
-        "repo": "vicinae",
         "type": "github"
       }
     }
