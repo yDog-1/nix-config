@@ -96,14 +96,13 @@
         "while true; do sleep 600; waypaper --random; done"
         "fcitx5-remote -r"
         "fcitx5 -d --replace"
-        "vicinae server"
       ];
 
       bind =
         [
           "$mod, T, exec, $terminal"
           "$mod, B, exec, $browser"
-          "$mod, Space, exec, vicinae toggle"
+          "$mod, D, exec, rofi -show drun"
           "$mod, E, exec, $terminal start -- yazi"
           "$mod, Q, killactive"
           "$mod SHIFT, M, exit"

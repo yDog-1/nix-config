@@ -8,7 +8,6 @@
     ./packages.nix
     ./swaync.nix
     ./theme.nix
-    ./vicinae.nix
     ./vim-anywhere.nix
     ./waypaper.nix
     ./xdg-user-dirs.nix
