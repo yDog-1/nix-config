@@ -82,6 +82,10 @@
 
       animations.enabled = true;
 
+      cursor = {
+        default_monitor = "DP-3";
+      };
+
       exec-once = [
         "ironbar"
         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
