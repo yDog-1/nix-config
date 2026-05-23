@@ -10,6 +10,9 @@
 in {
   programs.rofi = {
     enable = true;
+    extraConfig = {
+      show-icons = true;
+    };
     theme = {
       "@import" = "${catppuccin-rofi-theme}";
     };
