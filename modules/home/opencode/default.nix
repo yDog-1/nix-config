@@ -38,6 +38,14 @@
         bash = "ask";
         webfetch = "allow";
       };
+      mcp = {
+        tavily = {
+          type = "remote";
+          url = "https://mcp.tavily.com/mcp";
+          oauth = {};
+          enabled = true;
+        };
+      };
       agent = {
         build = {
           mode = "primary";
