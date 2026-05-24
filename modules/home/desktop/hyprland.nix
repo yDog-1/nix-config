@@ -162,7 +162,7 @@ in {
           (bind (lua ''mod .. " + T"'') (lua "hl.dsp.exec_cmd(terminal)"))
           (bind (lua ''mod .. " + B"'') (lua "hl.dsp.exec_cmd(browser)"))
           (bind (lua ''mod .. " + Space"'') (exec "rofi -show drun"))
-          (bind (lua ''mod .. " + E"'') (lua ''hl.dsp.exec_cmd(terminal .. " start -- yazi")''))
+          (bind (lua ''mod .. " + E"'') (exec "nemo"))
           (bind (lua ''mod .. " + Q"'') (lua "hl.dsp.window.close()"))
           (bind (lua ''mod .. " + SHIFT + M"'') (lua "hl.dsp.exit()"))
           (bind (lua ''mod .. " + G"'') (lua ''hl.dsp.window.float({ action = "toggle" })''))
