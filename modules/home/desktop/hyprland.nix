@@ -168,6 +168,7 @@ in {
           (bind (lua ''mod .. " + G"'') (lua ''hl.dsp.window.float({ action = "toggle" })''))
           (bind (lua ''mod .. " + I"'') (exec "vim-anywhere-wayland"))
           (bind (lua ''mod .. " + F"'') (lua "hl.dsp.window.fullscreen()"))
+          (bind (lua ''mod .. " + N"'') (exec "night-mode-toggle"))
           (bind (lua ''mod .. " + left"'') (lua ''hl.dsp.focus({ direction = "left" })''))
           (bind (lua ''mod .. " + right"'') (lua ''hl.dsp.focus({ direction = "right" })''))
           (bind (lua ''mod .. " + up"'') (lua ''hl.dsp.focus({ direction = "up" })''))

@@ -4,6 +4,7 @@
     ./hyprland.nix
     ./hyprlock.nix
     ./ironbar.nix
+    ./night-mode.nix
     ./pyprland.nix
     ./rofi.nix
     ./packages.nix
