@@ -7,8 +7,8 @@
     fcitx5.settings.inputMethod = {
       "Groups/0" = {
         Name = "Default";
-        DefaultLayout = "jp";
-        DefaultIM = "skk";
+        DefaultLayout = "";
+        DefaultIM = "keyboard-jp";
       };
       "Groups/0/Items/0" = {
         Name = "skk";
