@@ -5,6 +5,7 @@
     ../../modules/home/shell
     ../../modules/home/tools
     ../../modules/home/development
+    ../../modules/home/gaming
     ../../modules/home/skk
     ../../modules/home/codex
     ../../modules/home/opencode
