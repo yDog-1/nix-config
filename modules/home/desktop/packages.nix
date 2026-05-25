@@ -8,6 +8,7 @@
     nwg-displays
     pyprland
     wtype
+    xrandr
     xdg-utils
     polkit_gnome
 

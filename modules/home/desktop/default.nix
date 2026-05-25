@@ -1,7 +1,7 @@
 {
   imports = [
     ./hypridle.nix
-    ./hyprland.nix
+    ./hyprland
     ./hyprlock.nix
     ./ironbar.nix
     ./night-mode.nix
