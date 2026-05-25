@@ -24,6 +24,21 @@
       value
     ];
   };
+  monitors = {
+    primary = {
+      output = "DP-3";
+      mode = "2560x1440@144.0";
+      position = "0x0";
+      scale = 1.0;
+    };
+
+    secondary = {
+      output = "HDMI-A-1";
+      mode = "1920x1080@75.0";
+      position = "2560x360";
+      scale = 1.0;
+    };
+  };
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -38,62 +53,52 @@ in {
       browser._var = "vivaldi --ozone-platform=wayland";
 
       monitor = [
-        {
-          output = "DP-3";
-          mode = "2560x1440@144.0";
-          position = "0x0";
-          scale = 1.0;
-        }
-        {
-          output = "HDMI-A-1";
-          mode = "1920x1080@75.0";
-          position = "2560x360";
-          scale = 1.0;
-        }
+        monitors.primary
+        monitors.secondary
       ];
 
       workspace_rule = [
         {
           workspace = "1";
-          monitor = "DP-3";
+          monitor = monitors.primary.output;
           default = true;
         }
         {
           workspace = "2";
-          monitor = "DP-3";
+          monitor = monitors.primary.output;
         }
         {
           workspace = "3";
-          monitor = "DP-3";
+          monitor = monitors.primary.output;
         }
         {
           workspace = "4";
-          monitor = "DP-3";
+          monitor = monitors.primary.output;
         }
         {
           workspace = "5";
-          monitor = "DP-3";
+          monitor = monitors.primary.output;
         }
         {
           workspace = "6";
-          monitor = "HDMI-A-1";
+          monitor = monitors.secondary.output;
           default = true;
         }
         {
           workspace = "7";
-          monitor = "HDMI-A-1";
+          monitor = monitors.secondary.output;
         }
         {
           workspace = "8";
-          monitor = "HDMI-A-1";
+          monitor = monitors.secondary.output;
         }
         {
           workspace = "9";
-          monitor = "HDMI-A-1";
+          monitor = monitors.secondary.output;
         }
         {
           workspace = "10";
-          monitor = "HDMI-A-1";
+          monitor = monitors.secondary.output;
         }
       ];
 
@@ -142,7 +147,7 @@ in {
         animations.enabled = true;
 
         cursor = {
-          default_monitor = "DP-3";
+          default_monitor = monitors.primary.output;
         };
       };
 
@@ -211,6 +216,8 @@ in {
 
     extraConfig = ''
       hl.on("hyprland.start", function()
+        -- Make Xwayland games see the DP monitor as the primary display.
+        hl.exec_cmd("${pkgs.xrandr}/bin/xrandr --output ${monitors.primary.output} --primary")
         hl.exec_cmd("ironbar")
         hl.exec_cmd("${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1")
         hl.exec_cmd("pypr")
