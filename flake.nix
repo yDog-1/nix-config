@@ -85,6 +85,10 @@
         src = ./.;
         hooks = {
           alejandra.enable = true;
+          stylua = {
+            enable = true;
+            types_or = ["lua"];
+          };
         };
       };
 
