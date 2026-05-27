@@ -19,7 +19,8 @@ local terminal = "wezterm"
 -- settings.bind
 hl.bind((mod .. " + T"), (hl.dsp.exec_cmd(terminal)))
 hl.bind((mod .. " + B"), (hl.dsp.exec_cmd(browser)))
-hl.bind((mod .. " + Space"), (hl.dsp.exec_cmd("rofi -show drun")))
+-- to enable IME, only able to launch via `-x11` option
+hl.bind((mod .. " + Space"), (hl.dsp.exec_cmd("rofi -x11 -show drun")))
 hl.bind((mod .. " + E"), (hl.dsp.exec_cmd("nemo")))
 hl.bind((mod .. " + Q"), (hl.dsp.window.close()))
 hl.bind((mod .. " + SHIFT + M"), (hl.dsp.exit()))

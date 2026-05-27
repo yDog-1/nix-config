@@ -11,6 +11,7 @@ in {
   programs.rofi = {
     enable = true;
     extraConfig = {
+      kb-move-char-forward = "Right";
       show-icons = true;
     };
     theme = {
