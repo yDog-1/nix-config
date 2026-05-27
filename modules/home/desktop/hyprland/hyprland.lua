@@ -1,17 +1,17 @@
 local browser = "vivaldi --ozone-platform=wayland"
 local monitors = {
-  primary = {
-    mode = "2560x1440@144.0",
-    output = "DP-3",
-    position = "0x0",
-    scale = 1.0
-  },
-  secondary = {
-    mode = "1920x1080@75.0",
-    output = "HDMI-A-1",
-    position = "2560x360",
-    scale = 1.0
-  }
+	primary = {
+		mode = "2560x1440@144.0",
+		output = "DP-3",
+		position = "0x0",
+		scale = 1.0,
+	},
+	secondary = {
+		mode = "1920x1080@75.0",
+		output = "HDMI-A-1",
+		position = "2560x360",
+		scale = 1.0,
+	},
 }
 local mod = "SUPER"
 local terminal = "wezterm"
@@ -48,10 +48,10 @@ hl.bind((mod .. " + CTRL + H"), (hl.dsp.focus({ workspace = "-1" })))
 hl.bind((mod .. " + CTRL + L"), (hl.dsp.focus({ workspace = "+1" })))
 hl.bind("Print", (hl.dsp.exec_cmd("hyprshot -m window -o ~/Pictures/Screenshots")))
 hl.bind((mod .. " + mouse:272"), (hl.dsp.window.drag()), {
-  ["mouse"] = true
+	["mouse"] = true,
 })
 hl.bind((mod .. " + mouse:273"), (hl.dsp.window.resize()), {
-  ["mouse"] = true
+	["mouse"] = true,
 })
 hl.bind((mod .. " + 1"), (hl.dsp.focus({ workspace = 1 })))
 hl.bind((mod .. " + SHIFT + 1"), (hl.dsp.window.move({ workspace = 1 })))
@@ -76,49 +76,49 @@ hl.bind((mod .. " + SHIFT + 0"), (hl.dsp.window.move({ workspace = 10 })))
 
 -- settings.config
 hl.config({
-  ["animations"] = {
-    ["enabled"] = true
-  },
-  ["cursor"] = {
-    ["default_monitor"] = monitors.primary.output
-  },
-  ["decoration"] = {
-    ["blur"] = {
-      ["enabled"] = true,
-      ["passes"] = 2,
-      ["size"] = 4
-    },
-    ["rounding"] = 6
-  },
-  ["general"] = {
-    ["border_size"] = 2,
-    ["gaps_in"] = 4,
-    ["gaps_out"] = 8,
-    ["layout"] = "dwindle"
-  },
-  ["input"] = {
-    ["accel_profile"] = "flat",
-    ["follow_mouse"] = 1,
-    ["kb_layout"] = "jp",
-    ["touchpad"] = {
-      ["natural_scroll"] = true
-    }
-  },
-  ["misc"] = {
-    ["disable_hyprland_logo"] = true,
-    ["disable_splash_rendering"] = true,
-    ["force_default_wallpaper"] = 0
-  }
+	["animations"] = {
+		["enabled"] = true,
+	},
+	["cursor"] = {
+		["default_monitor"] = monitors.primary.output,
+	},
+	["decoration"] = {
+		["blur"] = {
+			["enabled"] = true,
+			["passes"] = 2,
+			["size"] = 4,
+		},
+		["rounding"] = 6,
+	},
+	["general"] = {
+		["border_size"] = 2,
+		["gaps_in"] = 4,
+		["gaps_out"] = 8,
+		["layout"] = "dwindle",
+	},
+	["input"] = {
+		["accel_profile"] = "flat",
+		["follow_mouse"] = 1,
+		["kb_layout"] = "jp",
+		["touchpad"] = {
+			["natural_scroll"] = true,
+		},
+	},
+	["misc"] = {
+		["disable_hyprland_logo"] = true,
+		["disable_splash_rendering"] = true,
+		["force_default_wallpaper"] = 0,
+	},
 })
 
 -- settings.device
 hl.device({
-  ["accel_profile"] = "adaptive",
-  ["name"] = "getech-huge-trackball-1"
+	["accel_profile"] = "adaptive",
+	["name"] = "getech-huge-trackball-1",
 })
 hl.device({
-  ["name"] = "logitech-g603-1",
-  ["sensitivity"] = 0.4
+	["name"] = "logitech-g603-1",
+	["sensitivity"] = 0.4,
 })
 
 -- settings.env
@@ -136,57 +136,57 @@ hl.monitor(monitors.secondary)
 
 -- settings.workspace_rule
 hl.workspace_rule({
-  ["default"] = true,
-  ["monitor"] = monitors.primary.output,
-  ["workspace"] = "1"
+	["default"] = true,
+	["monitor"] = monitors.primary.output,
+	["workspace"] = "1",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.primary.output,
-  ["workspace"] = "2"
+	["monitor"] = monitors.primary.output,
+	["workspace"] = "2",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.primary.output,
-  ["workspace"] = "3"
+	["monitor"] = monitors.primary.output,
+	["workspace"] = "3",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.primary.output,
-  ["workspace"] = "4"
+	["monitor"] = monitors.primary.output,
+	["workspace"] = "4",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.primary.output,
-  ["workspace"] = "5"
+	["monitor"] = monitors.primary.output,
+	["workspace"] = "5",
 })
 hl.workspace_rule({
-  ["default"] = true,
-  ["monitor"] = monitors.secondary.output,
-  ["workspace"] = "6"
+	["default"] = true,
+	["monitor"] = monitors.secondary.output,
+	["workspace"] = "6",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.secondary.output,
-  ["workspace"] = "7"
+	["monitor"] = monitors.secondary.output,
+	["workspace"] = "7",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.secondary.output,
-  ["workspace"] = "8"
+	["monitor"] = monitors.secondary.output,
+	["workspace"] = "8",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.secondary.output,
-  ["workspace"] = "9"
+	["monitor"] = monitors.secondary.output,
+	["workspace"] = "9",
 })
 hl.workspace_rule({
-  ["monitor"] = monitors.secondary.output,
-  ["workspace"] = "10"
+	["monitor"] = monitors.secondary.output,
+	["workspace"] = "10",
 })
 
 -- extraConfig
 hl.on("hyprland.start", function()
-  -- Make Xwayland games see the DP monitor as the primary display.
-  hl.exec_cmd("xrandr --output " .. monitors.primary.output .. " --primary")
-  hl.exec_cmd("ironbar")
-  hl.exec_cmd("polkit-gnome-authentication-agent-1")
-  hl.exec_cmd("pypr")
-  hl.exec_cmd("waypaper --random")
-  hl.exec_cmd("while true; do sleep 600; waypaper --random; done")
-  hl.exec_cmd("fcitx5-remote -r")
-  hl.exec_cmd("fcitx5 -d --replace")
+	-- Make Xwayland games see the DP monitor as the primary display.
+	hl.exec_cmd("xrandr --output " .. monitors.primary.output .. " --primary")
+	hl.exec_cmd("ironbar")
+	hl.exec_cmd("polkit-gnome-authentication-agent-1")
+	hl.exec_cmd("pypr")
+	hl.exec_cmd("waypaper --random")
+	hl.exec_cmd("while true; do sleep 600; waypaper --random; done")
+	hl.exec_cmd("fcitx5-remote -r")
+	hl.exec_cmd("fcitx5 -d --replace")
 end)
