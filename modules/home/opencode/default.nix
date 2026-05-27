@@ -15,15 +15,8 @@
       git = {
         enable = true;
       };
-      github = {
-        enable = true;
-      };
       memory = {
         enable = true;
-      };
-      serena = {
-        enable = true;
-        enableWebDashboard = false;
       };
     };
 
