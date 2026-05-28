@@ -13,4 +13,7 @@
       ];
     };
   };
+
+  # evdevremapkeys creates virtual input devices through /dev/uinput.
+  systemd.services.evdevremapkeys.serviceConfig.SupplementaryGroups = ["uinput"];
 }
