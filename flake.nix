@@ -17,8 +17,22 @@
       url = "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip";
       flake = false;
     };
+    llm-agents.url = "github:numtide/llm-agents.nix";
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";
+    };
+    agent-skills = {
+      url = "github:Kyure-A/agent-skills-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+    ast-grep-skill = {
+      url = "github:ast-grep/agent-skill";
+      flake = false;
+    };
+    agent-browser-skill = {
+      url = "github:vercel-labs/agent-browser";
+      flake = false;
     };
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
@@ -43,10 +57,12 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://cache.garnix.io"
+      "https://cache.numtide.com"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
   };
 
@@ -55,6 +71,8 @@
     nixpkgs,
     home-manager,
     nixos-hardware,
+    llm-agents,
+    agent-skills,
     ...
   }: let
     configurations = {
@@ -77,6 +95,7 @@
         (final: prev: {
           ironbar = inputs.ironbar.packages.${system}.default;
         })
+        llm-agents.overlays.default
       ];
     };
     inherit nixos-hardware;
@@ -136,7 +155,10 @@
         inherit (cfg) nixosConfigName homeConfigName;
       };
 
-      modules = [cfg.homePath];
+      modules = [
+        cfg.homePath
+        agent-skills.homeManagerModules.default
+      ];
     };
   };
 }
