@@ -58,6 +58,7 @@ in {
   xdg.configFile."opencode/opencode.json".source = opencodeConfig;
 
   programs.opencode = {
+    package = pkgs.llm-agents.opencode;
     enable = true;
   };
 
