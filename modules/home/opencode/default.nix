@@ -65,19 +65,6 @@
             serena_execute_shell_command = false;
           };
         };
-        "code-reviewer" = {
-          description = "Reviews code for best practices and potential issues";
-          mode = "subagent";
-          prompt = "You are a code reviewer. Focus on security, performance, and maintainability.";
-          tools = {
-            write = false;
-            edit = false;
-            "serena_create*" = false;
-            "serena_replace*" = false;
-            "serena_insert*" = false;
-            serena_execute_shell_command = false;
-          };
-        };
       };
     };
   };
