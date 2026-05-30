@@ -1,6 +1,19 @@
 {
   description = "Home Manager configuration of ydog-1";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+      "https://cache.garnix.io"
+      "https://cache.numtide.com"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-25-05.url = "github:NixOS/nixpkgs/nixos-25.05";
@@ -13,10 +26,7 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    moralerspace-hw = {
-      url = "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip";
-      flake = false;
-    };
+
     llm-agents.url = "github:numtide/llm-agents.nix";
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";
@@ -34,9 +44,10 @@
       url = "github:vercel-labs/agent-browser";
       flake = false;
     };
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+
+    moralerspace-hw = {
+      url = "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip";
+      flake = false;
     };
     catppuccin-yazi = {
       url = "github:catppuccin/yazi";
@@ -51,19 +62,11 @@
     # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)
     # The version isn't released yet, but the master branch has the feature.
     ironbar.url = "github:JakeStanger/ironbar";
-  };
 
-  nixConfig = {
-    extra-substituters = [
-      "https://nix-community.cachix.org"
-      "https://cache.garnix.io"
-      "https://cache.numtide.com"
-    ];
-    extra-trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
-    ];
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
