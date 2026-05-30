@@ -13,12 +13,6 @@
       context7 = {
         enable = true;
       };
-      git = {
-        enable = true;
-      };
-      memory = {
-        enable = true;
-      };
       tavily = {
         enable = true;
         url = "https://mcp.tavily.com/mcp";
@@ -55,14 +49,6 @@
             write = false;
             edit = false;
             bash = false;
-            git_git_commit = false;
-            git_git_add = false;
-            git_git_reset = false;
-            "git_git_create*" = false;
-            "serena_create*" = false;
-            "serena_replace*" = false;
-            "serena_insert*" = false;
-            serena_execute_shell_command = false;
           };
         };
       };
