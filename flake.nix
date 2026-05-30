@@ -44,6 +44,10 @@
       url = "github:vercel-labs/agent-browser";
       flake = false;
     };
+    awesome-copilot = {
+      url = "github:github/awesome-copilot";
+      flake = false;
+    };
 
     moralerspace-hw = {
       url = "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip";

@@ -55,6 +55,22 @@
         "type": "github"
       }
     },
+    "awesome-copilot": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780027822,
+        "narHash": "sha256-YoTRVYfCR0ziTdaX7pbrcsoOmBmlrqn0ZktY6LeDF+8=",
+        "owner": "github",
+        "repo": "awesome-copilot",
+        "rev": "9b74459b5ae5aad67781c4a9de1093605d620f23",
+        "type": "github"
+      },
+      "original": {
+        "owner": "github",
+        "repo": "awesome-copilot",
+        "type": "github"
+      }
+    },
     "blueprint": {
       "inputs": {
         "nixpkgs": [
@@ -516,6 +532,7 @@
         "agent-browser-skill": "agent-browser-skill",
         "agent-skills": "agent-skills",
         "ast-grep-skill": "ast-grep-skill",
+        "awesome-copilot": "awesome-copilot",
         "catppuccin-rofi": "catppuccin-rofi",
         "catppuccin-yazi": "catppuccin-yazi",
         "git-hooks": "git-hooks",

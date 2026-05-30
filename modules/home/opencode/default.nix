@@ -73,6 +73,10 @@ in {
         path = inputs.agent-browser-skill;
         subdir = "skills";
       };
+      awesome-copilot = {
+        path = inputs.awesome-copilot;
+        subdir = "skills";
+      };
     };
 
     # reference to "https://github.com/ryoppippi/dotfiles/blob/c6c366b8fde0851ded440c9560f860af2a235490/nix/modules/home/agent-skills.nix#L46"
@@ -119,6 +123,10 @@ in {
             "`${agentBrowserBin}`"
           ]
           original;
+      };
+      git-commit = {
+        from = "awesome-copilot";
+        path = "git-commit";
       };
     };
 
