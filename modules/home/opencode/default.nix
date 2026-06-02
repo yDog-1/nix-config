@@ -2,6 +2,7 @@
   pkgs,
   lib,
   inputs,
+  config,
   ...
 }: let
   mcp-servers = inputs.mcp-servers-nix;
@@ -15,8 +16,12 @@
       };
       tavily = {
         enable = true;
-        url = "https://mcp.tavily.com/mcp";
-        type = "http";
+        passwordCommand = {
+          TAVILY_API_KEY = [
+            "cat"
+            "${config.sops.secrets.tavily_api_key.path}"
+          ];
+        };
       };
     };
 
@@ -139,4 +144,6 @@ in {
       };
     };
   };
+
+  sops.secrets.tavily_api_key = {};
 }

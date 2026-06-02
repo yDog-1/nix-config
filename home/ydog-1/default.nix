@@ -9,6 +9,7 @@
     ../../modules/home/skk
     ../../modules/home/codex
     ../../modules/home/opencode
+    ../../modules/home/secrets
   ];
 
   home.username = "ydog-1";

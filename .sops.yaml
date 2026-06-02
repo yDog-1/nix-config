@@ -1,0 +1,8 @@
+keys:
+  - &ydog_1 age1fxayq4hptg45dydex68lurplchaczn49j377g5jzfnk4ak40f99spnne2f
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - age:
+          - *ydog_1
