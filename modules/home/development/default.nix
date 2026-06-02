@@ -13,6 +13,8 @@ in {
 
   home.packages = with pkgs; [
     # LSP Servers
+    arduino-language-server
+    clang-tools
     lua-language-server
     typescript-language-server
     gopls
@@ -43,6 +45,7 @@ in {
     alejandra
 
     # Tools
+    arduino-cli
     gomodifytags
   ];
 }
