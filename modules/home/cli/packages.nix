@@ -18,7 +18,6 @@
     lazygit
     delta
 
-    podman
     imagemagick
     ghostscript
     chezmoi
@@ -38,9 +37,8 @@
 
     xclip
     wl-clipboard
-  ];
 
-  programs.zsh.shellAliases = {
-    "docker" = "podman";
-  };
+    ghq
+    sad
+  ];
 }

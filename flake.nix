@@ -102,6 +102,8 @@
     pkgs = import nixpkgs {
       inherit system;
 
+      config.allowUnfree = true;
+
       overlays = [
         (final: prev: {
           ironbar = inputs.ironbar.packages.${system}.default;

@@ -1,14 +1,10 @@
 {
   imports = [
     ../../modules/home/desktop
-    ../../modules/home/packages
+    ../../modules/home/cli
     ../../modules/home/shell
-    ../../modules/home/tools
-    ../../modules/home/development
-    ../../modules/home/gaming
+    ../../modules/home/ai
     ../../modules/home/skk
-    ../../modules/home/codex
-    ../../modules/home/opencode
     ../../modules/home/secrets
   ];
 

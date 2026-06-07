@@ -7,10 +7,6 @@
     '';
   };
 in {
-  imports = [
-    ./nixd.nix
-  ];
-
   home.packages = with pkgs; [
     # LSP Servers
     arduino-language-server

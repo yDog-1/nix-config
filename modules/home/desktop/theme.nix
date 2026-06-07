@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  catppuccin = import ./catppuccin-colors.nix;
+  catppuccin = import ../../../lib/style/catppucin-colors.nix;
   gtkTheme = pkgs.catppuccin-gtk.override {
     accents = [catppuccin.accent];
     variant = catppuccin.flavor;

@@ -1,5 +1,6 @@
 {
   imports = [
+    ./browser.nix
     ./hypridle.nix
     ./hyprland
     ./hyprlock.nix

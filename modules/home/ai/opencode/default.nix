@@ -60,6 +60,10 @@
     };
   };
 in {
+  home.sessionVariables = {
+    OPENCODE_DISABLE_LSP_DOWNLOAD = "true";
+  };
+
   xdg.configFile."opencode/opencode.json".source = opencodeConfig;
 
   programs.opencode = {

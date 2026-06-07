@@ -1,5 +1,5 @@
 {...}: let
-  catppuccin = import ./catppuccin-colors.nix;
+  catppuccin = import ../../../lib/style/catppucin-colors.nix;
   c = catppuccin.colors;
   alpha = catppuccin.withAlpha;
 in {
