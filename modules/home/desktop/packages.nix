@@ -25,6 +25,7 @@
     pavucontrol
 
     heroic
+    discord
     wezterm
 
     libsForQt5.qt5ct
