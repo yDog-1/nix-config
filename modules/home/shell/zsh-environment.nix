@@ -4,14 +4,6 @@
   ...
 }: {
   programs.zsh = {
-    # 環境初期化スクリプト
-    envExtra = ''
-      # Secrets
-      if [ -f ~/.secrets.env ]; then
-        source ~/.secrets.env
-      fi
-    '';
-
     profileExtra = ''
       # Homebrew
       if [ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
