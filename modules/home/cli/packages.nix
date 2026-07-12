@@ -4,7 +4,6 @@
     zellij
 
     vim
-    neovim
     tree-sitter
 
     tldr
