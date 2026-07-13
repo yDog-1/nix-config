@@ -2,7 +2,7 @@
   # 参考: https://zenn.dev/ril/articles/introduce-nix-search-tv
   programs.television = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
     channels.nix = let
       nix-search-tv = "${pkgs.nix-search-tv}/bin/nix-search-tv";
       bat = "${pkgs.bat}/bin/bat";
