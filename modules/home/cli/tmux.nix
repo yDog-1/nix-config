@@ -11,9 +11,13 @@
     keyMode = "vi";
     mouse = true;
     prefix = "M-w";
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
 
     extraConfig = ''
+      set -s extended-keys on
+      set -s extended-keys-format csi-u
+      set -as terminal-features ',xterm*:extkeys'
+
       unbind C-b
       bind M-w send-prefix
 
