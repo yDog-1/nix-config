@@ -50,11 +50,6 @@
         };
         plan = {
           mode = "primary";
-          tools = {
-            write = false;
-            edit = false;
-            bash = false;
-          };
         };
       };
     };
