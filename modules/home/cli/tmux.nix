@@ -1,18 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: let
-  ai-usagebar = pkgs.rustPlatform.buildRustPackage {
-    pname = "ai-usagebar";
-    version = "0.12.0";
-
-    src = inputs.ai-usagebar;
-    cargoLock.lockFile = "${inputs.ai-usagebar}/Cargo.lock";
-
-    doCheck = false;
-  };
-
+{pkgs, ...}: let
   tmux-codex-usage = pkgs.writeShellScriptBin "tmux-codex-usage" ''
     print_usage() {
       printf '#[fg=#1f3d2b,bg=#a6e3a1] %s  #[default]' "$1"
@@ -30,7 +16,7 @@
       fi
     fi
 
-    usage="$(${pkgs.coreutils}/bin/timeout 8s ${ai-usagebar}/bin/ai-usagebar --vendor openai --json --format 'Codex 5h {oai_session_pct}% W {oai_weekly_pct}%' 2>/dev/null | ${pkgs.jq}/bin/jq -r '.text // empty' | ${pkgs.perl}/bin/perl -pe 's/<[^>]*>//g' || true)"
+    usage="$(${pkgs.coreutils}/bin/timeout 8s ${pkgs.ai-usagebar}/bin/ai-usagebar --vendor openai --json --format 'Codex 5h {oai_session_pct}% W {oai_weekly_pct}%' 2>/dev/null | ${pkgs.jq}/bin/jq -r '.text // empty' | ${pkgs.perl}/bin/perl -pe 's/<[^>]*>//g' || true)"
 
     if [[ "$usage" =~ [0-9] ]]; then
       ${pkgs.coreutils}/bin/mkdir -p "$cache_dir"
@@ -43,7 +29,7 @@
   '';
 in {
   home.packages = [
-    ai-usagebar
+    pkgs.ai-usagebar
     tmux-codex-usage
   ];
 

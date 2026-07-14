@@ -6,11 +6,13 @@
       "https://nix-community.cachix.org"
       "https://cache.garnix.io"
       "https://cache.numtide.com"
+      "https://ydog-1-nur.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "ydog-1-nur.cachix.org-1:gw4tWFtMdLnDn2k1EMrkgUrheq8/zi8mjPQKto5PyDs="
     ];
   };
 
@@ -28,6 +30,10 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    ydog-nur = {
+      url = "github:yDog-1/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -70,11 +76,6 @@
     # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)
     # The version isn't released yet, but the master branch has the feature.
     ironbar.url = "github:JakeStanger/ironbar";
-    ai-usagebar = {
-      url = "github:akitaonrails/ai-usagebar/v0.12.0";
-      flake = false;
-    };
-
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -88,6 +89,7 @@
     nixos-hardware,
     llm-agents,
     agent-skills,
+    ydog-nur,
     ...
   }: let
     configurations = {
@@ -109,6 +111,7 @@
       config.allowUnfree = true;
 
       overlays = [
+        ydog-nur.overlays.default
         (final: prev: {
           ironbar = inputs.ironbar.packages.${system}.default;
         })
@@ -139,6 +142,8 @@
       pkgs.writeShellScriptBin "pre-commit-run" ''
         ${pkgs.lib.getExe package} run --all-files --config ${configFile}
       '';
+
+    packages.${system}.ai-usagebar = pkgs.ai-usagebar;
 
     devShells.${system}.default = let
       inherit (self.checks.${system}.pre-commit-check) shellHook enabledPackages;

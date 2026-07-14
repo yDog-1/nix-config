@@ -39,23 +39,6 @@
         "type": "github"
       }
     },
-    "ai-usagebar": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783547657,
-        "narHash": "sha256-0zgHKr525oxBruhTQdU4FrZctCRRsHGfRpg6tk1IPmE=",
-        "owner": "akitaonrails",
-        "repo": "ai-usagebar",
-        "rev": "94eeeac55764a7c17da1ca17de74dd78570142bb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "akitaonrails",
-        "ref": "v0.12.0",
-        "repo": "ai-usagebar",
-        "type": "github"
-      }
-    },
     "ast-grep-skill": {
       "flake": false,
       "locked": {
@@ -534,7 +517,6 @@
       "inputs": {
         "agent-browser-skill": "agent-browser-skill",
         "agent-skills": "agent-skills",
-        "ai-usagebar": "ai-usagebar",
         "ast-grep-skill": "ast-grep-skill",
         "awesome-copilot": "awesome-copilot",
         "catppuccin-rofi": "catppuccin-rofi",
@@ -549,7 +531,8 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-25-05": "nixpkgs-25-05",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "ydog-nur": "ydog-nur"
       }
     },
     "sops-nix": {
@@ -605,6 +588,26 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "ydog-nur": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784015443,
+        "narHash": "sha256-e/flm7JmmZjmCU/t6q0YNfV21HUGeN3aJ7mBAzAwH+c=",
+        "owner": "yDog-1",
+        "repo": "nur-packages",
+        "rev": "f229a3e3588601ef7d7b477fca73d5e39d9a09fc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yDog-1",
+        "repo": "nur-packages",
         "type": "github"
       }
     }
