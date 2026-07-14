@@ -1,8 +1,4 @@
-{
-  pkgs,
-  _config,
-  ...
-}: let
+{pkgs, ...}: let
   sheldonConfig = {
     shell = "zsh";
 
@@ -18,7 +14,7 @@
       "zeno.zsh" = {
         github = "yuki-yano/zeno.zsh";
         hooks.post = ''
-          bindkey ' '  zeno-auto-snippet
+          bindkey ' ' zeno-auto-snippet
           bindkey '^m' zeno-auto-snippet-and-accept-line
           bindkey '^i' zeno-completion
           bindkey '^r' zeno-history-selection
@@ -29,47 +25,44 @@
 
       zsh-completions = {
         github = "zsh-users/zsh-completions";
-        hooks.post = ''
-          # FPATHにzsh-completionsを追加
-          FPATH=$HOME/.local/share/sheldon/repos/github.com/zsh-users/zsh-completions/src:$FPATH
-          # 補完システムを初期化
-          autoload -Uz compinit
-          compinit
-        '';
+        apply = ["fpath:src"];
       };
 
       zsh-autosuggestions = {
         github = "zsh-users/zsh-autosuggestions";
         hooks.post = ''
-          bindkey '^[l'  autosuggest-accept
+          bindkey '^[l' autosuggest-accept
         '';
       };
     };
   };
 in {
-  # Sheldonパッケージをインストール
-  home.packages = with pkgs; [
-    sheldon
-  ];
+  home = {
+    packages = with pkgs; [
+      sheldon
+    ];
 
-  # Sheldon設定ファイルをNixで管理
-  xdg.configFile."sheldon/plugins.toml".source =
-    (pkgs.formats.toml {}).generate "plugins.toml" sheldonConfig;
+    file.".p10k.zsh".source = ./p10k.zsh;
+  };
 
-  # ZshでSheldonを初期化
+  xdg.configFile = {
+    "sheldon/plugins.toml".source =
+      (pkgs.formats.toml {}).generate "plugins.toml" sheldonConfig;
+
+    "zeno/config.yml".source = ./zeno/config.yml;
+  };
+
   programs.zsh = {
-    # zsh-autosuggestions - Sheldon経由で管理されるため、Nixでは無効化
     autosuggestion.enable = false;
 
     initContent = ''
       command -v sheldon >/dev/null 2>&1 && eval "$(sheldon source)"
-      # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
       [[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
     '';
 
     sessionVariables = {
       ZENO_GIT_CAT = "bat --color=always";
-      ZENO_GIT_TREE = "exa --tree";
+      ZENO_GIT_TREE = "eza --tree";
     };
   };
 }

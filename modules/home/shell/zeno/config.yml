@@ -1,0 +1,109 @@
+snippets:
+  # snippet and keyword abbrev
+  - name: git status
+    keyword: gs
+    snippet: git status --short --branch
+
+  # snippet with placeholder
+  - name: git commit message
+    keyword: gcim
+    snippet: git commit -m '{{commit_message}}'
+
+  - name: "null"
+    keyword: "null"
+    snippet: ">/dev/null 2>&1"
+    # auto expand condition
+    # If not defined, it is only valid at the beginning of a line.
+    context:
+      # buffer: ''
+      lbuffer: '.+\s'
+      # rbuffer: ''
+
+  - name: branch
+    keyword: B
+    snippet: git symbolic-ref --short HEAD
+    context:
+      lbuffer: '^git\s+checkout\s+'
+    evaluate: true # eval snippet
+
+  - name: zellij
+    keyword: ze
+    snippet: zellij
+
+  - name: zellij attach
+    keyword: za
+    snippet: zellij attach
+
+  - name: Claude Code
+    keyword: c
+    snippet: claude --dangerously-skip-permissions
+
+  - name: Claude Code resume
+    keyword: cr
+    snippet: claude --resume --dangerously-skip-permissions
+
+  - name: Claude Code continue
+    keyword: cc
+    snippet: claude --continue --dangerously-skip-permissions
+completions:
+  # simple sourceCommand, no callback
+  - name: kill signal
+    patterns:
+      - "^kill -s $"
+    sourceCommand: "kill -l | tr ' ' '\\n'"
+    options:
+      --prompt: "'Kill Signal> '"
+
+  # use excludePatterns and callback
+  - name: kill pid
+    patterns:
+      - "^kill( .*)? $"
+    excludePatterns:
+      # -l, -n or -s is followed by SIGNAL instead of PID
+      - " -[lns] $"
+    sourceCommand: "LANG=C ps -ef | sed 1d"
+    options:
+      --multi: true
+      --prompt: "'Kill Process> '"
+    callback: "awk '{print $2}'"
+
+  # Use null (\0) termination Input / Output
+  - name: chdir
+    patterns:
+      - "^cd $"
+    sourceCommand: "fd --type d --max-depth 5 --exclude .git"
+    options:
+      # Added --read0 if null termination is used in `sourceCommand` output.
+      --prompt: "'Chdir> '"
+      --preview: "cd {} && eza --icons=never -a | sed '/^[.]*$/d'"
+    callback: "sed 's|/$||'"
+    callbackZero: true # null termination is used in `callback` I/O
+
+  # zellij completion
+  - name: zellij session completion # 補完機能の名前を定義
+    patterns:
+      - "^zellij (a|attach) $"
+      - "^zellij (k|kill-session) $"
+      - "^zellij (d|delete-session) $"
+    sourceCommand: "zellij ls" # fzfに渡す候補リストを生成するコマンド
+    options:
+      --prompt: "'zellij session> '" # fzfのプロンプトをカスタマイズ
+    callback: "awk '{print $1}'" # fzfで選択された行からセッション名のみを抽出
+
+  - name: ghq completion
+    patterns:
+      - "^ghq (rm) $"
+    sourceCommand: "ghq list" # ghqのリポジトリ一覧を取得
+    options:
+      --prompt: "'ghq> '" # fzfのプロンプトをカスタマイズ
+    callback: "awk '{print $1}'" # 選択された行からリポジトリのパスのみを抽出
+
+  - name: file completion
+    patterns:
+      - "^(nvim|bat|rm) $"
+      - "^nvim (e|edit) $"
+    # nvimで開くファイルを取得
+    sourceCommand: "fd --type f --hidden --exclude .git --max-depth 5"
+    options:
+      --prompt: "'nvim> '" # fzfのプロンプトをカスタマイズ
+    callback: "sed 's|/$||'" # 選択されたファイルパスから末尾のスラッシュを削除
