@@ -1,7 +1,41 @@
-{pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
+  tmux-openrouter-credit = pkgs.writeShellScriptBin "tmux-openrouter-credit" ''
+    print_usage() {
+      printf '#[fg=#11111b,bg=#6c7086] %s #[default]' "$1"
+    }
+
+    cache_dir="''${XDG_CACHE_HOME:-$HOME/.cache}/tmux-openrouter-credit"
+    cache_file="$cache_dir/openrouter"
+    now="$(${pkgs.coreutils}/bin/date +%s)"
+
+    if [[ -s "$cache_file" ]]; then
+      cache_mtime="$(${pkgs.coreutils}/bin/stat -c %Y "$cache_file")"
+      if ((now - cache_mtime < 300)); then
+        print_usage "$(${pkgs.coreutils}/bin/cat "$cache_file")"
+        exit 0
+      fi
+    fi
+
+    OPENROUTER_API_KEY="$(${pkgs.coreutils}/bin/cat ${config.sops.secrets.openrouter_api_key.path} 2>/dev/null || true)"
+    export OPENROUTER_API_KEY
+    usage="$(${pkgs.coreutils}/bin/timeout 8s ${pkgs.ai-usagebar}/bin/ai-usagebar --vendor openrouter --json --format 'OpenRouter {or_balance}' 2>/dev/null | ${pkgs.jq}/bin/jq -r '.text // empty' | ${pkgs.perl}/bin/perl -pe 's/<[^>]*>//g' || true)"
+
+    if [[ "$usage" =~ [0-9] ]]; then
+      ${pkgs.coreutils}/bin/mkdir -p "$cache_dir"
+      printf '%s\n' "$usage" > "$cache_file.tmp"
+      ${pkgs.coreutils}/bin/mv "$cache_file.tmp" "$cache_file"
+      print_usage "$usage"
+    elif [[ -s "$cache_file" ]]; then
+      print_usage "$(${pkgs.coreutils}/bin/cat "$cache_file")"
+    fi
+  '';
   tmux-codex-usage = pkgs.writeShellScriptBin "tmux-codex-usage" ''
     print_usage() {
-      printf '#[fg=#1f3d2b,bg=#a6e3a1] %s  #[default]' "$1"
+      printf '#[fg=#1f3d2b,bg=#a6e3a1] %s #[default]' "$1"
     }
 
     cache_dir="''${XDG_CACHE_HOME:-$HOME/.cache}/tmux-codex-usage"
@@ -31,7 +65,10 @@ in {
   home.packages = [
     pkgs.ai-usagebar
     tmux-codex-usage
+    tmux-openrouter-credit
   ];
+
+  sops.secrets.openrouter_api_key = {};
 
   programs.tmux = {
     enable = true;
@@ -127,7 +164,8 @@ in {
       set -g status-left-length 100
       set -g status-right-length 100
       set -g window-status-separator ""
-      set -g status-right "#(${tmux-codex-usage}/bin/tmux-codex-usage)"
+      set -g status-right "#(${tmux-openrouter-credit}/bin/tmux-openrouter-credit)"
+      set -ag status-right "#(${tmux-codex-usage}/bin/tmux-codex-usage)"
       set -ag status-right "#{E:@catppuccin_status_directory}"
       set -agF status-right "#{E:@catppuccin_status_date_time}"
     '';
