@@ -45,6 +45,22 @@ snippets:
   - name: Claude Code continue
     keyword: cc
     snippet: claude --continue --dangerously-skip-permissions
+
+  - name: tmux attach
+    keyword: ta
+    snippet: "tmux attach -t"
+
+  - name: tmux kill-session
+    keyword: tk
+    snippet: "tmux kill-session -t"
+
+  - name: tmux switch-client
+    keyword: ts
+    snippet: "tmux switch-client -t"
+
+  - name: tmux list-sessions
+    keyword: tls
+    snippet: tmux list-sessions
 completions:
   # simple sourceCommand, no callback
   - name: kill signal
@@ -89,6 +105,15 @@ completions:
     options:
       --prompt: "'zellij session> '" # fzfのプロンプトをカスタマイズ
     callback: "awk '{print $1}'" # fzfで選択された行からセッション名のみを抽出
+
+  - name: tmux session completion
+    patterns:
+      - "^tmux (a|attach|attach-session) -t $"
+      - "^tmux (kill-session|switch-client|has-session) -t $"
+    sourceCommand: "tmux list-sessions 2>/dev/null"
+    options:
+      --prompt: "'tmux session> '"
+    callback: "cut -d: -f1"
 
   - name: ghq completion
     patterns:
