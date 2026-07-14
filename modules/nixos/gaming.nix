@@ -14,6 +14,6 @@
     autoStart = false;
     capSysAdmin = false;
     openFirewall = true;
-    package = inputs.nixpkgs-25-05.legacyPackages.${pkgs.system}.sunshine;
+    package = inputs.nixpkgs-25-05.legacyPackages.${pkgs.stdenv.hostPlatform.system}.sunshine;
   };
 }
