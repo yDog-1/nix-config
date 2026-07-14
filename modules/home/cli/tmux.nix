@@ -10,16 +10,13 @@
     historyLimit = 100000;
     keyMode = "vi";
     mouse = true;
-    prefix = "M-w";
+    prefix = "C-b";
     terminal = "tmux-256color";
 
     extraConfig = ''
       set -s extended-keys on
       set -s extended-keys-format csi-u
       set -as terminal-features ',xterm*:extkeys'
-
-      unbind C-b
-      bind M-w send-prefix
 
       set -g pane-base-index 1
       set -g renumber-windows on
