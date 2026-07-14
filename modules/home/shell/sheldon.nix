@@ -23,11 +23,6 @@
         '';
       };
 
-      zsh-completions = {
-        github = "zsh-users/zsh-completions";
-        apply = ["fpath:src"];
-      };
-
       zsh-autosuggestions = {
         github = "zsh-users/zsh-autosuggestions";
         hooks.post = ''
@@ -56,8 +51,10 @@ in {
     autosuggestion.enable = false;
 
     initContent = ''
-      command -v sheldon >/dev/null 2>&1 && eval "$(sheldon source)"
-      [[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
+      if [[ -t 0 && -t 1 && -o zle ]]; then
+        command -v sheldon >/dev/null 2>&1 && eval "$(sheldon source)"
+        [[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
+      fi
     '';
 
     sessionVariables = {

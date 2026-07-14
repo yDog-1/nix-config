@@ -1,5 +1,5 @@
 {
-  _pkgs,
+  pkgs,
   _config,
   ...
 }: {
@@ -27,9 +27,14 @@
 
     # その他のZshオプション
     initContent = ''
+      if [[ -t 0 && -t 1 && -o zle ]]; then
+        source <(${pkgs.fzf}/bin/fzf --zsh)
+      fi
+
       # 補完システムを最初に初期化
+      fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
       autoload -Uz compinit
-      compinit
+      compinit -C
 
       # 補完の詳細設定
       zstyle ':completion:*' menu select
