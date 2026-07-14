@@ -4,10 +4,26 @@
   ...
 }: let
   catppuccin = import ../../../lib/style/catppucin-colors.nix;
-  gtkTheme = pkgs.catppuccin-gtk.override {
-    accents = [catppuccin.accent];
-    variant = catppuccin.flavor;
-  };
+  python = pkgs.python313;
+  catppuccinPython = python.pkgs.catppuccin.overridePythonAttrs (_: {
+    doCheck = false;
+    pythonImportsCheck = [];
+  });
+  gtkTheme =
+    (pkgs.catppuccin-gtk.override {
+      python3 = python;
+      accents = [catppuccin.accent];
+      variant = catppuccin.flavor;
+    })
+    .overrideAttrs (_: {
+      # Work around catppuccin/python and catppuccin/gtk issues with newer matplotlib/Python.
+      nativeBuildInputs = [
+        pkgs.gtk3
+        pkgs.sassc
+        pkgs.git
+        (python.withPackages (_: [catppuccinPython]))
+      ];
+    });
   iconTheme = pkgs.catppuccin-papirus-folders.override {
     accent = catppuccin.accent;
     flavor = catppuccin.flavor;
