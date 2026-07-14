@@ -4,7 +4,6 @@
   ...
 }: {
   imports = [
-    ./zsh-environment.nix
     ./zsh-keybindings.nix
   ];
 
