@@ -70,6 +70,10 @@
     # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)
     # The version isn't released yet, but the master branch has the feature.
     ironbar.url = "github:JakeStanger/ironbar";
+    ai-usagebar = {
+      url = "github:akitaonrails/ai-usagebar/v0.12.0";
+      flake = false;
+    };
 
     git-hooks = {
       url = "github:cachix/git-hooks.nix";

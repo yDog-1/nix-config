@@ -1,6 +1,78 @@
 {
+  inputs,
+  pkgs,
+  ...
+}: let
+  ai-usagebar = pkgs.rustPlatform.buildRustPackage {
+    pname = "ai-usagebar";
+    version = "0.12.0";
+
+    src = inputs.ai-usagebar;
+    cargoLock.lockFile = "${inputs.ai-usagebar}/Cargo.lock";
+
+    doCheck = false;
+  };
+
+  tmux-codex-usage = pkgs.writeShellScriptBin "tmux-codex-usage" ''
+    print_usage() {
+      printf '#[fg=#1f3d2b,bg=#a6e3a1] %s  #[default]' "$1"
+    }
+
+    cache_dir="''${XDG_CACHE_HOME:-$HOME/.cache}/tmux-codex-usage"
+    cache_file="$cache_dir/codex"
+    now="$(${pkgs.coreutils}/bin/date +%s)"
+
+    if [[ -s "$cache_file" ]]; then
+      cache_mtime="$(${pkgs.coreutils}/bin/stat -c %Y "$cache_file")"
+      if ((now - cache_mtime < 300)); then
+        print_usage "$(${pkgs.coreutils}/bin/cat "$cache_file")"
+        exit 0
+      fi
+    fi
+
+    usage="$(${pkgs.coreutils}/bin/timeout 8s ${ai-usagebar}/bin/ai-usagebar --vendor openai --json --format 'Codex 5h {oai_session_pct}% W {oai_weekly_pct}%' 2>/dev/null | ${pkgs.jq}/bin/jq -r '.text // empty' | ${pkgs.perl}/bin/perl -pe 's/<[^>]*>//g' || true)"
+
+    if [[ "$usage" =~ [0-9] ]]; then
+      ${pkgs.coreutils}/bin/mkdir -p "$cache_dir"
+      printf '%s\n' "$usage" > "$cache_file.tmp"
+      ${pkgs.coreutils}/bin/mv "$cache_file.tmp" "$cache_file"
+      print_usage "$usage"
+    elif [[ -s "$cache_file" ]]; then
+      print_usage "$(${pkgs.coreutils}/bin/cat "$cache_file")"
+    fi
+  '';
+in {
+  home.packages = [
+    ai-usagebar
+    tmux-codex-usage
+  ];
+
   programs.tmux = {
     enable = true;
+
+    plugins = [
+      {
+        plugin = pkgs.tmuxPlugins.catppuccin;
+        extraConfig = ''
+          set -g @catppuccin_flavor "mocha"
+          set -g @catppuccin_window_status_style "basic"
+          set -g @catppuccin_window_number_color "#{@thm_surface_0}"
+          set -g @catppuccin_window_text_color "#{@thm_surface_0}"
+          set -g @catppuccin_window_current_number_color "#{@thm_mauve}"
+          set -g @catppuccin_window_text "#[fg=#{@thm_overlay_1}] #W"
+          set -g @catppuccin_window_current_text " #W"
+          set -g @catppuccin_directory_icon " "
+          set -g @catppuccin_date_time_icon " "
+          set -g @catppuccin_status_directory_text_fg "#{@thm_crust}"
+          set -g @catppuccin_status_directory_text_bg "#{@thm_rosewater}"
+          set -g @catppuccin_status_date_time_text_fg "#{@thm_crust}"
+          set -g @catppuccin_status_date_time_text_bg "#{@thm_sapphire}"
+          set -g @catppuccin_status_background "default"
+          set -g @catppuccin_status_left_separator "█"
+          set -g @catppuccin_status_right_separator "█"
+        '';
+      }
+    ];
 
     baseIndex = 1;
     clock24 = true;
@@ -64,6 +136,14 @@
 
       bind -T copy-mode-vi v send -X begin-selection
       bind -T copy-mode-vi C-v send -X rectangle-toggle
+
+      set -g status-left ""
+      set -g status-left-length 100
+      set -g status-right-length 100
+      set -g window-status-separator ""
+      set -g status-right "#(${tmux-codex-usage}/bin/tmux-codex-usage)"
+      set -ag status-right "#{E:@catppuccin_status_directory}"
+      set -agF status-right "#{E:@catppuccin_status_date_time}"
     '';
   };
 }

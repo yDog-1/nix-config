@@ -39,6 +39,23 @@
         "type": "github"
       }
     },
+    "ai-usagebar": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783547657,
+        "narHash": "sha256-0zgHKr525oxBruhTQdU4FrZctCRRsHGfRpg6tk1IPmE=",
+        "owner": "akitaonrails",
+        "repo": "ai-usagebar",
+        "rev": "94eeeac55764a7c17da1ca17de74dd78570142bb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "akitaonrails",
+        "ref": "v0.12.0",
+        "repo": "ai-usagebar",
+        "type": "github"
+      }
+    },
     "ast-grep-skill": {
       "flake": false,
       "locked": {
@@ -517,6 +534,7 @@
       "inputs": {
         "agent-browser-skill": "agent-browser-skill",
         "agent-skills": "agent-skills",
+        "ai-usagebar": "ai-usagebar",
         "ast-grep-skill": "ast-grep-skill",
         "awesome-copilot": "awesome-copilot",
         "catppuccin-rofi": "catppuccin-rofi",
