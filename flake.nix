@@ -115,7 +115,7 @@
         (final: prev: {
           ironbar = inputs.ironbar.packages.${system}.default;
         })
-        llm-agents.overlays.default
+        llm-agents.overlays.shared-nixpkgs
       ];
     };
     inherit nixos-hardware;
