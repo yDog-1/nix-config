@@ -3,6 +3,7 @@
     nemo
     nemo-fileroller
     file-roller
+    ffmpegthumbnailer
   ];
 
   dconf.settings = {

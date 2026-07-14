@@ -19,7 +19,6 @@
 
     gnome-disk-utility
     baobab
-    ffmpegthumbnailer
     simple-scan
     system-config-printer
     pavucontrol
