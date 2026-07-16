@@ -64,6 +64,7 @@
 in {
   home.packages = [
     pkgs.ai-usagebar
+    pkgs.sesh
     tmux-codex-usage
     tmux-openrouter-credit
   ];
@@ -74,6 +75,16 @@ in {
     enable = true;
 
     plugins = [
+      pkgs.tmuxPlugins.resurrect
+      {
+        plugin = pkgs.tmuxPlugins.continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-save-interval '15'
+          set -g @resurrect-capture-pane-contents 'on'
+          set -g @resurrect-strategy-nvim 'session'
+        '';
+      }
       {
         plugin = pkgs.tmuxPlugins.catppuccin;
         extraConfig = ''
@@ -156,6 +167,8 @@ in {
       bind R rotate-window -D
       bind x swap-pane -D
       bind T break-pane
+
+      bind C-s display-popup -E "${pkgs.sesh}/bin/sesh connect \"$(${pkgs.sesh}/bin/sesh list -i | ${pkgs.fzf}/bin/fzf --prompt='sesh> ' --height=40% --layout=reverse --border)\""
 
       bind -T copy-mode-vi v send -X begin-selection
       bind -T copy-mode-vi C-v send -X rectangle-toggle

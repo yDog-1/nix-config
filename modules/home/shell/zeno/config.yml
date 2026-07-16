@@ -46,6 +46,10 @@ snippets:
     keyword: cc
     snippet: claude --continue --dangerously-skip-permissions
 
+  - name: sesh connect
+    keyword: ss
+    snippet: sesh connect
+
   - name: tmux attach
     keyword: ta
     snippet: "tmux attach -t"
@@ -105,6 +109,14 @@ completions:
     options:
       --prompt: "'zellij session> '" # fzfのプロンプトをカスタマイズ
     callback: "awk '{print $1}'" # fzfで選択された行からセッション名のみを抽出
+
+  - name: sesh session completion
+    patterns:
+      - "^sesh connect $"
+      - "^sesh delete $"
+    sourceCommand: "sesh list"
+    options:
+      --prompt: "'sesh> '"
 
   - name: tmux session completion
     patterns:
