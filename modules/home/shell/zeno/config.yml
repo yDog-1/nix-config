@@ -61,6 +61,18 @@ snippets:
   - name: tmux list-sessions
     keyword: tls
     snippet: tmux list-sessions
+
+  - name: sesh connect
+    keyword: sc
+    snippet: sesh connect
+
+  - name: sesh window
+    keyword: sw
+    snippet: sesh window
+
+  - name: sesh clone
+    keyword: scl
+    snippet: sesh clone
 completions:
   # simple sourceCommand, no callback
   - name: kill signal
@@ -114,6 +126,21 @@ completions:
     options:
       --prompt: "'tmux session> '"
     callback: "cut -d: -f1"
+
+  - name: sesh session completion
+    patterns:
+      - "^sesh (connect|cn|preview) $"
+    sourceCommand: "sesh list --hide-duplicates"
+    options:
+      --prompt: "'sesh session> '"
+      --preview: "sesh preview {}"
+
+  - name: sesh window completion
+    patterns:
+      - "^sesh (window|w) $"
+    sourceCommand: "sesh window 2>/dev/null"
+    options:
+      --prompt: "'sesh window> '"
 
   - name: ghq completion
     patterns:

@@ -3,6 +3,10 @@
   pkgs,
   ...
 }: let
+  seshCompletion = pkgs.runCommand "sesh-completion" {} ''
+    mkdir -p $out/share/zsh/site-functions
+    ${pkgs.sesh}/bin/sesh completion zsh > $out/share/zsh/site-functions/_sesh
+  '';
   tmux-openrouter-credit = pkgs.writeShellScriptBin "tmux-openrouter-credit" ''
     print_usage() {
       printf '#[fg=#11111b,bg=#6c7086] %s #[default]' "$1"
@@ -61,9 +65,25 @@
       print_usage "$(${pkgs.coreutils}/bin/cat "$cache_file")"
     fi
   '';
+  tmux-sesh = pkgs.writeShellScriptBin "tmux-sesh" ''
+    session="$(${pkgs.sesh}/bin/sesh list --hide-duplicates | ${pkgs.fzf}/bin/fzf \
+      --height=100% \
+      --no-sort \
+      --layout=reverse \
+      --border-label=' sesh ' \
+      --prompt='session> ' \
+      --preview='${pkgs.sesh}/bin/sesh preview {}' \
+      --preview-window='right:55%')"
+
+    if [[ -n "$session" ]]; then
+      exec ${pkgs.sesh}/bin/sesh connect "$session"
+    fi
+  '';
 in {
   home.packages = [
     pkgs.ai-usagebar
+    pkgs.sesh
+    seshCompletion
     tmux-codex-usage
     tmux-openrouter-credit
   ];
@@ -93,6 +113,25 @@ in {
           set -g @catppuccin_status_background "default"
           set -g @catppuccin_status_left_separator "█"
           set -g @catppuccin_status_right_separator "█"
+        '';
+      }
+      pkgs.tmuxPlugins.resurrect
+      {
+        plugin = pkgs.tmuxPlugins.continuum;
+        extraConfig = ''
+          set -g @continuum-restore "on"
+          set -g @continuum-save-interval "15"
+
+          # Define status-right before continuum appends its autosave hook.
+          # programs.tmux.extraConfig is emitted after plugins and would overwrite it.
+          set -g status-left ""
+          set -g status-left-length 100
+          set -g status-right-length 100
+          set -g window-status-separator ""
+          set -g status-right "#(${tmux-openrouter-credit}/bin/tmux-openrouter-credit)"
+          set -ag status-right "#(${tmux-codex-usage}/bin/tmux-codex-usage)"
+          set -ag status-right "#{E:@catppuccin_status_directory}"
+          set -agF status-right "#{E:@catppuccin_status_date_time}"
         '';
       }
     ];
@@ -137,7 +176,7 @@ in {
 
       bind c kill-pane
       bind q kill-pane
-      bind o kill-pane -a
+      bind o display-popup -E -w 80% -h 70% -d "#{pane_current_path}" "${tmux-sesh}/bin/tmux-sesh"
 
       bind C-w select-pane -t :.+
       bind w select-pane -t :.+
@@ -160,14 +199,6 @@ in {
       bind -T copy-mode-vi v send -X begin-selection
       bind -T copy-mode-vi C-v send -X rectangle-toggle
 
-      set -g status-left ""
-      set -g status-left-length 100
-      set -g status-right-length 100
-      set -g window-status-separator ""
-      set -g status-right "#(${tmux-openrouter-credit}/bin/tmux-openrouter-credit)"
-      set -ag status-right "#(${tmux-codex-usage}/bin/tmux-codex-usage)"
-      set -ag status-right "#{E:@catppuccin_status_directory}"
-      set -agF status-right "#{E:@catppuccin_status_date_time}"
     '';
   };
 }
