@@ -6,6 +6,24 @@
   ],
   "permission": {
     "edit": "ask",
+    "external_directory": {
+      "*": "ask",
+      "/home/*/.bash_history": "deny",
+      "/home/*/.cache/**": "deny",
+      "/home/*/.cargo/**": "deny",
+      "/home/*/.codex/**": "deny",
+      "/home/*/.config/sops/age/**": "deny",
+      "/home/*/.mozilla/**": "deny",
+      "/home/*/.pki/**": "deny",
+      "/home/*/.pulse-cookie": "deny",
+      "/home/*/.ssh/**": "deny",
+      "/home/*/.viminfo": "deny",
+      "/home/*/.zsh_history": "deny",
+      "/home/*/": "deny",
+      "/home/*/**": "deny",
+      "/nix/store": "allow",
+      "/nix/store/**": "allow"
+    },
     "bash": {
       "*": "ask",
       "git blame *": "allow",
