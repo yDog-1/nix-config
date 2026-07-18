@@ -11,9 +11,6 @@
     fileName = "opencode.json";
 
     programs = {
-      context7 = {
-        enable = true;
-      };
       tavily = {
         enable = true;
         passwordCommand = {
