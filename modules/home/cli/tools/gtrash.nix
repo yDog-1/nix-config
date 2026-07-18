@@ -11,6 +11,4 @@ in {
     gtrash
     gtrashCompletion
   ];
-
-  programs.zsh.enableCompletion = false;
 }
