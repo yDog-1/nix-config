@@ -33,7 +33,32 @@
       ];
       permission = {
         edit = "ask";
-        bash = "ask";
+        bash = {
+          "*" = "ask";
+          "git blame *" = "allow";
+          "git branch" = "allow";
+          "git branch --list" = "allow";
+          "git branch --show-current" = "allow";
+          "git config --get *" = "allow";
+          "git config --get-all *" = "allow";
+          "git config --get-regexp *" = "allow";
+          "git config --get-urlmatch *" = "allow";
+          "git config --list *" = "allow";
+          "git describe *" = "allow";
+          "git diff *" = "allow";
+          "git grep *" = "allow";
+          "git log *" = "allow";
+          "git ls-files *" = "allow";
+          "git remote" = "allow";
+          "git remote -v" = "allow";
+          "git remote get-url *" = "allow";
+          "git rev-parse *" = "allow";
+          "git show *" = "allow";
+          "git stash list *" = "allow";
+          "git status *" = "allow";
+          "git tag" = "allow";
+          "git tag --list" = "allow";
+        };
         webfetch = "allow";
       };
       agent = {
@@ -52,39 +77,6 @@
           mode = "primary";
           permission = {
             edit = "deny";
-            bash = {
-              "*" = "ask";
-              "git blame" = "allow";
-              "git blame *" = "allow";
-              "git branch" = "allow";
-              "git branch *" = "allow";
-              "git config --get" = "allow";
-              "git config --get *" = "allow";
-              "git config --list" = "allow";
-              "git config --list *" = "allow";
-              "git describe" = "allow";
-              "git describe *" = "allow";
-              "git diff" = "allow";
-              "git diff *" = "allow";
-              "git grep" = "allow";
-              "git grep *" = "allow";
-              "git log" = "allow";
-              "git log *" = "allow";
-              "git ls-files" = "allow";
-              "git ls-files *" = "allow";
-              "git remote" = "allow";
-              "git remote *" = "allow";
-              "git rev-parse" = "allow";
-              "git rev-parse *" = "allow";
-              "git show" = "allow";
-              "git show *" = "allow";
-              "git stash list" = "allow";
-              "git stash list *" = "allow";
-              "git status" = "allow";
-              "git status *" = "allow";
-              "git tag" = "allow";
-              "git tag *" = "allow";
-            };
           };
         };
       };
