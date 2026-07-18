@@ -6,6 +6,15 @@
   ...
 }: let
   mcp-servers = inputs.mcp-servers-nix;
+  opencode = pkgs.writeShellApplication {
+    name = "opencode";
+    runtimeInputs = [pkgs.coreutils];
+    text = ''
+      OPENROUTER_API_KEY="$(cat ${config.sops.secrets.openrouter_api_key.path})"
+      export OPENROUTER_API_KEY
+      exec ${pkgs.llm-agents.opencode}/bin/opencode "$@"
+    '';
+  };
   opencodeConfig = mcp-servers.lib.mkConfig pkgs {
     flavor = "opencode";
     fileName = "opencode.json";
@@ -32,7 +41,7 @@ in {
   xdg.configFile."opencode/opencode.json".source = opencodeConfig;
 
   programs.opencode = {
-    package = pkgs.llm-agents.opencode;
+    package = opencode;
     enable = true;
   };
 
@@ -115,4 +124,5 @@ in {
   };
 
   sops.secrets.tavily_api_key = {};
+  sops.secrets.openrouter_api_key = {};
 }
