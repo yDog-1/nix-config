@@ -9,13 +9,8 @@
 in {
   home.packages = with pkgs; [
     gtrash
+    gtrashCompletion
   ];
 
-  programs.zsh = {
-    enableCompletion = false;
-
-    completionInit = ''
-      source ${gtrashCompletion}/share/zsh/site-functions/_gtrash
-    '';
-  };
+  programs.zsh.enableCompletion = false;
 }
