@@ -180,6 +180,7 @@ in {
       bind c kill-pane
       bind q kill-pane
       bind o display-popup -E -w 80% -h 70% -d "#{pane_current_path}" "${tmux-sesh}/bin/tmux-sesh"
+      bind -n M-g display-popup -E -w 80% -h 70% -d "#{pane_current_path}" "${pkgs.lazygit}/bin/lazygit"
       bind -n M-i run-shell '${pkgs.editprompt}/bin/editprompt resume --target-pane #{pane_id} || tmux split-window -v -l 10 -c "#{pane_current_path}" "${pkgs.editprompt}/bin/editprompt open --always-copy --target-pane #{pane_id}"'
 
       bind C-w select-pane -t :.+
