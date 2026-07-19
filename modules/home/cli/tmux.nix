@@ -168,6 +168,8 @@ in {
       bind C-j select-pane -D
       bind C-k select-pane -U
       bind C-l select-pane -R
+      # Ctrl+j is LF unless the terminal uses an extended key sequence.
+      bind -n C-j if-shell -F '#{==:#{pane_current_command},opencode}' 'send-keys -H 1b 5b 31 30 36 3b 35 75' 'send-keys C-j'
 
       bind H swap-pane -t '{left-of}'
       bind J swap-pane -t '{down-of}'

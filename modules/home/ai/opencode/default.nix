@@ -39,6 +39,7 @@ in {
   };
 
   xdg.configFile."opencode/opencode.json".source = opencodeConfig;
+  xdg.configFile."opencode/tui.json".source = ./tui.json;
 
   programs.opencode = {
     package = opencode;
