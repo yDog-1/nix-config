@@ -3,36 +3,6 @@
   pkgs,
   ...
 }: let
-  catppuccin = import ../../../lib/style/catppucin-colors.nix;
-  vdeTmuxConfig = with catppuccin.colors;
-    builtins.replaceStrings
-    [
-      "@base@"
-      "@sky@"
-      "@mauve@"
-      "@red@"
-      "@sapphire@"
-      "@subtext1@"
-      "@surface0@"
-      "@surface1@"
-      "@text@"
-      "@yellow@"
-      "@peach@"
-    ]
-    [
-      base
-      sky
-      mauve
-      red
-      sapphire
-      subtext1
-      surface0
-      surface1
-      text
-      yellow
-      peach
-    ]
-    (builtins.readFile ./vde-tmux.yml);
   seshCompletion = pkgs.runCommand "sesh-completion" {} ''
     mkdir -p $out/share/zsh/site-functions
     ${pkgs.sesh}/bin/sesh completion zsh > $out/share/zsh/site-functions/_sesh
@@ -121,8 +91,6 @@ in {
   ];
 
   sops.secrets.openrouter_api_key = {};
-
-  xdg.configFile."vde/tmux/config.yml".text = vdeTmuxConfig;
 
   programs.tmux = {
     enable = true;

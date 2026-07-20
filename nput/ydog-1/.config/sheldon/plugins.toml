@@ -1,0 +1,28 @@
+shell = "zsh"
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+
+[plugins."zeno.zsh"]
+github = "yuki-yano/zeno.zsh"
+
+[plugins."zeno.zsh".hooks]
+post = """
+bindkey ' ' zeno-auto-snippet
+bindkey '^m' zeno-auto-snippet-and-accept-line
+bindkey '^i' zeno-completion
+bindkey '^r' zeno-history-selection
+bindkey '^x' zeno-insert-snippet
+bindkey '^g' zeno-ghq-cd
+"""
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.zsh-autosuggestions.hooks]
+post = """
+bindkey '^[l' autosuggest-accept
+"""

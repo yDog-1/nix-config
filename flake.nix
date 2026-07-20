@@ -41,6 +41,10 @@
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";
     };
+    nput = {
+      url = "github:yasunori0418/nput";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agent-skills = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -103,6 +107,9 @@
       };
     };
     cfg = configurations.ydog-1;
+    nputProfiles = {
+      ydog-1.homeDirectory = "/home/ydog-1";
+    };
     flakePath = "/home/${cfg.userName}/nix-config";
     system = cfg.system;
     pkgs = import nixpkgs {
@@ -143,7 +150,21 @@
         ${pkgs.lib.getExe package} run --all-files --config ${configFile}
       '';
 
-    packages.${system}.ai-usagebar = pkgs.ai-usagebar;
+    packages.${system} = {
+      ai-usagebar = pkgs.ai-usagebar;
+      nput = inputs.nput.packages.${system}.nput;
+    };
+
+    nput.${system} =
+      builtins.mapAttrs (_: entries:
+        inputs.nput.lib.mkManifest {
+          inherit pkgs entries;
+          root = inputs.nput.lib.homeRoot;
+        })
+      (import ./nput {
+        inherit inputs pkgs;
+        profiles = nputProfiles;
+      });
 
     devShells.${system}.default = let
       inherit (self.checks.${system}.pre-commit-check) shellHook enabledPackages;
@@ -151,6 +172,9 @@
       pkgs.mkShell {
         inherit shellHook;
         buildInputs = enabledPackages;
+        packages = [
+          inputs.nput.packages.${system}.nput
+        ];
       };
 
     nixosConfigurations.${cfg.nixosConfigName} = nixpkgs.lib.nixosSystem {

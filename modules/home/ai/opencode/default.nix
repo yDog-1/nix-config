@@ -5,7 +5,6 @@
   config,
   ...
 }: let
-  mcp-servers = inputs.mcp-servers-nix;
   opencode = pkgs.writeShellApplication {
     name = "opencode";
     runtimeInputs = [pkgs.coreutils];
@@ -20,31 +19,11 @@
     ["@vde-tmux@"]
     ["${pkgs.vde-tmux}"]
     (builtins.readFile ./vde-tmux.ts);
-  opencodeConfig = mcp-servers.lib.mkConfig pkgs {
-    flavor = "opencode";
-    fileName = "opencode.json";
-
-    programs = {
-      tavily = {
-        enable = true;
-        passwordCommand = {
-          TAVILY_API_KEY = [
-            "cat"
-            "${config.sops.secrets.tavily_api_key.path}"
-          ];
-        };
-      };
-    };
-
-    settings = builtins.fromJSON (builtins.readFile ./opencode.json);
-  };
 in {
   home.sessionVariables = {
     OPENCODE_DISABLE_LSP_DOWNLOAD = "true";
   };
 
-  xdg.configFile."opencode/opencode.json".source = opencodeConfig;
-  xdg.configFile."opencode/tui.json".source = ./tui.json;
   xdg.configFile."opencode/plugins/vde-tmux.ts".text = opencodeVdeTmuxPlugin;
 
   programs.opencode = {
