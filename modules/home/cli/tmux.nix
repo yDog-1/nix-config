@@ -3,6 +3,36 @@
   pkgs,
   ...
 }: let
+  catppuccin = import ../../../lib/style/catppucin-colors.nix;
+  vdeTmuxConfig = with catppuccin.colors;
+    builtins.replaceStrings
+    [
+      "@base@"
+      "@sky@"
+      "@mauve@"
+      "@red@"
+      "@sapphire@"
+      "@subtext1@"
+      "@surface0@"
+      "@surface1@"
+      "@text@"
+      "@yellow@"
+      "@peach@"
+    ]
+    [
+      base
+      sky
+      mauve
+      red
+      sapphire
+      subtext1
+      surface0
+      surface1
+      text
+      yellow
+      peach
+    ]
+    (builtins.readFile ./vde-tmux.yml);
   seshCompletion = pkgs.runCommand "sesh-completion" {} ''
     mkdir -p $out/share/zsh/site-functions
     ${pkgs.sesh}/bin/sesh completion zsh > $out/share/zsh/site-functions/_sesh
@@ -84,12 +114,15 @@ in {
     pkgs.ai-usagebar
     pkgs.editprompt
     pkgs.sesh
+    pkgs.vde-tmux
     seshCompletion
     tmux-codex-usage
     tmux-openrouter-credit
   ];
 
   sops.secrets.openrouter_api_key = {};
+
+  xdg.configFile."vde/tmux/config.yml".text = vdeTmuxConfig;
 
   programs.tmux = {
     enable = true;
@@ -125,14 +158,21 @@ in {
 
           # Define status-right before continuum appends its autosave hook.
           # programs.tmux.extraConfig is emitted after plugins and would overwrite it.
-          set -g status-left ""
-          set -g status-left-length 100
+          run-shell -b '${pkgs.vde-tmux}/bin/vt daemon ensure'
+
+          set -g status-left-length 10000
+          set -g status-style "fg=#{@thm_text},bg=#{@thm_base}"
+          set -g status-left '#[default]#{@vde_status_sessions} #[default]#{@vde_status_windows}'
+          set -ag status-left ' #{@vde_status_attention} #{@vde_status_summary}'
           set -g status-right-length 100
           set -g window-status-separator ""
           set -g status-right "#(${tmux-openrouter-credit}/bin/tmux-openrouter-credit)"
           set -ag status-right "#(${tmux-codex-usage}/bin/tmux-codex-usage)"
           set -ag status-right "#{E:@catppuccin_status_directory}"
           set -agF status-right "#{E:@catppuccin_status_date_time}"
+
+          setw -g window-status-format ""
+          setw -g window-status-current-format ""
         '';
       }
     ];
@@ -171,6 +211,7 @@ in {
       bind C-l select-pane -R
       # Ctrl+j is LF unless the terminal uses an extended key sequence.
       bind -n C-j if-shell -F '#{==:#{pane_current_command},opencode}' 'send-keys -H 1b 5b 31 30 36 3b 35 75' 'send-keys C-j'
+      bind -n MouseDown1Status run-shell "${pkgs.vde-tmux}/bin/vt statusline-click --client-name #{q:client_name} --session-id #{q:session_id} #{q:mouse_status_range}"
 
       bind H swap-pane -t '{left-of}'
       bind J swap-pane -t '{down-of}'
@@ -180,6 +221,7 @@ in {
       bind c kill-pane
       bind q kill-pane
       bind o display-popup -E -w 80% -h 70% -d "#{pane_current_path}" "${tmux-sesh}/bin/tmux-sesh"
+      bind a run-shell '${pkgs.vde-tmux}/bin/vt sidebar focus-toggle --window #{q:window_id}'
       bind -n M-g display-popup -E -w 80% -h 70% -d "#{pane_current_path}" "${pkgs.lazygit}/bin/lazygit"
       bind -n M-i run-shell '${pkgs.editprompt}/bin/editprompt resume --target-pane #{pane_id} || tmux split-window -v -l 10 -c "#{pane_current_path}" "${pkgs.editprompt}/bin/editprompt open --always-copy --target-pane #{pane_id}"'
 

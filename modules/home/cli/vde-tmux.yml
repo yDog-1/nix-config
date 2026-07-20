@@ -1,0 +1,64 @@
+statusline:
+  category:
+    format: " {category} "
+    inactive_format: " {category} "
+    colors:
+      fg: "@base@"
+      bg: "@sapphire@"
+    inactive_colors:
+      fg: "@subtext1@"
+      bg: "@surface0@"
+  sessions:
+    separator: ""
+    current:
+      format: " {session} "
+      colors:
+        fg: "@base@"
+        bg: "@sapphire@"
+    other:
+      format: " {session} "
+      colors:
+        fg: "@subtext1@"
+        bg: "@surface0@"
+  windows:
+    separator: ""
+    current:
+      format: " {index}:{window} "
+      colors:
+        fg: "@base@"
+        bg: "@mauve@"
+    other:
+      format: " {index} {window} "
+      colors:
+        fg: "@subtext1@"
+        bg: "@surface0@"
+    last:
+      fg: "@text@"
+      bg: "@surface1@"
+    bell:
+      fg: "@base@"
+      bg: "@yellow@"
+    activity:
+      fg: "@base@"
+      bg: "@peach@"
+  attention:
+    colors:
+      fg: "@base@"
+      bg: "@red@"
+  session_badge:
+    chip:
+      bg: "@surface0@"
+
+sidebar:
+  header:
+    colors:
+      fg: "@base@"
+      bg: "@sapphire@"
+      outer_bg: "@base@"
+  colors:
+    selection_bg: "@surface1@"
+    selection_bar: "@mauve@"
+    header_active_bg: "@sapphire@"
+    header_filter_bg: "@surface0@"
+    header_total_bg: "@surface0@"
+    active_bg: "@surface0@"

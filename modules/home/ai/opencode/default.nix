@@ -15,6 +15,11 @@
       exec ${pkgs.llm-agents.opencode}/bin/opencode "$@"
     '';
   };
+  opencodeVdeTmuxPlugin =
+    builtins.replaceStrings
+    ["@vde-tmux@"]
+    ["${pkgs.vde-tmux}"]
+    (builtins.readFile ./vde-tmux.ts);
   opencodeConfig = mcp-servers.lib.mkConfig pkgs {
     flavor = "opencode";
     fileName = "opencode.json";
@@ -40,6 +45,7 @@ in {
 
   xdg.configFile."opencode/opencode.json".source = opencodeConfig;
   xdg.configFile."opencode/tui.json".source = ./tui.json;
+  xdg.configFile."opencode/plugins/vde-tmux.ts".text = opencodeVdeTmuxPlugin;
 
   programs.opencode = {
     package = opencode;
