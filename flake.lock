@@ -396,6 +396,22 @@
         "type": "github"
       }
     },
+    "mattpocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784629731,
+        "narHash": "sha256-o/H9s3t6ahBqFwpkOMBOTwpsvb33pgvpI9n0PA+uLYM=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "ed37663cc5fbef691ddfecd080dff42f7e7e350d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "mcp-servers-nix": {
       "inputs": {
         "nixpkgs": "nixpkgs_3"
@@ -682,6 +698,7 @@
         "home-manager": "home-manager",
         "ironbar": "ironbar",
         "llm-agents": "llm-agents",
+        "mattpocock-skills": "mattpocock-skills",
         "mcp-servers-nix": "mcp-servers-nix",
         "moralerspace-hw": "moralerspace-hw",
         "nix-index-database": "nix-index-database",

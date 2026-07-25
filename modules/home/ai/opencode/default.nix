@@ -65,6 +65,10 @@ in {
         path = inputs.awesome-copilot;
         subdir = "skills";
       };
+      mattpocock = {
+        path = inputs.mattpocock-skills;
+        subdir = "skills";
+      };
     };
 
     # reference to "https://github.com/ryoppippi/dotfiles/blob/c6c366b8fde0851ded440c9560f860af2a235490/nix/modules/home/agent-skills.nix#L46"
@@ -115,6 +119,34 @@ in {
       git-commit = {
         from = "awesome-copilot";
         path = "git-commit";
+      };
+      grill-with-docs = {
+        from = "mattpocock";
+        path = "engineering/grill-with-docs";
+      };
+      prototype = {
+        from = "mattpocock";
+        path = "engineering/prototype";
+      };
+      diagnosing-bugs = {
+        from = "mattpocock";
+        path = "engineering/diagnosing-bugs";
+      };
+      tdd = {
+        from = "mattpocock";
+        path = "engineering/tdd";
+      };
+      code-review = {
+        from = "mattpocock";
+        path = "engineering/code-review";
+      };
+      handoff = {
+        from = "mattpocock";
+        path = "productivity/handoff";
+      };
+      teach = {
+        from = "mattpocock";
+        path = "productivity/teach";
       };
     };
 
