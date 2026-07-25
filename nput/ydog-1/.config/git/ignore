@@ -1,0 +1,15 @@
+*~
+.DS_Store
+*.tmp
+.gitignore.*
+.aider*
+CLAUDE.local.md
+**/.claude/**.local.*
+.serena*
+.vscode
+.env
+.direnv
+.envrc
+.nvim.lua
+/result
+.direnv/**

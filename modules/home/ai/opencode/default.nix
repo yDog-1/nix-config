@@ -14,6 +14,20 @@
       exec ${pkgs.llm-agents.opencode}/bin/opencode "$@"
     '';
   };
+  opencodeConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
+    flavor = "opencode";
+    fileName = "opencode.json";
+
+    programs.tavily = {
+      enable = true;
+      passwordCommand.TAVILY_API_KEY = [
+        "cat"
+        "${config.sops.secrets.tavily_api_key.path}"
+      ];
+    };
+
+    settings = builtins.fromJSON (builtins.readFile ./opencode.json);
+  };
   opencodeVdeTmuxPlugin =
     builtins.replaceStrings
     ["@vde-tmux@"]
@@ -24,7 +38,12 @@ in {
     OPENCODE_DISABLE_LSP_DOWNLOAD = "true";
   };
 
-  xdg.configFile."opencode/plugins/vde-tmux.ts".text = opencodeVdeTmuxPlugin;
+  xdg.configFile = {
+    "opencode/AGENTS.md".source = ./AGENTS.md;
+    "opencode/opencode.json".source = opencodeConfig;
+    "opencode/plugins/vde-tmux.ts".text = opencodeVdeTmuxPlugin;
+    "opencode/tui.json".source = ./tui.json;
+  };
 
   programs.opencode = {
     package = opencode;

@@ -1,0 +1,26 @@
+[user]
+	name = yDog
+	email = ydog-1@outlook.jp
+[credential "https://github.com"]
+	helper = !'gh' auth git-credential
+[credential "https://gist.github.com"]
+	helper = !'gh' auth git-credential
+[init]
+	defaultBranch = main
+[color]
+	ui = true
+[alias]
+	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
+[core]
+	quotepath = false
+  excludeFile = ~/.config/git/ignore
+[gui]
+	encoding = utf-8
+[i18n "commit"]
+	encoding = utf-8
+[i18n]
+	logoutputencoding = utf-8
+[pull]
+	rebase = true
+[ghq]
+  root = ~/.local/share/ghq
