@@ -111,7 +111,7 @@
       ydog-1.homeDirectory = "/home/ydog-1";
     };
     flakePath = "/home/${cfg.userName}/nix-config";
-    system = cfg.system;
+    inherit (cfg) system;
     pkgs = import nixpkgs {
       inherit system;
 
@@ -119,7 +119,7 @@
 
       overlays = [
         ydog-nur.overlays.default
-        (final: prev: {
+        (_: _: {
           ironbar = inputs.ironbar.packages.${system}.default;
         })
         llm-agents.overlays.shared-nixpkgs
@@ -151,7 +151,7 @@
       '';
 
     packages.${system} = {
-      ai-usagebar = pkgs.ai-usagebar;
+      inherit (pkgs) ai-usagebar;
       nput = inputs.nput.packages.${system}.nput;
     };
 

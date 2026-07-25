@@ -19,21 +19,23 @@
         EOS
         )"
       '';
-      actions.run = {
-        command = ''nix run {replace:s/\/ /#/g}'';
-        mode = "fork";
-      };
-      actions.shell = {
-        command = ''nix shell {replace:s/\/ /#/g}'';
-        mode = "execute";
-      };
-      actions.homepage = {
-        command = ''xdg-open "$(${nix-search-tv} homepage {})"'';
-        mode = "fork";
-      };
-      actions.source = {
-        command = ''xdg-open "$(${nix-search-tv} source {})"'';
-        mode = "fork";
+      actions = {
+        run = {
+          command = ''nix run {replace:s/\/ /#/g}'';
+          mode = "fork";
+        };
+        shell = {
+          command = ''nix shell {replace:s/\/ /#/g}'';
+          mode = "execute";
+        };
+        homepage = {
+          command = ''xdg-open "$(${nix-search-tv} homepage {})"'';
+          mode = "fork";
+        };
+        source = {
+          command = ''xdg-open "$(${nix-search-tv} source {})"'';
+          mode = "fork";
+        };
       };
     };
   };

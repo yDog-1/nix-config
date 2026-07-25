@@ -1,4 +1,4 @@
-{...}: let
+_: let
   prefixEntries = prefix: entries:
     builtins.listToAttrs (map (name: {
       name = "${prefix}/${name}";

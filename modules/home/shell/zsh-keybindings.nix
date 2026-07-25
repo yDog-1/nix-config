@@ -1,9 +1,4 @@
-{
-  _pkgs,
-  _config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   programs.zsh = {
     # Vi mode設定
     defaultKeymap = "viins";

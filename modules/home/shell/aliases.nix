@@ -1,8 +1,4 @@
-{
-  _pkgs,
-  _config,
-  ...
-}: {
+_: {
   programs.zsh = {
     shellAliases = {
       # ファイル操作

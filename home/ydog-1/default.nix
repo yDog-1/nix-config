@@ -8,9 +8,11 @@
     ../../modules/home/secrets
   ];
 
-  home.username = "ydog-1";
-  home.homeDirectory = "/home/ydog-1";
-  home.stateVersion = "25.05";
+  home = {
+    username = "ydog-1";
+    homeDirectory = "/home/ydog-1";
+    stateVersion = "25.05";
+  };
 
   programs.home-manager.enable = true;
 }

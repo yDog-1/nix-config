@@ -1,4 +1,4 @@
-{_pkgs, ...}: {
+_: {
   # 共通環境変数
   home.sessionVariables = {
     EDITOR = "nvim";

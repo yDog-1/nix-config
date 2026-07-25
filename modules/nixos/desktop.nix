@@ -1,30 +1,31 @@
 {pkgs, ...}: {
-  services.greetd = {
-    enable = true;
-    settings.default_session = {
-      command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-user-session --cmd 'uwsm start hyprland.desktop'";
-      user = "greeter";
+  services = {
+    greetd = {
+      enable = true;
+      settings.default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-user-session --cmd 'uwsm start hyprland.desktop'";
+        user = "greeter";
+      };
     };
+    xserver.xkb = {
+      layout = "jp";
+      variant = "";
+    };
+    gvfs.enable = true;
+    tumbler.enable = true;
+    udisks2.enable = true;
   };
-
-  services.xserver.xkb = {
-    layout = "jp";
-    variant = "";
-  };
-
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
-  services.udisks2.enable = true;
 
   security.pam.services.hyprlock = {};
 
-  programs.dconf.enable = true;
-  programs.zsh.enable = true;
-
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    xwayland.enable = true;
+  programs = {
+    dconf.enable = true;
+    zsh.enable = true;
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+      xwayland.enable = true;
+    };
   };
 
   xdg.portal = {

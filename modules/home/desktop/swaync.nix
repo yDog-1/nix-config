@@ -1,4 +1,4 @@
-{...}: let
+_: let
   catppuccin = import ../../../lib/style/catppucin-colors.nix;
   c = catppuccin.colors;
   alpha = catppuccin.withAlpha;

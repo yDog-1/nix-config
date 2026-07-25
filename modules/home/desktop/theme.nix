@@ -25,11 +25,10 @@
       ];
     });
   iconTheme = pkgs.catppuccin-papirus-folders.override {
-    accent = catppuccin.accent;
-    flavor = catppuccin.flavor;
+    inherit (catppuccin) accent flavor;
   };
   kvantumTheme = pkgs.catppuccin-kvantum.override {
-    accent = catppuccin.accent;
+    inherit (catppuccin) accent;
     variant = catppuccin.flavor;
   };
 in {

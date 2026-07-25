@@ -1,8 +1,4 @@
-{
-  pkgs,
-  _config,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./zsh-keybindings.nix
   ];
