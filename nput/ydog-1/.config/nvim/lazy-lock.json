@@ -19,10 +19,6 @@
     "branch": "main",
     "commit": "7f23658b127b9a74aae5b388fefcd997be30cbfc"
   },
-  "chezmoi.nvim": {
-    "branch": "main",
-    "commit": "4167bbec76f693f481a5243f1be521ff0ccf1a6d"
-  },
   "conform.nvim": {
     "branch": "master",
     "commit": "619363c30309d29ffa631e67c8183f2a72caa373"

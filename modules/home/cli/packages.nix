@@ -19,7 +19,6 @@
 
     imagemagick
     ghostscript
-    chezmoi
 
     go
     nodejs
