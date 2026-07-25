@@ -8,6 +8,7 @@
     ./night-mode.nix
     ./pyprland.nix
     ./rofi.nix
+    ./sioyek.nix
     ./packages.nix
     ./swaync.nix
     ./theme.nix
