@@ -53,6 +53,7 @@ in {
   programs.agent-skills = {
     enable = true;
     sources = {
+      local.path = ./skills;
       ast-grep = {
         path = inputs.ast-grep-skill;
         subdir = "ast-grep/skills";
@@ -73,6 +74,10 @@ in {
 
     # reference to "https://github.com/ryoppippi/dotfiles/blob/c6c366b8fde0851ded440c9560f860af2a235490/nix/modules/home/agent-skills.nix#L46"
     skills.explicit = {
+      worktrunk = {
+        from = "local";
+        path = "worktrunk";
+      };
       ast-grep = let
         astGrepBin = lib.getExe pkgs.ast-grep;
       in {
