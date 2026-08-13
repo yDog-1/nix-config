@@ -178,7 +178,7 @@
           root = inputs.nput.lib.homeRoot;
         })
       (import ./nput {
-        inherit inputs pkgs;
+        inherit flakePath inputs pkgs;
         profiles = nputProfiles;
       });
 
