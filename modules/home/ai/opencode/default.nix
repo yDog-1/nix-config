@@ -14,6 +14,16 @@
       exec ${pkgs.llm-agents.opencode}/bin/opencode "$@"
     '';
   };
+  worktrunkCommitMessage = pkgs.writeShellApplication {
+    name = "worktrunk-commit-message";
+    runtimeInputs = [pkgs.coreutils];
+    text = ''
+      config_dir="$(mktemp -d)"
+      trap 'rm -rf "$config_dir"' EXIT
+      cp ${./commit-message.json} "$config_dir/opencode.json"
+      OPENCODE_CONFIG_DIR="$config_dir" ${opencode}/bin/opencode run --pure --agent commit-message "$@"
+    '';
+  };
   opencodeConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
     flavor = "opencode";
     fileName = "opencode.json";
@@ -49,6 +59,8 @@ in {
     package = opencode;
     enable = true;
   };
+
+  home.packages = [worktrunkCommitMessage];
 
   programs.agent-skills = {
     enable = true;

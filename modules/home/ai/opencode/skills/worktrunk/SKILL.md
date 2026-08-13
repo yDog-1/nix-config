@@ -22,9 +22,12 @@ repository's worktree lifecycle manager.
   the default branch when omitted.
 - Before merging, review the diff, run relevant verification, and confirm that
   no unintended files are included.
-- Let `wt merge` create the squash commit message. It must match the
-  repository's recent commit convention, using a concise imperative
-  Conventional Commit when that convention is established.
+- Preview the generated commit message with `wt step commit --dry-run` before
+  merging. Do not merge if the preview uses a fallback message or does not
+  accurately describe the change.
+- Let `wt merge` create the squash commit message only after the preview is
+  acceptable. It must match the repository's recent commit convention, using a
+  concise imperative Conventional Commit when that convention is established.
 - Do not use `--no-hooks`, `--no-rebase`, `--no-remove`, `--force`, or `-D`
   unless the user explicitly requests it or there is a documented technical
   reason. Explain the reason before doing so.
@@ -43,12 +46,17 @@ git diff --check
 # Review and integrate from the feature worktree
 git status --short
 git diff
+wt step commit --dry-run
 wt merge
 ```
 
 `wt switch` changes directories only when its shell integration is active. If
 automation uses `--no-cd`, use the returned worktree path as the working
 directory for all subsequent commands.
+
+`wt step commit --dry-run` calls the configured generator but does not stage,
+commit, or run hooks. It must produce a meaningful message before `wt merge`
+is allowed to proceed.
 
 ## Existing Work and Cleanup
 
