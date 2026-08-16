@@ -1,0 +1,63 @@
+name: Check
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to check
+        required: true
+        type: string
+      push-cache:
+        description: Push build results to Cachix
+        default: false
+        required: false
+        type: boolean
+    secrets:
+      CACHIXAUTH_TOKEN:
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
+        if: ${{ !inputs.push-cache }}
+        with:
+          name: ydog-1-nix-config
+          skipPush: true
+
+      - uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
+        if: ${{ inputs.push-cache }}
+        with:
+          name: ydog-1-nix-config
+          authToken: ${{ secrets.CACHIXAUTH_TOKEN }}
+
+      - name: Check flake
+        run: nix flake check --print-build-logs
+
+      - name: Build packages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mapfile -t packages < <(
+            nix eval --json .#packages.x86_64-linux --apply 'builtins.attrNames' |
+              jq -r '.[] | ".#\(.)"'
+          )
+          if [[ "${#packages[@]}" -eq 0 ]]; then
+            echo "No packages were discovered to build." >&2
+            exit 1
+          fi
+          nix build --no-link --print-build-logs "${packages[@]}"

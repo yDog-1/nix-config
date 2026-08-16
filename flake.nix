@@ -6,11 +6,13 @@
       "https://nix-community.cachix.org"
       "https://cache.numtide.com"
       "https://ydog-1-nur.cachix.org"
+      "https://ydog-1-nix-config.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       "ydog-1-nur.cachix.org-1:gw4tWFtMdLnDn2k1EMrkgUrheq8/zi8mjPQKto5PyDs="
+      "ydog-1-nix-config.cachix.org-1:yCE3ozC5QbXbEyPRnjZ0zft52t0q3EEcS8IZwRUkaFE="
     ];
   };
 
@@ -133,6 +135,7 @@
       pre-commit-check = inputs.git-hooks.lib.${system}.run {
         src = ./.;
         hooks = {
+          actionlint.enable = true;
           alejandra.enable = true;
           deadnix.enable = true;
           statix = {

@@ -1,0 +1,31 @@
+name: Build and cache
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pull-request:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/check.yml
+    with:
+      ref: ${{ github.sha }}
+      push-cache: false
+
+  push:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/check.yml
+    with:
+      ref: ${{ github.sha }}
+      push-cache: true
+    secrets:
+      CACHIXAUTH_TOKEN: ${{ secrets.CACHIXAUTH_TOKEN }}
