@@ -16,8 +16,6 @@
     udisks2.enable = true;
   };
 
-  security.pam.services.hyprlock = {};
-
   programs = {
     dconf.enable = true;
     zsh.enable = true;

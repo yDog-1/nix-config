@@ -7,7 +7,6 @@
   home.packages = with pkgs; [
     hyprshot
     hypridle
-    hyprlock
     hyprpaper
     waypaper
     nwg-displays

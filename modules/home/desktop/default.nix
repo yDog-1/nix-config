@@ -3,7 +3,6 @@
     ./browser.nix
     ./hypridle.nix
     ./hyprland
-    ./hyprlock.nix
     ./ironbar.nix
     ./night-mode.nix
     ./pyprland.nix
