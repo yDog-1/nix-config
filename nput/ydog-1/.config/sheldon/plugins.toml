@@ -8,6 +8,7 @@ github = "romkatv/powerlevel10k"
 
 [plugins."zeno.zsh"]
 github = "yuki-yano/zeno.zsh"
+use = ["zeno-plugin.zsh"]
 
 [plugins."zeno.zsh".hooks]
 post = """
