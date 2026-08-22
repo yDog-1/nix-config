@@ -182,6 +182,5 @@ hl.on("hyprland.start", function()
 	-- Make Xwayland games see the DP monitor as the primary display.
 	hl.exec_cmd("xrandr --output " .. monitors.primary.output .. " --primary")
 	hl.exec_cmd("uwsm app -- ironbar")
-	hl.exec_cmd("uwsm app -- polkit-gnome-authentication-agent-1")
 	hl.exec_cmd("uwsm app -- pypr")
 end)
