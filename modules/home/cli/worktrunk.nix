@@ -13,6 +13,11 @@
     - Describe the behavioral change, never merely the changed file names.
     - Add a body only when it provides material context.
     """
+
+    # Preserve prepared commits and require a clean worktree before merging.
+    [merge]
+    squash = false
+    commit = false
   '';
 
   # Must run after compinit so the dynamic wt completion can register itself.
