@@ -27,6 +27,7 @@ in {
   systemd.user.services.waypaper-random = {
     Unit = {
       Description = "Set a random wallpaper";
+      After = ["graphical-session.target"];
       PartOf = ["graphical-session.target"];
     };
     Service = {
