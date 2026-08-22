@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   wallpapers = import ./wallpaper-sources.nix;
 in {
   home.file = builtins.listToAttrs (map
@@ -19,4 +23,28 @@ in {
     fill = Fill
     use_xdg_state = True
   '';
+
+  systemd.user.services.waypaper-random = {
+    Unit = {
+      Description = "Set a random wallpaper";
+      PartOf = ["graphical-session.target"];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${lib.getExe pkgs.waypaper} --random";
+    };
+  };
+
+  systemd.user.timers.waypaper-random = {
+    Unit = {
+      Description = "Periodically set a random wallpaper";
+      PartOf = ["graphical-session.target"];
+    };
+    Timer = {
+      OnActiveSec = "1s";
+      OnUnitActiveSec = "10m";
+      Unit = "waypaper-random.service";
+    };
+    Install.WantedBy = ["graphical-session.target"];
+  };
 }
