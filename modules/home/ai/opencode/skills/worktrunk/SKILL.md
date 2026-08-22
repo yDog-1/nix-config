@@ -18,16 +18,18 @@ repository's worktree lifecycle manager.
   with `wt switch <branch>` instead of creating another one.
 - Do not edit the default-branch worktree. Do not use `git worktree add`,
   `git worktree remove`, or `git merge` for the task lifecycle.
-- Merge only from the feature worktree with `wt merge [target]`; the target is
-  the default branch when omitted.
+- Merge only from the feature worktree with `wt merge --no-squash [target]`;
+  the target is the default branch when omitted. Always use `--no-squash` so
+  the commits prepared on the feature branch are preserved.
 - Before merging, review the diff, run relevant verification, and confirm that
   no unintended files are included.
 - Preview the generated commit message with `wt step commit --dry-run` before
   merging. Do not merge if the preview uses a fallback message or does not
   accurately describe the change.
-- Let `wt merge` create the squash commit message only after the preview is
-  acceptable. It must match the repository's recent commit convention, using a
-  concise imperative Conventional Commit when that convention is established.
+- After the preview is acceptable, create the commit with `wt step commit`
+  before merging. Its message must match the repository's recent commit
+  convention, using a concise imperative Conventional Commit when that
+  convention is established.
 - Do not use `--no-hooks`, `--no-rebase`, `--no-remove`, `--force`, or `-D`
   unless the user explicitly requests it or there is a documented technical
   reason. Explain the reason before doing so.
@@ -47,7 +49,8 @@ git diff --check
 git status --short
 git diff
 wt step commit --dry-run
-wt merge
+wt step commit
+wt merge --no-squash
 ```
 
 `wt switch` changes directories only when its shell integration is active. If
@@ -55,8 +58,10 @@ automation uses `--no-cd`, use the returned worktree path as the working
 directory for all subsequent commands.
 
 `wt step commit --dry-run` calls the configured generator but does not stage,
-commit, or run hooks. It must produce a meaningful message before `wt merge`
-is allowed to proceed.
+commit, or run hooks. It must produce a meaningful message before
+`wt step commit` is allowed to proceed. Verify that the resulting commit exists
+and the worktree contains no unintended uncommitted changes before running
+`wt merge --no-squash`.
 
 ## Existing Work and Cleanup
 
@@ -66,8 +71,8 @@ is allowed to proceed.
   to discard. Never force-remove dirty worktrees or unmerged branches without
   explicit user approval.
 - If a merge has conflicts or verification fails, resolve the issue in the
-  feature worktree, rerun verification, and then rerun `wt merge`. Do not
-  bypass the failed stage.
+  feature worktree, rerun verification, commit the resolution, and then rerun
+  `wt merge --no-squash`. Do not bypass the failed stage.
 
 ## Exceptions
 
