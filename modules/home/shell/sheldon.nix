@@ -23,6 +23,7 @@
     '';
 
     sessionVariables = {
+      DENO_SQLITE_PATH = "${pkgs.sqlite.out}/lib/libsqlite3.so";
       ZENO_GIT_CAT = "bat --color=always";
       ZENO_GIT_TREE = "eza --tree";
     };
