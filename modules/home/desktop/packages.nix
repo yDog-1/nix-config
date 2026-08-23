@@ -6,7 +6,6 @@
 
   home.packages = with pkgs; [
     hyprshot
-    hypridle
     waypaper
     nwg-displays
     pyprland
