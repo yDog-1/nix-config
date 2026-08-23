@@ -5,6 +5,8 @@
 }: let
   wallpapers = import ./wallpaper-sources.nix;
 in {
+  services.hyprpaper.enable = true;
+
   home.file = builtins.listToAttrs (map
     (wallpaper: {
       name = "Pictures/Wallpapers/${wallpaper.name}";
@@ -27,7 +29,8 @@ in {
   systemd.user.services.waypaper-random = {
     Unit = {
       Description = "Set a random wallpaper";
-      After = ["graphical-session.target"];
+      Requires = ["hyprpaper.service"];
+      After = ["hyprpaper.service"];
       PartOf = ["graphical-session.target"];
     };
     Service = {
