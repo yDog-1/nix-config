@@ -27,6 +27,10 @@ hl.bind((mod .. " + G"), (hl.dsp.window.float({ action = "toggle" })))
 hl.bind((mod .. " + I"), (hl.dsp.exec_cmd("vim-anywhere-wayland")))
 hl.bind((mod .. " + F"), (hl.dsp.window.fullscreen()))
 hl.bind((mod .. " + N"), (hl.dsp.exec_cmd("night-mode-toggle")))
+hl.bind("XF86PowerOff", (hl.dsp.exec_cmd("sleep 1 && hyprctl dispatch dpms off")), {
+	bypass = true,
+	locked = true,
+})
 hl.bind((mod .. " + left"), (hl.dsp.focus({ direction = "left" })))
 hl.bind((mod .. " + right"), (hl.dsp.focus({ direction = "right" })))
 hl.bind((mod .. " + up"), (hl.dsp.focus({ direction = "up" })))
@@ -107,6 +111,7 @@ hl.config({
 		["disable_hyprland_logo"] = true,
 		["disable_splash_rendering"] = true,
 		["force_default_wallpaper"] = 0,
+		["key_press_enables_dpms"] = true,
 	},
 })
 
