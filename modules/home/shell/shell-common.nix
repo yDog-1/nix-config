@@ -3,7 +3,7 @@ _: {
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "\${BROWSER:-\"vivaldi\"}";
-    LC_ALL = "en_US.UTF-8";
+    LC_MESSAGES = "en_US.UTF-8";
 
     # Node.js Management
     NVM_DIR = "$HOME/.nvm";
