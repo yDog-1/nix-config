@@ -104,6 +104,7 @@
       ydog-1 = rec {
         system = "x86_64-linux";
         userName = "ydog-1";
+        homeDirectory = "/home/${userName}";
         nixosConfigName = "ydog-1";
         homeConfigName = userName;
         hostPath = ./hosts/ydog-1;
@@ -112,9 +113,9 @@
     };
     cfg = configurations.ydog-1;
     nputProfiles = {
-      ydog-1.homeDirectory = "/home/ydog-1";
+      ydog-1.homeDirectory = cfg.homeDirectory;
     };
-    flakePath = "/home/${cfg.userName}/nix-config";
+    flakePath = "${cfg.homeDirectory}/nix-config";
     inherit (cfg) system;
     pkgs = import nixpkgs {
       inherit system;
@@ -215,7 +216,7 @@
       inherit pkgs;
       extraSpecialArgs = {
         inherit inputs;
-        inherit (cfg) nixosConfigName homeConfigName;
+        inherit (cfg) homeConfigName homeDirectory nixosConfigName userName;
       };
 
       modules = [
