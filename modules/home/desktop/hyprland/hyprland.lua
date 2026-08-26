@@ -28,9 +28,14 @@ hl.bind((mod .. " + G"), (hl.dsp.window.float({ action = "toggle" })))
 hl.bind((mod .. " + I"), (hl.dsp.exec_cmd("vim-anywhere-wayland")))
 hl.bind((mod .. " + F"), (hl.dsp.window.fullscreen()))
 hl.bind((mod .. " + N"), (hl.dsp.exec_cmd("night-mode-toggle")))
-hl.bind("XF86PowerOff", (hl.dsp.exec_cmd("sleep 1 && hyprctl dispatch dpms off")), {
-	bypass = true,
+hl.bind("XF86PowerOff", (hl.dsp.exec_cmd("sleep 1 && hyprctl dispatch 'hl.dsp.dpms({ action = \"disable\" })'")), {
+	dont_inhibit = true,
 	locked = true,
+})
+hl.bind("XF86PowerOff", (hl.dsp.exec_cmd("systemctl poweroff")), {
+	dont_inhibit = true,
+	locked = true,
+	long_press = true,
 })
 hl.bind((mod .. " + left"), (hl.dsp.focus({ direction = "left" })))
 hl.bind((mod .. " + right"), (hl.dsp.focus({ direction = "right" })))
