@@ -22,6 +22,7 @@
 
     heroic
     discord
+    llm-agents.chatgpt
     wezterm
 
     libsForQt5.qt5ct
