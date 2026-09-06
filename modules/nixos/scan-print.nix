@@ -18,7 +18,6 @@
     enable = true;
     extraBackends = [
       pkgs.sane-airscan
-      pkgs.epsonscan2
     ];
   };
 }
