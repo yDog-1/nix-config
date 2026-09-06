@@ -16,6 +16,7 @@
     ../../modules/nixos/power.nix
     ../../modules/nixos/scan-print.nix
     ../../modules/nixos/sound.nix
+    ../../modules/nixos/ssh.nix
     ../../modules/nixos/users.nix
     ../../modules/nixos/gaming.nix
   ];
