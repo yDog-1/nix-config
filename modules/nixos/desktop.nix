@@ -27,6 +27,8 @@
     };
   };
 
+  security.wrappers.Hyprland.enable = false;
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
