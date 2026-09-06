@@ -17,8 +17,17 @@
       src = inputs.nput.lib.mkOutOfStoreSymlink "${flakePath}/nput/ydog-1/.config/${pkgs.lib.removePrefix ".config/" name}";
     })
     configFileEntries;
+
+  vimFileEntries = prefixEntries ".vim" (import ./file-tree.nix ./.vim);
+  vimEntries =
+    builtins.mapAttrs (name: _: {
+      src = inputs.nput.lib.mkOutOfStoreSymlink "${flakePath}/nput/ydog-1/.vim/${pkgs.lib.removePrefix ".vim/" name}";
+    })
+    vimFileEntries;
 in
   configEntries
+  // vimEntries
   // {
     ".gitconfig".src = inputs.nput.lib.mkOutOfStoreSymlink "${flakePath}/nput/ydog-1/.gitconfig";
+    ".vimrc".src = inputs.nput.lib.mkOutOfStoreSymlink "${flakePath}/nput/ydog-1/.vimrc";
   }
