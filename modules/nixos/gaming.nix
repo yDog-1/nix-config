@@ -14,6 +14,9 @@
     autoStart = false;
     capSysAdmin = false;
     openFirewall = true;
-    package = inputs.nixpkgs-25-05.legacyPackages.${pkgs.stdenv.hostPlatform.system}.sunshine;
+    # Boost 1.89 stalls on this host's broken RDRAND implementation.
+    package = pkgs.sunshine.override {
+      boost = inputs.nixpkgs-25-05.legacyPackages.${pkgs.stdenv.hostPlatform.system}.boost;
+    };
   };
 }
