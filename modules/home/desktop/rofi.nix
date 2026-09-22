@@ -10,7 +10,7 @@
 in {
   programs.rofi = {
     enable = true;
-    extraConfig = {
+    settings = {
       kb-move-char-forward = "Right";
       show-icons = true;
     };
