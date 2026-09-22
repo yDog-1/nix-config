@@ -77,8 +77,8 @@
           raise SystemExit(f"Expected a Pascal sm_61 GPU, found sm_{capability[0]}{capability[1]}")
 
       architectures = torch.cuda.get_arch_list()
-      if "sm_61" not in architectures:
-          raise SystemExit(f"Installed PyTorch wheel lacks sm_61 support: {architectures}")
+      if not {"sm_60", "sm_61"}.intersection(architectures):
+          raise SystemExit(f"Installed PyTorch wheel lacks Pascal support: {architectures}")
 
       result = (torch.ones(1, device="cuda") * 2).item()
       torch.cuda.synchronize()
