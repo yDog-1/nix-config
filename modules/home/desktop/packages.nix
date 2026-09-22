@@ -23,6 +23,15 @@
     heroic
     discord
     llm-agents.chatgpt
+    (proton-authenticator.overrideAttrs (old: {
+      nativeBuildInputs = old.nativeBuildInputs ++ [makeWrapper];
+      postFixup =
+        (old.postFixup or "")
+        + ''
+          wrapProgram $out/bin/proton-authenticator \
+            --set WEBKIT_DISABLE_DMABUF_RENDERER 1
+        '';
+    }))
     wezterm
     anki
     krita
