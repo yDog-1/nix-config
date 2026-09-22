@@ -12,6 +12,7 @@
       variant = "";
     };
     gvfs.enable = true;
+    gnome.gnome-keyring.enable = true;
     tumbler.enable = true;
     udisks2.enable = true;
   };
