@@ -11,7 +11,7 @@
     export TORCH_HOME="$data_dir/.cache/torch"
     export PIP_CONSTRAINT="$constraints"
     export UV_CONSTRAINT="$constraints"
-    export LD_LIBRARY_PATH="/run/opengl-driver/lib:${pkgs.stdenv.cc.cc.lib}/lib:''${LD_LIBRARY_PATH:-}"
+    export LD_LIBRARY_PATH="/run/opengl-driver/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libx11}/lib:''${LD_LIBRARY_PATH:-}"
   '';
   comfyuiSetup = pkgs.writeShellApplication {
     name = "comfyui-setup";
@@ -110,6 +110,7 @@
         --input-directory "$data_dir/input" \
         --output-directory "$data_dir/output" \
         --user-directory "$data_dir/user" \
+        --database-url "sqlite:///$data_dir/user/comfyui.db" \
         --lowvram \
         --use-pytorch-cross-attention \
         "$@"
