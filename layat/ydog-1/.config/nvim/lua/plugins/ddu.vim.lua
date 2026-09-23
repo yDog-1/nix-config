@@ -49,6 +49,9 @@ return {
 					action = {
 						defaultAction = "do",
 					},
+					ui_select = {
+						defaultAction = "select",
+					},
 				},
 				uiParams = {
 					ff = {
@@ -646,4 +649,6 @@ return {
 	-- converter
 	"https://github.com/kyoh86/ddu-filter-converter_hl_dir",
 	"https://github.com/uga-rosa/ddu-filter-converter_devicon",
+	-- adapter
+	"https://github.com/matsui54/ddu-vim-ui-select",
 }
