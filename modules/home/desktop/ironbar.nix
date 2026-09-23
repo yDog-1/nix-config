@@ -2,6 +2,17 @@
   catppuccin = import ../../../lib/style/catppucin-colors.nix;
   c = catppuccin.colors;
   alpha = catppuccin.withAlpha;
+  layout = {
+    controlHeight = 35;
+    edgeMargin = 12;
+    topMargin = 6;
+    islandRadius = 10;
+    padding = {
+      button = 10;
+      clock = 10;
+      workspace = 10;
+    };
+  };
 in {
   home.packages = [
     pkgs.ironbar
@@ -10,296 +21,264 @@ in {
   xdg.configFile."ironbar/config.yaml".text = ''
     icon_theme: Papirus-Dark
     position: top
+    anchor_to_edges: true
+    height: ${toString layout.controlHeight}
+    margin:
+      top: ${toString layout.topMargin}
+      left: ${toString layout.edgeMargin}
+      right: ${toString layout.edgeMargin}
+    exclusive_zone: true
+    popup_gap: 8
     popup_autohide: true
     start:
-    - type: workspaces
-      hidden:
-        - 'special:S-vim_anywhere'
-    center:
-    - type: focused
-    end:
-    - type: sys_info
-      format:
-      - '  {cpu_percent}%'
-      - '  {memory_percent}%'
-      - '  {net_down}MB/s /   {net_up}MB/s'
-      interval:
-        cpu: 1
-    - type: clipboard
-      max_items: 10
-      truncate:
-        mode: end
-        length: 30
-    - type: volume
-      sink_slider_orientation: horizontal
-      source_slider_orientation: horizontal
     - type: custom
-      name: power-menu
-      class: power-menu
       bar:
-      - type: button
-        name: power-btn
-        label: 
-        on_click: popup:toggle
-      popup:
       - type: box
-        orientation: vertical
+        name: workspace-island
+        class: island
+        halign: start
+        valign: center
         widgets:
-        - type: label
-          name: header
-          label: Power menu
+        - type: workspaces
+          hidden:
+            - 'special:S-vim_anywhere'
+    center:
+    - type: custom
+      bar:
+      - type: box
+        name: clock-island
+        class: island
+        halign: center
+        valign: center
+        widgets:
+        - type: clock
+          format: '%Y/%m/%d (%a) %H:%M'
+    end:
+    - type: custom
+      bar:
+      - type: box
+        name: status-island
+        class: island
+        halign: end
+        valign: center
+        widgets:
         - type: box
-          name: buttons
+          class: status-item
+          halign: center
+          valign: center
           widgets:
-          - type: button
-            class: power-btn
-            label: <span>󰐥</span>
-            on_click: '!shutdown now'
-          - type: button
-            class: power-btn
-            label: <span>󰒲</span>
-            on_click: '!systemctl suspend'
-          - type: button
-            class: power-btn
-            label: <span>󰍃</span>
-            on_click: '!uwsm stop'
-          - type: button
-            class: power-btn
-            label: <span>󰜉</span>
-            on_click: '!reboot'
-    - type: tray
-    - type: clock
-      format: '%Y/%m/%d %H:%M'
-    - type: notifications
+          - type: tray
+        - type: box
+          class: status-item
+          halign: center
+          valign: center
+          widgets:
+          - type: volume
+            format: '{icon}'
+            mute_format: '{icon}'
+            sink_slider_orientation: horizontal
+            source_slider_orientation: horizontal
+        - type: box
+          class: status-item
+          halign: center
+          valign: center
+          widgets:
+          - type: custom
+            name: power-menu
+            class: power-menu
+            bar:
+            - type: button
+              name: power-btn
+              label: 
+              on_click: popup:toggle
+            popup:
+            - type: box
+              orientation: vertical
+              widgets:
+              - type: label
+                name: header
+                label: Session
+              - type: box
+                name: buttons
+                widgets:
+                - type: button
+                  class: power-btn
+                  label: <span>󰐥</span>
+                  on_click: '!shutdown now'
+                - type: button
+                  class: power-btn
+                  label: <span>󰍃</span>
+                  on_click: '!uwsm stop'
+                - type: button
+                  class: power-btn
+                  label: <span>󰜉</span>
+                  on_click: '!reboot'
+        - type: box
+          class: status-item
+          halign: center
+          valign: center
+          widgets:
+          - type: notifications
   '';
 
   xdg.configFile."ironbar/style.css".text = ''
-    :root {
-        --color-dark-primary: ${alpha c.base "CC"};
-        --color-dark-secondary: ${alpha c.surface0 "DD"};
-
-        --color-border-dark: ${alpha c.mauve "66"};
-        --color-border-light: ${alpha c.mauve "33"};
-
-        --color-white: ${c.text};
-        --color-active: ${alpha c.mauve "CC"};
-        --color-urgent: ${c.red};
-
-        --gradient: linear-gradient(90deg, ${alpha c.blue "26"} 35%, ${alpha c.mauve "26"} 100%);
-
-        --margin-lg: 1em;
-        --margin-sm: 0.5em;
-        --margin-xs: 0.25em;
-
-        --size-xxl: 2.6em;
-        --size-xl: 2.2em;
-        --size-lg: 1.5em;
-        --size-md: 16px;
-    }
-
     * {
-        font-family: sans-serif;
-        font-size: var(--size-md);
-        border-radius: 0;
+        font-family: "Noto Sans CJK JP", sans-serif;
+        font-size: 15px;
         border: none;
         box-shadow: none;
     }
 
-    popover, popover contents {
-        border-radius: 12px;
+    .background, #bar {
+        background: transparent;
+    }
+
+    #bar #start, #bar #center, #bar #end {
+        background: transparent;
         padding: 0;
     }
 
-    window, popover {
-        background-color: var(--color-dark-secondary);
+    #workspace-island, #clock-island, #status-island {
+        background-color: ${c.base};
+        border: none;
+        border-radius: ${toString layout.islandRadius}px;
+        box-shadow: 0 4px 14px ${alpha c.crust "99"};
+        margin: 0;
+        padding: 0;
     }
 
-    box, button, label, calendar {
+    box, button, label, calendar, popover {
         background-color: transparent;
     }
 
-    #bar, popover contents {
-        background: var(--gradient);
-    }
-
-    scale.horizontal highlight {
-        background: linear-gradient(90deg, ${alpha c.blue "CC"} 35%, ${alpha c.mauve "B2"} 100%);
-    }
-
-    scale.vertical highlight {
-        background: linear-gradient(0, ${alpha c.blue "CC"} 35%, ${alpha c.mauve "B2"} 100%);
-    }
-
-    slider {
-        border-radius: 100%;
-    }
-
     button {
-        padding-left: var(--margin-sm);
-        padding-right: var(--margin-sm);
+        border-radius: ${toString layout.islandRadius}px;
+        color: ${c.text};
+        min-height: ${toString layout.controlHeight}px;
+        min-width: 28px;
+        padding: 0 ${toString layout.padding.button}px;
     }
 
-    button:hover, button:active {
-        background-color: var(--color-dark-secondary);
+    .tray {
+        min-height: ${toString layout.controlHeight}px;
     }
 
-    dropdown popover row:hover, dropdown popover row:focus, dropdown popover row:selected {
-        background-color: var(--color-dark-secondary);
+    button:hover {
+        background-color: ${c.surface0};
     }
 
-    radio {
-        /* make purple */
-        -gtk-icon-filter: hue-rotate(45deg) contrast(0.6);
-        margin-right: var(--margin-sm);
+    button:active {
+        background-color: ${c.surface1};
     }
 
-    #end > * + * {
-        margin-left: var(--margin-sm);
+    popover contents {
+        background-color: ${c.base};
+        border: 1px solid ${alpha c.mauve "66"};
+        border-radius: 14px;
+        box-shadow: 0 6px 20px ${alpha c.crust "B3"};
+        padding: 0;
     }
 
     .popup {
-        padding: var(--margin-lg);
+        padding: 14px;
     }
 
-    .popup,[class^="popup-"] {
-        transition: all 200ms ease;
-        box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.5);
+    dropdown popover row:hover, dropdown popover row:focus, dropdown popover row:selected {
+        background-color: ${c.surface0};
     }
 
-    /* --- clock --- */
-
-    .clock {
-        font-weight: bold;
+    radio {
+        -gtk-icon-filter: hue-rotate(45deg) contrast(0.6);
+        margin-right: 8px;
     }
 
     .popup-clock .calendar-clock {
-        font-size: var(--size-xl);
-        margin-bottom: var(--margin-xs);
+        font-size: 1.4em;
+        margin-bottom: 4px;
     }
 
     .popup-clock .calendar .today {
-        background-color: ${alpha c.mauve "99"};
-        border-radius: 0.25em;
-    }
-
-    .popup-clipboard .item {
-        padding: var(--margin-xs);
-    }
-
-    .popup-clipboard .item + .item {
-        border-top: 1px solid var(--color-border-light);
-    }
-
-    /* --- menu --- */
-
-    .menu label {
-        padding: 0 var(--margin-sm);
-    }
-
-    .popup-menu .sub-menu {
-        border-left: 1px solid var(--color-border-light);
-        padding-left: var(--margin-sm);
-    }
-
-    .popup-menu .category, .popup-menu .application {
-        padding: var(--margin-xs);
-    }
-
-    .popup-menu .category.open {
-        background-color: var(--color-dark-secondary);
-    }
-
-    /* --- music --- */
-
-    .popup-music .album-art {
-        margin-right: var(--margin-lg);
-        border-radius: 5px;
-    }
-
-    .popup-music .icon-box {
-        margin-right: var(--margin-sm);
-    }
-
-    .popup-music .title .icon, .popup-music .title .label {
-        font-size: var(--size-lg);
-    }
-
-    .popup-music .artist .label, .popup-music .album .label {
-        margin-left: 6px;
-    }
-
-    .popup-music .volume .icon {
-        /* fix icon offset */
-        margin-right: 3px;
-    }
-
-    /* --- notifications --- */
-
-    .notifications .count {
-        font-size: 0.8em;
-        padding: 0.18em;
-    }
-
-    /* --- sysinfo --- */
-
-    .sysinfo > .item + .item {
-        margin-left: var(--margin-sm);
-    }
-
-    /* --- tray --- */
-
-    .tray popover contents {
-        padding: var(--margin-lg);
-    }
-
-    /* --- volume --- */
-
-    .volume .source {
-        margin-left: var(--margin-sm);
+        background-color: ${c.mauve};
+        color: ${c.crust};
+        border-radius: 6px;
     }
 
     .popup-volume .device-box {
-        padding-right: var(--margin-lg);
-        margin-right: var(--margin-lg);
-        border-right: 1px solid var(--color-border-light);
+        padding-right: 14px;
+        margin-right: 14px;
+        border-right: 1px solid ${c.surface1};
     }
 
-    /* --- workspaces --- */
+    scale highlight {
+        background-color: ${c.mauve};
+        border-radius: 999px;
+    }
 
-    .workspaces .item.visible {
-        box-shadow: inset 0 -1px var(--color-white);
+    slider {
+        background-color: ${c.text};
+        border-radius: 999px;
+    }
+
+    .workspaces .item {
+        color: ${c.subtext0};
+        margin: 0;
+        padding: 0 ${toString layout.padding.workspace}px;
     }
 
     .workspaces .item.focused {
-        box-shadow: inset 0 -1px var(--color-active);
-        background-color: var(--color-dark-secondary);
+        background-color: ${c.mauve};
+        color: ${c.crust};
     }
 
     .workspaces .item.urgent {
-        background-color: var(--color-urgent);
+        background-color: ${c.red};
+        color: ${c.crust};
     }
 
-    /* --- custom: power menu ---  */
+    .clock {
+        font-weight: 600;
+        padding: 0 ${toString layout.padding.clock}px;
+    }
+
+    button:focus, button:focus-visible, button:active {
+        outline: none;
+        outline-offset: 0;
+        border: none;
+        background-color: transparent;
+        background-image: none;
+        box-shadow: none;
+    }
+
+    .tray popover contents {
+        padding: 12px;
+    }
+
+    .notifications .count {
+        background-color: ${c.mauve};
+        color: ${c.crust};
+        border-radius: 999px;
+        font-size: 0.72em;
+        padding: 2px 4px;
+    }
 
     .popup-power-menu #header {
-        font-size: var(--size-lg);
-        margin-bottom: 0.6em;
+        font-size: 1.15em;
+        font-weight: 600;
+        margin-bottom: 10px;
     }
 
     .popup-power-menu .power-btn {
-        border: 1px solid var(--color-border-dark);
+        border: 1px solid ${c.surface1};
         border-radius: 10px;
-        padding: 0 1.2em;
+        padding: 0 16px;
     }
 
     .popup-power-menu .power-btn label {
-        font-size: var(--size-xxl);
+        font-size: 2em;
     }
 
-    /* need to use funky selector
-    due to widgets being wrapped in GtkRevealers */
     .popup-power-menu #buttons > * + * {
-        margin-left: 1.3em;
+        margin-left: 12px;
     }
   '';
 }
