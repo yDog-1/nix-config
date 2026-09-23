@@ -41,8 +41,8 @@
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";
     };
-    nput = {
-      url = "github:yasunori0418/nput";
+    layat = {
+      url = "github:yasunori0418/layat";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agent-skills = {
@@ -112,7 +112,7 @@
       };
     };
     cfg = configurations.ydog-1;
-    nputProfiles = {
+    layatProfiles = {
       ydog-1.homeDirectory = cfg.homeDirectory;
     };
     flakePath = "${cfg.homeDirectory}/nix-config";
@@ -170,18 +170,18 @@
 
     packages.${system} = {
       inherit (pkgs) ai-usagebar;
-      nput = inputs.nput.packages.${system}.nput;
+      layat = inputs.layat.packages.${system}.layat;
     };
 
-    nput.${system} =
+    layat.${system} =
       builtins.mapAttrs (_: entries:
-        inputs.nput.lib.mkManifest {
+        inputs.layat.lib.mkManifest {
           inherit pkgs entries;
-          root = inputs.nput.lib.homeRoot;
+          root = inputs.layat.lib.homeRoot;
         })
-      (import ./nput {
+      (import ./layat {
         inherit flakePath inputs pkgs;
-        profiles = nputProfiles;
+        profiles = layatProfiles;
       });
 
     devShells.${system}.default = let
@@ -191,7 +191,7 @@
         inherit shellHook;
         buildInputs = enabledPackages;
         packages = [
-          inputs.nput.packages.${system}.nput
+          inputs.layat.packages.${system}.layat
         ];
       };
 

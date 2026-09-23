@@ -45,10 +45,10 @@ home-manager switch --flake ".#${USER}"
 
 ## dotfiles
 
-既存の設定ファイルがある場合は、先にバックアップしてからnputを適用します。
+既存の設定ファイルがある場合は、先にバックアップしてからlayatを適用します。
 
 ```bash
-nix develop --command nput apply ydog-1
+nix develop --command layat apply ydog-1
 ```
 
 これでNixOS、Home Manager、dotfilesの復旧は完了です。これらは独立しているため、必要なものをそれぞれ適用します。
@@ -57,5 +57,5 @@ nix develop --command nput apply ydog-1
 
 ```bash
 nix flake check --print-build-logs
-nix build --no-link .#nput.x86_64-linux.ydog-1
+nix build --no-link .#layat.x86_64-linux.ydog-1
 ```
