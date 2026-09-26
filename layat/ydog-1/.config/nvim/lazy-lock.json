@@ -43,6 +43,7 @@
   "ddu-source-lsp": { "branch": "main", "commit": "41fb60c11b35ee7c2548a1d78a70e5a070c159c4" },
   "ddu-source-mr": { "branch": "main", "commit": "554ff20119b85ac22f850106c2156e783aa77478" },
   "ddu-source-rg": { "branch": "main", "commit": "42b928ed4e921c71cf185db0bb6b3cb6c85d0399" },
+  "ddu-source-vim": { "branch": "main", "commit": "5a585dd610aaeb26a3d81653821bffa4027f2fb1" },
   "ddu-ui-ff": { "branch": "main", "commit": "af04a14c0db390dfeb0be56a3c684ccf57cde4ca" },
   "ddu-vim-ui-select": { "branch": "main", "commit": "0a781ce98da5ee1c045c3f9d01568b3206eaf8ba" },
   "ddu.vim": { "branch": "main", "commit": "46fbd28f81eb7d940ac8becc68b9d926fb7159c0" },

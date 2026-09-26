@@ -6,6 +6,10 @@ return {
 			"vim-denops/denops.vim",
 		},
 		config = function()
+			local codecompanion_acp_commands =
+				dofile(vim.fn.stdpath("config") .. "/lua/ydog-1/codecompanion_acp_commands.lua")
+			codecompanion_acp_commands.setup()
+
 			local ddu_vertical_margin = 10
 			local ddu_horizontal_margin = 20
 			local ddu_win_row = ddu_vertical_margin / 2
@@ -639,6 +643,7 @@ return {
 	"https://github.com/uga-rosa/ddu-source-lsp",
 	"https://github.com/matsui54/ddu-source-highlight",
 	"https://github.com/kuuote/ddu-source-git_status",
+	"https://github.com/Shougo/ddu-source-vim",
 	-- filter
 	"https://github.com/yuki-yano/ddu-filter-fzf",
 	"https://github.com/kuuote/ddu-filter-sorter_mtime",
