@@ -75,13 +75,11 @@ return {
 	},
 	opts = {
 		adapters = {
-			http = {
+			acp = {
 				opencode = function()
 					return require("codecompanion.adapters").extend("opencode", {
-						schema = {
-							model = {
-								default = "openai/gpt-6-sol",
-							},
+						defaults = {
+							model = "openai/gpt-6-luna",
 						},
 					})
 				end,
