@@ -157,6 +157,9 @@ in {
     terminal = "tmux-256color";
 
     extraConfig = ''
+      set -g allow-passthrough on
+      set -g visual-activity off
+
       set -s extended-keys on
       set -s extended-keys-format csi-u
       set -as terminal-features ',xterm*:extkeys'
