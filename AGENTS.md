@@ -1,34 +1,25 @@
-# AGENTS.md
+# Repository guidance
 
-## Configuration Boundaries
+## Outputs and ownership
 
-- This flake has three independently applied outputs for one `x86_64-linux` machine: `nixosConfigurations.ydog-1`, standalone `homeConfigurations."ydog-1"`, and `layat.x86_64-linux.ydog-1`. Applying one does not apply the others.
-- NixOS starts at `hosts/ydog-1/default.nix`; Home Manager starts at `home/ydog-1/default.nix`. Nix modules are not auto-discovered, so import new modules from those entrypoints or an existing `modules/{nixos,home}` aggregator.
-- `layat/ydog-1/file-tree.nix` automatically includes every regular file below `layat/ydog-1/.config`; these files and `.gitconfig` become live out-of-store symlinks, not Home Manager files.
-- The checkout path is intentionally fixed at `/home/ydog-1/nix-config`: both `programs.nh.flake` and layat's out-of-store symlinks depend on it. Do not make the configuration relocation-safe as incidental cleanup.
-- The overlays in `flake.nix` apply to Home Manager, checks, packages, and the dev shell, but not to the separately constructed NixOS `pkgs`. Do not assume a package override used by Home Manager exists in NixOS.
+- This flake targets one `x86_64-linux` machine and exposes three independently applied outputs: `nixosConfigurations.ydog-1`, `homeConfigurations."ydog-1"`, and `layat.x86_64-linux.ydog-1`.
+- NixOS starts at `hosts/ydog-1/default.nix`; standalone Home Manager starts at `home/ydog-1/default.nix`. Nix modules are not auto-discovered: import additions from these entrypoints or an existing module aggregator.
+- `layat/ydog-1/file-tree.nix` auto-collects regular files in `.config` and `.vim`; `.gitconfig` and `.vimrc` are also layat-managed. They become out-of-store symlinks to this checkout, which is intentionally fixed at `/home/ydog-1/nix-config` (`programs.nh.flake` uses the same path).
+- NixOS owns Hyprland, greetd/UWSM, Xwayland, and portals (`modules/nixos/desktop.nix`); Home Manager only places `modules/home/desktop/hyprland/hyprland.lua`. Do not enable a second Home Manager Hyprland module/package or portal.
+- Neovim dotfiles belong to layat; Home Manager provides the wrapped executable and generated `nvim/lsp/nixd.lua`.
+- OpenCode's editable base config is `modules/home/ai/opencode/opencode.json`; Home Manager generates the live config and merges MCP settings. Do not edit the generated target.
+- Flake overlays apply to Home Manager, checks, packages, and the dev shell, but not the separately constructed NixOS `pkgs`.
 
-## Commands
+## Checks
 
-- `nix fmt` runs all repository hooks over all files: actionlint, alejandra, deadnix, statix, and stylua. It is not formatting-only.
-- `nix flake check --print-build-logs` is the main local check; it runs the hooks and builds both the NixOS closure and Home Manager activation package.
-- Focused builds are `nix build .#nixosConfigurations.ydog-1.config.system.build.toplevel` and `nix build .#homeConfigurations.ydog-1.activationPackage`.
-- CI additionally builds every `packages.x86_64-linux` output; the current local equivalent is `nix build --no-link .#ai-usagebar .#layat`.
-- Changes under `layat/` need the separate manifest check `nix build --no-link .#layat.x86_64-linux.ydog-1`; this output is not covered by the package build above.
-- Apply configuration only when requested: `nh os switch`, `home-manager switch --flake .#ydog-1`, and `nix develop --command layat apply ydog-1` apply the NixOS, Home Manager, and layat outputs respectively.
+- `nix flake check --print-build-logs` runs repository hooks and builds the NixOS closure and Home Manager activation package.
+- `nix fmt` runs all hooks over all files (actionlint, alejandra, deadnix, statix, stylua), not just formatters.
+- For focused builds, use `nix build .#nixosConfigurations.ydog-1.config.system.build.toplevel` or `nix build .#homeConfigurations.ydog-1.activationPackage`.
+- CI's package builds can be checked locally with `nix build --no-link .#ai-usagebar .#layat`. Changes under `layat/` also require `nix build --no-link .#layat.x86_64-linux.ydog-1`.
 
-## Ownership Gotchas
+## Compatibility and secrets
 
-- NixOS owns the Hyprland package, greetd/UWSM session, Xwayland, and portals in `modules/nixos/desktop.nix`. Home Manager only places the native `hyprland.lua`; do not enable `wayland.windowManager.hyprland` or add another Hyprland package/portal there.
-- Edit `modules/home/desktop/hyprland/hyprland.lua` directly; Hyprland loads it as native configuration and `nix fmt` formats it with stylua.
-- OpenCode's editable base config is `modules/home/ai/opencode/opencode.json`. `default.nix` merges MCP settings into the generated `~/.config/opencode/opencode.json`; do not add a root `opencode.json` or edit the generated target.
-- Neovim ownership is split: layat owns the ordinary files under `layat/ydog-1/.config/nvim`, while Home Manager owns the wrapped executable and generated `nvim/lsp/nixd.lua`.
-- Treat `hosts/ydog-1/hardware-configuration.nix` as generated hardware data; put normal system changes in `modules/nixos` despite the generated file's stale `/etc/nixos/configuration.nix` comment.
-- Sunshine is deliberately sourced from `nixpkgs-25-05` in `modules/nixos/gaming.nix`, while the rest of the flake tracks unstable. Do not normalize that pin without checking the compatibility reason.
-
-## Secrets And Compatibility
-
-- `secrets/default.yaml` contains encrypted SOPS data and may be committed; the private age key is external at `${XDG_CONFIG_HOME}/sops/age/keys.txt` and is required for Home Manager activation.
-- `.sops.yaml` only matches `secrets/*.yaml`, not nested secret directories.
-- `networking.hostName` intentionally remains `nixos`, despite the output and user being named `ydog-1`.
-- `system.stateVersion = "25.11"` and `home.stateVersion = "25.05"` are compatibility pins, not package versions; never bump them during unrelated work.
+- Treat `hosts/ydog-1/hardware-configuration.nix` as generated hardware data; put normal system changes in `modules/nixos`.
+- Preserve `networking.hostName = "nixos"` and the existing `system.stateVersion` / `home.stateVersion` values; these are intentional compatibility choices.
+- Sunshine uses Boost from `nixpkgs-25-05` because Boost 1.89 stalls on this host's RDRAND implementation; avoid removing this override without checking compatibility.
+- SOPS age private key is external at `${XDG_CONFIG_HOME}/sops/age/keys.txt` and is needed for Home Manager activation. `.sops.yaml` only matches `secrets/*.yaml` (not nested paths); encrypted `secrets/default.yaml` is repository data.
