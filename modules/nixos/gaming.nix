@@ -9,6 +9,14 @@
     enable = true;
   };
 
+  services.wivrn = {
+    enable = true;
+    autoStart = false;
+    openFirewall = true;
+    steam.importOXRRuntimes = true;
+    package = pkgs.wivrn.override {cudaSupport = true;};
+  };
+
   services.sunshine = {
     enable = true;
     autoStart = false;
