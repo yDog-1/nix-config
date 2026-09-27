@@ -23,6 +23,33 @@ local function update_winbar(event)
 	vim.cmd.redrawstatus()
 end
 
+local function cycle_session_mode(chat, direction)
+	local connection = chat.acp_connection
+	if chat.adapter.type ~= "acp" or not connection then
+		return
+	end
+
+	for _, option in ipairs(connection:get_config_options()) do
+		if option.category == "mode" and option.type == "select" then
+			local values = require("codecompanion.acp").flatten_config_options(option.options or {})
+			if #values < 2 then
+				return
+			end
+
+			for i, value in ipairs(values) do
+				if value.value == option.currentValue then
+					local next_value = values[(i - 1 + direction) % #values + 1]
+					if connection:set_config_option(option.id, next_value.value) then
+						chat:update_metadata()
+					end
+					return
+				end
+			end
+			return
+		end
+	end
+end
+
 return {
 	"https://github.com/olimorris/codecompanion.nvim",
 	dependencies = {
@@ -89,6 +116,22 @@ return {
 			chat = {
 				adapter = {
 					name = "opencode",
+				},
+				keymaps = {
+					next_session_mode = {
+						callback = function(chat)
+							cycle_session_mode(chat, 1)
+						end,
+						description = "Next ACP session mode",
+						modes = { n = "<Tab>", i = "<Tab>" },
+					},
+					previous_session_mode = {
+						callback = function(chat)
+							cycle_session_mode(chat, -1)
+						end,
+						description = "Previous ACP session mode",
+						modes = { n = "<S-Tab>", i = "<S-Tab>" },
+					},
 				},
 			},
 			inline = {
