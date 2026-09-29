@@ -12,6 +12,15 @@ in {
     enable = true;
     settings = {
       kb-move-char-forward = "Right";
+      kb-element-next = "";
+      kb-element-prev = "";
+      kb-mode-next = "Tab,Shift+Right,Control+Tab";
+      kb-mode-previous = "ISO_Left_Tab,Shift+Left,Control+ISO_Left_Tab";
+      kb-accept-entry = "Control+m,Return,KP_Enter";
+      kb-remove-to-eol = "";
+      kb-row-down = "Down,Control+n,Control+j";
+      kb-row-up = "Up,Control+p,Control+k";
+      modi = "drun,run,ssh,window";
       show-icons = true;
     };
     theme = {
