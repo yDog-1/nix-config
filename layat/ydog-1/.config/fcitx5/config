@@ -1,81 +1,81 @@
 [Hotkey]
 # トグルキーの修飾キーを押し続けたときは列挙
-EnumerateWithTriggerKeys=True
+# EnumerateWithTriggerKeys=True
+# 一時的な入力メソッドの切り替え
+AltTriggerKeys=
 # 次の入力メソッドに切り替える
-EnumerateForwardKeys=
+# EnumerateForwardKeys=
 # 前の入力メソッドに切り替える
-EnumerateBackwardKeys=
+# EnumerateBackwardKeys=
 # 切り替え時は第1入力メソッドをスキップする
-EnumerateSkipFirst=False
+# EnumerateSkipFirst=False
 # 修飾キーのショートカットをトリガーするための時間制限（ミリ秒）
-ModifierOnlyKeyTimeout=250
+# ModifierOnlyKeyTimeout=250
 
-[Hotkey/TriggerKeys]
-0=Control+space
-1=Zenkaku_Hankaku
-2=Hangul
+# [Hotkey/TriggerKeys]
+# 0=Control+space
+# 1=Zenkaku_Hankaku
+# 2=Hangul
 
-[Hotkey/ActivateKeys]
-0=Hangul_Hanja
+# [Hotkey/ActivateKeys]
+# 0=Hangul_Hanja
 
-[Hotkey/DeactivateKeys]
-0=Hangul_Romaja
+# [Hotkey/DeactivateKeys]
+# 0=Hangul_Romaja
 
-[Hotkey/AltTriggerKeys]
+# [Hotkey/EnumerateGroupForwardKeys]
+# 0=Super+space
 
-[Hotkey/EnumerateGroupForwardKeys]
-0=Super+space
+# [Hotkey/EnumerateGroupBackwardKeys]
+# 0=Shift+Super+space
 
-[Hotkey/EnumerateGroupBackwardKeys]
-0=Shift+Super+space
+# [Hotkey/PrevPage]
+# 0=Up
 
-[Hotkey/PrevPage]
-0=Up
+# [Hotkey/NextPage]
+# 0=Down
 
-[Hotkey/NextPage]
-0=Down
+# [Hotkey/PrevCandidate]
+# 0=Shift+Tab
 
-[Hotkey/PrevCandidate]
-0=Shift+Tab
+# [Hotkey/NextCandidate]
+# 0=Tab
 
-[Hotkey/NextCandidate]
-0=Tab
+# [Hotkey/TogglePreedit]
+# 0=Control+Alt+P
 
-[Hotkey/TogglePreedit]
-0=Control+Alt+P
-
-[Behavior]
+# [Behavior]
 # 入力メソッドをデフォルトで有効にする
-ActiveByDefault=False
+# ActiveByDefault=False
 # フォーカス時に状態をリセット
-resetStateWhenFocusIn=No
+# resetStateWhenFocusIn=No
 # 入力状態を共有する
-ShareInputState=No
+# ShareInputState=No
 # アプリケーションにプリエディットを表示する
-PreeditEnabledByDefault=True
+# PreeditEnabledByDefault=True
 # 入力メソッドを切り替える際に入力メソッドの情報を表示する
-ShowInputMethodInformation=True
+# ShowInputMethodInformation=True
 # フォーカスを変更する際に入力メソッドの情報を表示する
-showInputMethodInformationWhenFocusIn=False
+# showInputMethodInformationWhenFocusIn=False
 # 入力メソッドの情報をコンパクトに表示する
-CompactInputMethodInformation=True
+# CompactInputMethodInformation=True
 # 第1入力メソッドの情報を表示する
-ShowFirstInputMethodInformation=True
+# ShowFirstInputMethodInformation=True
 # ページあたりのデフォルトの候補数
-DefaultPageSize=5
+# DefaultPageSize=5
 # XKB オプションの上書き
-OverrideXkbOption=False
+# OverrideXkbOption=False
 # カスタム XKB オプション
-CustomXkbOption=
+# CustomXkbOption=
 # Force Enabled Addons
-EnabledAddons=
+# EnabledAddons=
 # Force Disabled Addons
-DisabledAddons=
+# DisabledAddons=
 # Preload input method to be used by default
-PreloadInputMethod=True
+# PreloadInputMethod=True
 # パスワード欄に入力メソッドを許可する
-AllowInputMethodForPassword=False
+# AllowInputMethodForPassword=False
 # パスワード入力時にプリエディットテキストを表示する
-ShowPreeditForPassword=False
+# ShowPreeditForPassword=False
 # ユーザーデータを保存する間隔（分）
-AutoSavePeriod=30
+# AutoSavePeriod=30

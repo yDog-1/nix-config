@@ -7,24 +7,6 @@
     fcitx5 = {
       addons = [pkgs.fcitx5-skk];
       waylandFrontend = true;
-      settings.inputMethod = {
-        "Groups/0" = {
-          Name = "Default";
-          DefaultLayout = "";
-          DefaultIM = "keyboard-jp";
-        };
-        "Groups/0/Items/0" = {
-          Name = "skk";
-          Layout = "jp";
-        };
-        "Groups/0/Items/1" = {
-          Name = "keyboard-jp";
-          Layout = "";
-        };
-        GroupOrder = {
-          "0" = "Default";
-        };
-      };
     };
   };
 }
