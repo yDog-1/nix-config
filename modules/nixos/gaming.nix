@@ -23,7 +23,7 @@
 
   services.sunshine = {
     enable = true;
-    autoStart = false;
+    autoStart = true;
     capSysAdmin = false;
     openFirewall = true;
     # Boost 1.89 stalls on this host's broken RDRAND implementation.
