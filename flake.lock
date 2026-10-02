@@ -3,11 +3,11 @@
     "agent-browser-skill": {
       "flake": false,
       "locked": {
-        "lastModified": 1790880272,
-        "narHash": "sha256-fz9FLfnuzHGQIbPT6ArIpoLyzV68V3eIKOV3k8Uk63k=",
+        "lastModified": 1790885571,
+        "narHash": "sha256-PNIQvTMYqcu8hS1TOiXJtVEYTmFJdRv1nu0T5nG3MlE=",
         "owner": "vercel-labs",
         "repo": "agent-browser",
-        "rev": "63df443d928df1d820095d82895a3aba9061e752",
+        "rev": "39a74c70d7759d5a6de7a22c04570bb626bbd081",
         "type": "github"
       },
       "original": {
@@ -44,11 +44,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790881586,
-        "narHash": "sha256-x8sa8CBO5sOTsrhhL6zcJq4Xy1D67MutJLF1YkzmhL8=",
+        "lastModified": 1790890764,
+        "narHash": "sha256-GXaihoaOhXWLkeAUvUM4E9o4oHyP+EcZ4AJK4DRps30=",
         "owner": "akitaonrails",
         "repo": "ai-usagebar",
-        "rev": "2d79886dd749ee6951f54b3c3d3acf63dffe1337",
+        "rev": "ad28ba6118b6ac391ea54b76a0498c76d814de22",
         "type": "github"
       },
       "original": {
@@ -76,11 +76,11 @@
     "awesome-copilot": {
       "flake": false,
       "locked": {
-        "lastModified": 1790818749,
-        "narHash": "sha256-4B7Dg0YcRS0+J7wt8vko1A5FoWOhrEuYIx+e/AIRgss=",
+        "lastModified": 1790893285,
+        "narHash": "sha256-UxCHLHPPnhMv4Xoikj9lBPl47XkkigmEgUXT2eKI8EA=",
         "owner": "github",
         "repo": "awesome-copilot",
-        "rev": "d6131471b85fbb4799e64175ebc42c9309ecc28a",
+        "rev": "143a3d976b3c1603cc8932984d5e1f28501cb5fc",
         "type": "github"
       },
       "original": {
@@ -254,11 +254,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788450739,
-        "narHash": "sha256-glZLQlzIn1fXH6PazR2iUmTo7kzzyYSshrWhLS9TqCU=",
+        "lastModified": 1790898470,
+        "narHash": "sha256-zTwuwezD0w3hpga6a6P8emidzAZFyWqlNeRBlpWOOl8=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "31729ca8cbdb4fa927b34e5f4353e6a83f39e993",
+        "rev": "024633cd702b10285db5cb19b40ad48d2399ba60",
         "type": "github"
       },
       "original": {
@@ -338,11 +338,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790883051,
-        "narHash": "sha256-g84X5VU81CZAgY7Q0m1RrdvwNIoFd4UzKG9YaORuRFE=",
+        "lastModified": 1790955005,
+        "narHash": "sha256-EEQKUylD8zuRTmDFX4rbwsHQ+iZhqqOldYcFN8SLcE0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d85475546a5f6696233bba981933e2227a584047",
+        "rev": "0560d64401a6d5370732a69d08bc4a6b135962d9",
         "type": "github"
       },
       "original": {
@@ -427,11 +427,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1790866708,
-        "narHash": "sha256-1yu2AwhKxU2VtZh7dB5r1KUK2iu8aSrxX0+tGyZtAf0=",
+        "lastModified": 1790971255,
+        "narHash": "sha256-rUeD/qhfjqKUuczlBkwb9DIuEI4LbMbPZgJMl1FFgf0=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "83cd3693f5f33071ceb33977f2298c8b40b2aba4",
+        "rev": "85dbb9f55fab42207fdf1b4fe42105d8083f0c75",
         "type": "github"
       },
       "original": {
@@ -582,11 +582,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1790722812,
-        "narHash": "sha256-XwFt1uLyaBCQU1/nUeGqeBnqNXPVgGRnz20YVYdmF6Y=",
+        "lastModified": 1790948122,
+        "narHash": "sha256-fDMYyzY1lI5b8RuCMrvoaIgTeRwNnTG4dNk1ucROlQE=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "06f9ecaea5f64b6ff61cf42cb32f21621c4fa14a",
+        "rev": "0953bb1a609df63013176e3463393f8df993d3ef",
         "type": "github"
       },
       "original": {
@@ -858,11 +858,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790882769,
-        "narHash": "sha256-KeJ3Fz12iTHJtMjto1dt04zuewaC4Zcua53JzMQWOPM=",
+        "lastModified": 1790969207,
+        "narHash": "sha256-kpxx0Shb5jgCYfUPEDnZz/UZYC4/ee7iY9CRlMlePHI=",
         "owner": "yDog-1",
         "repo": "nur-packages",
-        "rev": "5b598870302ffbee440b57f5a19517041ab63096",
+        "rev": "e4774e458330497aa335874069bfdb1b8a7afbe1",
         "type": "github"
       },
       "original": {
