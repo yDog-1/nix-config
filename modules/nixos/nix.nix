@@ -1,6 +1,10 @@
 {flakePath, ...}: {
   nixpkgs.config.allowUnfree = true;
 
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+  ];
+
   nix = {
     settings = {
       auto-optimise-store = true;
