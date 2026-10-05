@@ -8,6 +8,16 @@
     @import "${inputs.catppuccin-rofi}/catppuccin-default.rasi"
   '';
 in {
+  xdg.desktopEntries.reboot-to-firmware = {
+    name = "UEFI設定へ再起動";
+    comment = "UEFI設定画面へ再起動します";
+    exec = "${pkgs.wezterm}/bin/wezterm start -- /run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl reboot --firmware-setup";
+    icon = "system-reboot";
+    terminal = false;
+    categories = ["System"];
+    settings.Keywords = "UEFI;BIOS;firmware;";
+  };
+
   programs.rofi = {
     enable = true;
     settings = {
