@@ -48,7 +48,6 @@
     agent-skills = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
     ast-grep-skill = {
       url = "github:ast-grep/agent-skill";
