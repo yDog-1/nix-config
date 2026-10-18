@@ -1,10 +1,3 @@
-local web_filetypes = {
-	javascript = true,
-	javascriptreact = true,
-	typescript = true,
-	typescriptreact = true,
-}
-
 local function is_editing_file(bufnr)
 	return vim.bo[bufnr].buftype == ""
 		and vim.api.nvim_buf_get_name(bufnr) ~= ""
@@ -21,7 +14,7 @@ local function lint_options(ctx)
 	}
 end
 
-local function run_web_linter(name, bufnr, opts)
+local function run_node_linter(name, bufnr, opts)
 	local lint = require("lint")
 	local cwd = vim.fn.getcwd()
 	local command = vim.fs.joinpath(cwd, "node_modules", ".bin", name == "biomejs" and "biome" or "eslint")
@@ -42,10 +35,8 @@ local function run_lint(ctx)
 		local opts = lint_options(ctx)
 		lint.try_lint(nil, opts)
 		lint.try_lint({ "typos", "gitleaks" }, opts)
-		if web_filetypes[vim.bo[ctx.buf].filetype] then
-			run_web_linter("biomejs", ctx.buf, opts)
-			run_web_linter("eslint", ctx.buf, opts)
-		end
+		run_node_linter("biomejs", ctx.buf, opts)
+		run_node_linter("eslint", ctx.buf, opts)
 	end)
 end
 
