@@ -1,0 +1,4 @@
+# Encrypted and generated files.
+/secrets/*.yaml
+/flake.lock
+**/lazy-lock.json

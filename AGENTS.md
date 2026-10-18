@@ -13,7 +13,7 @@
 ## Checks
 
 - `nix flake check --print-build-logs` runs repository hooks and builds the NixOS closure and Home Manager activation package.
-- `nix fmt` runs all hooks over all files (actionlint, alejandra, deadnix, statix, stylua), not just formatters.
+- `nix fmt` runs all hooks over all files (actionlint, alejandra, deadnix, prettier, statix, stylua), not just formatters.
 - For focused builds, use `nix build .#nixosConfigurations.ydog-1.config.system.build.toplevel` or `nix build .#homeConfigurations.ydog-1.activationPackage`.
 - CI's package builds can be checked locally with `nix build --no-link .#ai-usagebar .#layat`. Changes under `layat/` also require `nix build --no-link .#layat.x86_64-linux.ydog-1`.
 

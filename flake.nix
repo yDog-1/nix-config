@@ -138,6 +138,7 @@
           actionlint.enable = true;
           alejandra.enable = true;
           deadnix.enable = true;
+          prettier.enable = true;
           statix = {
             enable = true;
             pass_filenames = true;

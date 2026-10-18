@@ -36,6 +36,7 @@ in {
     typos
 
     # Formatters
+    prettier
     stylua
     # Temporary measures for https://github.com/NixOS/nixpkgs/issues/509480
     gotoolsWithoutModernize
