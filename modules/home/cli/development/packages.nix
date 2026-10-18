@@ -34,6 +34,7 @@ in {
     markdownlint-cli
     golangci-lint
     typos
+    ruff # Also provides Python formatting for Conform.
 
     # Formatters
     stylua

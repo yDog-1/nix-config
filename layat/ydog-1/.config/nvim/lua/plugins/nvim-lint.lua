@@ -20,6 +20,7 @@ local config_files = {
 		".markdownlint.cjs",
 	},
 	typos = { "typos.toml", "_typos.toml", ".typos.toml" },
+	ruff = { "ruff.toml", ".ruff.toml", "pyproject.toml" },
 }
 
 local function is_editing_file(bufnr)
@@ -115,6 +116,7 @@ return {
 				dockerfile = { "hadolint" },
 				yaml = { "yamllint" },
 				markdown = { "markdownlint" },
+				python = { "ruff" },
 			}
 			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 				group = vim.api.nvim_create_augroup("ydog.lint", { clear = true }),

@@ -32,6 +32,7 @@ return {
 				html = web_formatter,
 				css = web_formatter,
 				lua = { "stylua" },
+				python = { "ruff_format" },
 				go = { "goimports" },
 				nix = { "alejandra" },
 			},
