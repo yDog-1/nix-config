@@ -29,14 +29,23 @@ return {
 				typescriptreact = web_formatter,
 				html = web_formatter,
 				css = web_formatter,
+				markdown = { "prettier" },
 				lua = { "stylua" },
-				go = { "goimports", "gofmt" },
+				gdscript = { "gdscript-formatter" },
+				go = { "goimports" },
 				nix = { "alejandra" },
 			},
-			format_after_save = {
+			format_on_save = {
+				timeout_ms = 1000,
 				lsp_format = "fallback",
 			},
 			formatters = {
+				["gdscript-formatter"] = {
+					-- Stdin mode discovers .editorconfig from its working directory.
+					cwd = function(_, ctx)
+						return ctx.dirname
+					end,
+				},
 				prettier = { require_cwd = true },
 				biome = { require_cwd = true },
 			},

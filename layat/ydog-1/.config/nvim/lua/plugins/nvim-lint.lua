@@ -1,78 +1,43 @@
----Check if any of the given files exist in the current directory or any of its parent directories.
----@param config_files string[]
----@return boolean
-local is_file_exist = function(config_files)
-	for _, config_file in ipairs(config_files) do
-		if vim.fn.findfile(config_file, ".;") ~= "" then
-			return true
-		end
-	end
-	return false
+local function is_editing_file(bufnr)
+	return vim.bo[bufnr].buftype == ""
+		and vim.api.nvim_buf_get_name(bufnr) ~= ""
+		and vim.bo[bufnr].modifiable
+		and not vim.bo[bufnr].readonly
 end
 
-local is_biome_file_exist = function()
-	local config_files = {
-		".biome.json",
-		".biome.jsonc",
-		"biome.json",
-		"biome.jsonc",
+local function lint_options(ctx)
+	local filename = vim.api.nvim_buf_get_name(ctx.buf)
+	return {
+		-- Use the buffer's project, leaving config discovery to each CLI.
+		cwd = vim.fs.root(ctx.buf, { ".git" }) or vim.fs.dirname(filename),
+		filter = (ctx.event == "InsertLeave" or vim.fn.filereadable(filename) == 0) and "stdin" or nil,
 	}
-	return is_file_exist(config_files)
 end
 
-local is_eslint_file_exist = function()
-	local config_files = {
-		".eslintrc",
-		"eslint.config.js",
-		"eslint.config.mjs",
-		"eslitn.config.cjs",
-		"eslint.config.ts",
-		"eslint.config.mts",
-		"eslitn.config.cts",
-	}
-	return is_file_exist(config_files)
+local function run_node_linter(name, bufnr, opts)
+	local lint = require("lint")
+	local cwd = vim.fn.getcwd()
+	local command = vim.fs.joinpath(cwd, "node_modules", ".bin", name == "biomejs" and "biome" or "eslint")
+	-- Only use project-local tools; let the built-in linter resolve the command.
+	if vim.fn.executable(command) == 0 then
+		vim.diagnostic.reset(lint.get_namespace(name), bufnr)
+		return
+	end
+	lint.try_lint(name, vim.tbl_extend("force", opts, { cwd = cwd }))
 end
 
----@param bufnr? integer
----@return boolean
-local is_editing_file = function(bufnr)
-	local buffer = bufnr or vim.api.nvim_get_current_buf()
-
-	if vim.bo[buffer].buftype ~= "" then
-		return false
+local function run_lint(ctx)
+	if not is_editing_file(ctx.buf) then
+		return
 	end
-
-	if vim.api.nvim_buf_get_name(buffer) == "" then
-		return false
-	end
-
-	if not vim.bo[buffer].modifiable then
-		return false
-	end
-
-	if vim.bo[buffer].readonly then
-		return false
-	end
-
-	return true
-end
-
----Create an autocmd to run the linter on buffer enter and after writing the buffer.
----@param linter? string
----@param bufnr? integer
-local create_lint_autocmd = function(linter, bufnr)
-	local buffer = bufnr or nil
-	vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-		buffer = buffer,
-		group = vim.api.nvim_create_augroup("ydog.lint." .. (linter or "default"), { clear = true }),
-		callback = function(ctx)
-			if not is_editing_file(ctx.buf) then
-				return
-			end
-
-			require("lint").try_lint(linter, { ignore_errors = true })
-		end,
-	})
+	vim.api.nvim_buf_call(ctx.buf, function()
+		local lint = require("lint")
+		local opts = lint_options(ctx)
+		lint.try_lint(nil, opts)
+		lint.try_lint({ "typos", "gitleaks" }, opts)
+		run_node_linter("biomejs", ctx.buf, opts)
+		run_node_linter("eslint", ctx.buf, opts)
+	end)
 end
 
 return {
@@ -86,30 +51,13 @@ return {
 				dockerfile = { "hadolint" },
 				yaml = { "yamllint" },
 				markdown = { "markdownlint" },
-				go = { "golangcilint" },
 			}
-
-			-- enable auto linting with defined filetypes by `lint.linters_by_ft`
-			create_lint_autocmd()
-
-			-- for all filetypes
-			create_lint_autocmd("typos")
-			create_lint_autocmd("gitleaks")
-
-			-- for js/ts filetypes
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-				group = vim.api.nvim_create_augroup("ydog.lint-js", { clear = true }),
-				callback = function(ctx)
-					if is_biome_file_exist() then
-						create_lint_autocmd("biomejs", ctx.buf)
-						return
-					end
-					if is_eslint_file_exist() then
-						create_lint_autocmd("eslint", ctx.buf)
-						return
-					end
-				end,
+			-- --msg-filename reads the saved message, not stdin.
+			lint.linters.gitlint.stdin = false
+			lint.linters.gitlint.append_fname = false
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+				group = vim.api.nvim_create_augroup("ydog.lint", { clear = true }),
+				callback = run_lint,
 			})
 		end,
 	},
