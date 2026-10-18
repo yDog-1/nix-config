@@ -5,7 +5,7 @@ require("plugins.which-key.spec").add({
 
 -- LSP servers available on PATH
 local servers = {
-	"lua_ls",
+	"emmylua_ls",
 	"gopls",
 	"golangci_lint_ls",
 	"sqls",

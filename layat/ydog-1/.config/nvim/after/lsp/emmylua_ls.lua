@@ -6,24 +6,20 @@ for name, type in vim.fs.dir(lazy_root) do
 		library[#library + 1] = vim.fs.joinpath(lazy_root, name, "lua")
 	end
 end
-vim.list_extend(library, {
-	"${3rd}/luv/library",
-	"${3rd}/busted/library",
-	"${3rd}/luassert/library",
-})
 
 ---@type vim.lsp.Config
 return {
 	settings = {
-		Lua = {
+		emmylua = {
 			runtime = {
 				version = "LuaJIT",
-				pathStrict = true,
-				path = { "?.lua", "?/init.lua" },
+				requirePattern = { "?.lua", "?/init.lua", "lua/?.lua", "lua/?/init.lua" },
+			},
+			strict = {
+				requirePath = true,
 			},
 			workspace = {
 				library = library,
-				checkThirdParty = "Disable",
 			},
 		},
 	},

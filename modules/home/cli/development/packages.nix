@@ -11,7 +11,7 @@ in {
     # LSP Servers
     arduino-language-server
     clang-tools
-    lua-language-server
+    emmylua-ls
     typescript-language-server
     gopls
     golangci-lint-langserver
