@@ -111,7 +111,9 @@ export class Config extends BaseConfig {
           confirmBehavior: "replace",
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
-          snippetEngine: "",
+          snippetEngine: async (body: string) => {
+            await args.denops.call("denippet#anonymous", body);
+          },
         },
         file: {
           displayFile: " ",
