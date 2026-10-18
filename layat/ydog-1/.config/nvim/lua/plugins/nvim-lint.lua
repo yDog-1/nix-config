@@ -51,7 +51,6 @@ return {
 				dockerfile = { "hadolint" },
 				yaml = { "yamllint" },
 				markdown = { "markdownlint" },
-				python = { "ruff" },
 			}
 			-- --msg-filename reads the saved message, not stdin.
 			lint.linters.gitlint.stdin = false

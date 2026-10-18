@@ -31,7 +31,6 @@ return {
 				css = web_formatter,
 				markdown = { "prettier" },
 				lua = { "stylua" },
-				python = { "ruff_format" },
 				gdscript = { "gdscript-formatter" },
 				go = { "goimports" },
 				nix = { "alejandra" },
