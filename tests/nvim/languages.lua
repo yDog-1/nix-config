@@ -1,9 +1,10 @@
--- Args: conform.nvim checkout, nvim-lint checkout, Ruff executable.
+-- Args: conform.nvim checkout, nvim-lint checkout, Ruff and gdscript-formatter executables.
 local root = vim.fn.getcwd()
 vim.opt.runtimepath:prepend(root .. "/layat/ydog-1/.config/nvim")
 vim.opt.runtimepath:prepend(assert(arg[1], "Pass the pinned conform.nvim checkout"))
 vim.opt.runtimepath:prepend(assert(arg[2], "Pass the pinned nvim-lint checkout"))
 vim.env.PATH = vim.fs.dirname(assert(arg[3], "Pass the Ruff executable")) .. ":" .. vim.env.PATH
+vim.env.PATH = vim.fs.dirname(assert(arg[4], "Pass the gdscript-formatter executable")) .. ":" .. vim.env.PATH
 
 local tmp = "/tmp/opencode/neovim-language-test-" .. vim.uv.os_getpid()
 local function equal(expected, actual)
@@ -53,6 +54,21 @@ local function test()
 	for _, config in pairs(plugins) do
 		equal(false, config.enabled)
 	end
+
+	vim.fn.writefile({ "[*.gd]", "indent_style = space", "indent_size = 2" }, tmp .. "/project/src/.editorconfig")
+	local gdscript = { "extends Node", "func _ready():", '\tprint("hello")' }
+	local gdpath = tmp .. "/project/src/main.gd"
+	vim.fn.writefile(gdscript, gdpath)
+	vim.cmd("noautocmd edit! " .. vim.fn.fnameescape(gdpath))
+	vim.bo.filetype = "gdscript"
+	conform.format({ async = false }, function(format_err)
+		err = format_err
+	end)
+	assert(not err, err)
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+	assert(vim.tbl_contains(lines, '  print("hello")'), vim.inspect(lines))
+	-- Conform must format stdin, not let the tool overwrite the real file.
+	equal(gdscript, vim.fn.readfile(gdpath))
 	print("language integration checks passed")
 end
 

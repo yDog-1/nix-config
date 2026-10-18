@@ -34,6 +34,7 @@ return {
 				markdown = { "prettier" },
 				lua = { "stylua" },
 				python = { "ruff_format" },
+				gdscript = { "gdscript_formatter" },
 				go = { "goimports" },
 				nix = { "alejandra" },
 			},
@@ -42,6 +43,16 @@ return {
 				lsp_format = "fallback",
 			},
 			formatters = {
+				gdscript_formatter = {
+					inherit = false,
+					command = "gdscript-formatter",
+					args = {},
+					stdin = true,
+					-- Stdin mode discovers .editorconfig from its working directory.
+					cwd = function(_, ctx)
+						return ctx.dirname
+					end,
+				},
 				prettier = {
 					require_cwd = true,
 					command = function(_, ctx)
