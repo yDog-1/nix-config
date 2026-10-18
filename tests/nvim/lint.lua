@@ -3,7 +3,7 @@ local root = vim.fn.getcwd()
 vim.opt.runtimepath:prepend(root .. "/layat/ydog-1/.config/nvim")
 vim.opt.runtimepath:prepend(assert(arg[1], "Pass the pinned nvim-lint checkout"))
 
-local tmp = "/tmp/opencode/neovim-lint-test-" .. vim.uv.os_getpid()
+local tmp = vim.fn.tempname()
 local function write(path, lines, executable)
 	vim.fn.mkdir(vim.fs.dirname(path), "p")
 	vim.fn.writefile(lines or {}, path)

@@ -6,7 +6,7 @@ vim.opt.runtimepath:prepend(assert(arg[2], "Pass the pinned nvim-lint checkout")
 vim.env.PATH = vim.fs.dirname(assert(arg[3], "Pass the Ruff executable")) .. ":" .. vim.env.PATH
 vim.env.PATH = vim.fs.dirname(assert(arg[4], "Pass the gdscript-formatter executable")) .. ":" .. vim.env.PATH
 
-local tmp = "/tmp/opencode/neovim-language-test-" .. vim.uv.os_getpid()
+local tmp = vim.fn.tempname()
 local function equal(expected, actual)
 	assert(vim.deep_equal(expected, actual), "expected " .. vim.inspect(expected) .. ", got " .. vim.inspect(actual))
 end
