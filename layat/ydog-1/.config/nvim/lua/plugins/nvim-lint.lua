@@ -1,78 +1,108 @@
----Check if any of the given files exist in the current directory or any of its parent directories.
----@param config_files string[]
----@return boolean
-local is_file_exist = function(config_files)
-	for _, config_file in ipairs(config_files) do
-		if vim.fn.findfile(config_file, ".;") ~= "" then
-			return true
+local project = require("ydog-1.project")
+
+local web_filetypes = {
+	javascript = true,
+	javascriptreact = true,
+	typescript = true,
+	typescriptreact = true,
+}
+
+local config_files = {
+	gitlint = { ".gitlint" },
+	gitleaks = { ".gitleaks.toml" },
+	hadolint = { ".hadolint.yaml", ".hadolint.yml" },
+	yamllint = { ".yamllint", ".yamllint.yaml", ".yamllint.yml" },
+	markdownlint = {
+		".markdownlint.json",
+		".markdownlint.jsonc",
+		".markdownlint.yaml",
+		".markdownlint.yml",
+		".markdownlint.cjs",
+	},
+	golangcilint = { ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json", "go.mod" },
+	typos = { "typos.toml", "_typos.toml", ".typos.toml" },
+}
+
+local function is_editing_file(bufnr)
+	return vim.bo[bufnr].buftype == ""
+		and vim.api.nvim_buf_get_name(bufnr) ~= ""
+		and vim.bo[bufnr].modifiable
+		and not vim.bo[bufnr].readonly
+end
+
+local function run_lint(ctx)
+	if not is_editing_file(ctx.buf) then
+		return
+	end
+
+	local lint = require("lint")
+	local ft = vim.bo[ctx.buf].filetype
+	local names = vim.deepcopy(lint.linters_by_ft[ft] or {})
+	if not lint.linters_by_ft[ft] then
+		for _, part in ipairs(vim.split(ft, ".", { plain = true })) do
+			vim.list_extend(names, lint.linters_by_ft[part] or {})
 		end
 	end
-	return false
-end
+	vim.list_extend(names, { "typos", "gitleaks" })
 
-local is_biome_file_exist = function()
-	local config_files = {
-		".biome.json",
-		".biome.jsonc",
-		"biome.json",
-		"biome.jsonc",
-	}
-	return is_file_exist(config_files)
-end
-
-local is_eslint_file_exist = function()
-	local config_files = {
-		".eslintrc",
-		"eslint.config.js",
-		"eslint.config.mjs",
-		"eslitn.config.cjs",
-		"eslint.config.ts",
-		"eslint.config.mts",
-		"eslitn.config.cts",
-	}
-	return is_file_exist(config_files)
-end
-
----@param bufnr? integer
----@return boolean
-local is_editing_file = function(bufnr)
-	local buffer = bufnr or vim.api.nvim_get_current_buf()
-
-	if vim.bo[buffer].buftype ~= "" then
-		return false
-	end
-
-	if vim.api.nvim_buf_get_name(buffer) == "" then
-		return false
-	end
-
-	if not vim.bo[buffer].modifiable then
-		return false
-	end
-
-	if vim.bo[buffer].readonly then
-		return false
-	end
-
-	return true
-end
-
----Create an autocmd to run the linter on buffer enter and after writing the buffer.
----@param linter? string
----@param bufnr? integer
-local create_lint_autocmd = function(linter, bufnr)
-	local buffer = bufnr or nil
-	vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-		buffer = buffer,
-		group = vim.api.nvim_create_augroup("ydog.lint." .. (linter or "default"), { clear = true }),
-		callback = function(ctx)
-			if not is_editing_file(ctx.buf) then
-				return
+	local biome_root, eslint_root, eslint_legacy
+	if web_filetypes[ft] then
+		biome_root = project.config_root(ctx.buf, project.biome_configs)
+		eslint_root, eslint_legacy = project.eslint_root(ctx.buf)
+		for name, root in pairs({ biomejs = biome_root, eslint = eslint_root }) do
+			if root then
+				names[#names + 1] = name
 			end
+		end
+		-- A removed config must also clear the previous diagnostics.
+		if not biome_root then
+			vim.diagnostic.reset(lint.get_namespace("biomejs"), ctx.buf)
+		end
+		if not eslint_root then
+			vim.diagnostic.reset(lint.get_namespace("eslint"), ctx.buf)
+		end
+	end
 
-			require("lint").try_lint(linter, { ignore_errors = true })
-		end,
-	})
+	vim.api.nvim_buf_call(ctx.buf, function()
+		for _, name in ipairs(names) do
+			local command = (name == "biomejs" or name == "eslint")
+				and project.node_command(ctx.buf, name == "biomejs" and "biome" or "eslint")
+			local cwd = (name == "biomejs" and biome_root)
+				or (name == "eslint" and eslint_root)
+				or (config_files[name] and project.config_root(ctx.buf, config_files[name]))
+				or project.root(ctx.buf)
+			lint.try_lint(name, {
+				cwd = cwd,
+				filter = function(linter)
+					-- gitlint's --msg-filename reads the saved message even though
+					-- its upstream definition declares stdin support.
+					local reads_buffer = linter.stdin and name ~= "gitlint"
+					if
+						(ctx.event == "InsertLeave" and not reads_buffer)
+						or (not reads_buffer and vim.fn.filereadable(vim.api.nvim_buf_get_name(ctx.buf)) == 0)
+					then
+						return false
+					end
+					if command and vim.fn.executable(command) == 0 then
+						vim.notify_once("Linter not found: " .. command .. " (" .. cwd .. ")", vim.log.levels.WARN)
+						return false
+					end
+					return true
+				end,
+				wrap_linter = function(linter)
+					if name == "biomejs" or name == "eslint" then
+						linter.cmd = command
+						if name == "eslint" then
+							linter.env = vim.tbl_extend("force", vim.fn.environ(), linter.env or {}, {
+								ESLINT_USE_FLAT_CONFIG = eslint_legacy and "false" or "true",
+							})
+						end
+					end
+					return linter
+				end,
+			})
+		end
+	end)
 end
 
 return {
@@ -88,28 +118,9 @@ return {
 				markdown = { "markdownlint" },
 				go = { "golangcilint" },
 			}
-
-			-- enable auto linting with defined filetypes by `lint.linters_by_ft`
-			create_lint_autocmd()
-
-			-- for all filetypes
-			create_lint_autocmd("typos")
-			create_lint_autocmd("gitleaks")
-
-			-- for js/ts filetypes
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-				group = vim.api.nvim_create_augroup("ydog.lint-js", { clear = true }),
-				callback = function(ctx)
-					if is_biome_file_exist() then
-						create_lint_autocmd("biomejs", ctx.buf)
-						return
-					end
-					if is_eslint_file_exist() then
-						create_lint_autocmd("eslint", ctx.buf)
-						return
-					end
-				end,
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+				group = vim.api.nvim_create_augroup("ydog.lint", { clear = true }),
+				callback = run_lint,
 			})
 		end,
 	},
