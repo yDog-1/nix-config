@@ -22,6 +22,7 @@ in {
     terraform-ls
     taplo
     astro-language-server
+    svelte-language-server
     tailwindcss-language-server
     python313Packages.python-lsp-server
 

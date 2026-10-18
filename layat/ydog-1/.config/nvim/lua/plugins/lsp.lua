@@ -15,6 +15,7 @@ local servers = {
 	"terraformls",
 	"taplo",
 	"astro",
+	"svelte",
 	"tailwindcss",
 	"nixd",
 	"pylsp",
