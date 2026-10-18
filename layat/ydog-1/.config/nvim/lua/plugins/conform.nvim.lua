@@ -1,3 +1,5 @@
+local project = require("ydog-1.project")
+
 local web_formatter = {
 	"prettier",
 	"biome",
@@ -30,15 +32,26 @@ return {
 				html = web_formatter,
 				css = web_formatter,
 				lua = { "stylua" },
-				go = { "goimports", "gofmt" },
+				go = { "goimports" },
 				nix = { "alejandra" },
 			},
-			format_after_save = {
+			format_on_save = {
+				timeout_ms = 1000,
 				lsp_format = "fallback",
 			},
 			formatters = {
-				prettier = { require_cwd = true },
-				biome = { require_cwd = true },
+				prettier = {
+					require_cwd = true,
+					command = function(_, ctx)
+						return project.node_command(ctx.buf, "prettier")
+					end,
+				},
+				biome = {
+					require_cwd = true,
+					command = function(_, ctx)
+						return project.node_command(ctx.buf, "biome")
+					end,
+				},
 			},
 		},
 	},

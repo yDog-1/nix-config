@@ -92,6 +92,8 @@ local function test()
 	assert(run(yaml, "InsertLeave").yamllint)
 	local commit = open(app .. "/COMMIT_EDITMSG", "gitcommit")
 	assert(not run(commit, "InsertLeave").gitlint)
+	local go = open(app .. "/src/main.go", "go")
+	assert(not run(go, "BufEnter").golangcilint)
 	print("lint regression checks passed")
 end
 

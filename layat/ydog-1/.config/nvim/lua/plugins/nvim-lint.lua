@@ -19,7 +19,6 @@ local config_files = {
 		".markdownlint.yml",
 		".markdownlint.cjs",
 	},
-	golangcilint = { ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json", "go.mod" },
 	typos = { "typos.toml", "_typos.toml", ".typos.toml" },
 }
 
@@ -116,7 +115,6 @@ return {
 				dockerfile = { "hadolint" },
 				yaml = { "yamllint" },
 				markdown = { "markdownlint" },
-				go = { "golangcilint" },
 			}
 			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 				group = vim.api.nvim_create_augroup("ydog.lint", { clear = true }),
