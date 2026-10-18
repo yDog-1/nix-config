@@ -59,8 +59,8 @@ end
 local function lint_options(ctx)
 	local filename = vim.api.nvim_buf_get_name(ctx.buf)
 	return {
-		-- Let each CLI discover its configuration from the file's directory.
-		cwd = vim.fs.dirname(filename),
+		-- Use the buffer's project, leaving config discovery to each CLI.
+		cwd = vim.fs.root(ctx.buf, { ".git" }) or vim.fs.dirname(filename),
 		filter = (ctx.event == "InsertLeave" or vim.fn.filereadable(filename) == 0) and "stdin" or nil,
 	}
 end
