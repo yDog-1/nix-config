@@ -53,7 +53,7 @@ export class Config extends BaseConfig {
           // It matches the keyword that follow a hyphen, like `black` in `text-black`.
           keywordPattern: `[-[:keyword:]]*`,
           forceCompletionPattern: String.raw`\.\w*|::\w*|->\w*`,
-          sorters: [ "sorter_lsp_kind"],
+          sorters: ["sorter_lsp_kind"],
           converters: ["converter_kind_labels"],
           maxItems: 20,
         },
@@ -86,7 +86,7 @@ export class Config extends BaseConfig {
         cmdline: {
           mark: " ",
           isVolatile: true,
-          sorters: [ "sorter_cmdline_history"],
+          sorters: ["sorter_cmdline_history"],
           forceCompletionPattern: String.raw`\S/\S*|\.\w*`,
         },
         cmdline_history: {
@@ -198,7 +198,7 @@ export class Config extends BaseConfig {
           },
         },
         converter_fuzzy: {
-          hlGroup: "Title"
+          hlGroup: "Title",
         },
         postfilter_score: {
           excludeSources: ["skkeleton", "skkeleton_okuri", "cmdline_history"],

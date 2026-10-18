@@ -1,7 +1,5 @@
 {
-  "include": [
-    "default/wide-latin"
-  ],
+  "include": ["default/wide-latin"],
   "define": {
     "keymap": {
       "C-j": null,

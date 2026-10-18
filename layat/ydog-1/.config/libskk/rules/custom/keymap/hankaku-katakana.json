@@ -1,7 +1,5 @@
 {
-  "include": [
-    "default/hankaku-katakana"
-  ],
+  "include": ["default/hankaku-katakana"],
   "define": {
     "keymap": {
       "C-j": null,

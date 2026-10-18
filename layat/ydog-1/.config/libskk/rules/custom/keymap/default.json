@@ -1,7 +1,5 @@
 {
-  "include": [
-    "default/default"
-  ],
+  "include": ["default/default"],
   "define": {
     "keymap": {
       "C-j": null,
