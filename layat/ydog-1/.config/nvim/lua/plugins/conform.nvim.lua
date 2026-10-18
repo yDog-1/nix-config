@@ -1,5 +1,3 @@
-local project = require("ydog-1.project")
-
 local web_formatter = {
 	"prettier",
 	"biome",
@@ -34,7 +32,7 @@ return {
 				markdown = { "prettier" },
 				lua = { "stylua" },
 				python = { "ruff_format" },
-				gdscript = { "gdscript_formatter" },
+				gdscript = { "gdscript-formatter" },
 				go = { "goimports" },
 				nix = { "alejandra" },
 			},
@@ -43,28 +41,14 @@ return {
 				lsp_format = "fallback",
 			},
 			formatters = {
-				gdscript_formatter = {
-					inherit = false,
-					command = "gdscript-formatter",
-					args = {},
-					stdin = true,
+				["gdscript-formatter"] = {
 					-- Stdin mode discovers .editorconfig from its working directory.
 					cwd = function(_, ctx)
 						return ctx.dirname
 					end,
 				},
-				prettier = {
-					require_cwd = true,
-					command = function(_, ctx)
-						return project.node_command(ctx.buf, "prettier")
-					end,
-				},
-				biome = {
-					require_cwd = true,
-					command = function(_, ctx)
-						return project.node_command(ctx.buf, "biome")
-					end,
-				},
+				prettier = { require_cwd = true },
+				biome = { require_cwd = true },
 			},
 		},
 	},
