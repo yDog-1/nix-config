@@ -8,7 +8,7 @@
     nixd
   ];
 
-  xdg.configFile."nvim/lsp/nixd.lua".text = ''
+  xdg.configFile."nvim/after/lsp/nixd.lua".text = ''
     return {
       cmd = { "${pkgs.nixd}/bin/nixd" },
       filetypes = { "nix" },
