@@ -34,19 +34,23 @@ return {
 	config = function()
 		local capabilities = require("ddc_source_lsp").make_client_capabilities()
 
-		-- ts_ls denols
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-			callback = function()
-				if vim.fn.findfile("package.json", ".;") ~= "" then
-					vim.lsp.enable("ts_ls")
-					vim.lsp.enable("denols", false)
-				else
-					vim.lsp.enable("denols")
-					vim.lsp.enable("ts_ls", false)
+		-- Select the TypeScript server per buffer, independently of the working directory.
+		vim.lsp.config("ts_ls", {
+			root_dir = function(bufnr, on_dir)
+				local root = vim.fs.root(bufnr, { "package.json" })
+				if root then
+					on_dir(root)
 				end
 			end,
 		})
+		vim.lsp.config("denols", {
+			root_dir = function(bufnr, on_dir)
+				if not vim.fs.root(bufnr, { "package.json" }) then
+					on_dir(vim.fs.root(bufnr, { ".git" }) or vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
+				end
+			end,
+		})
+		vim.lsp.enable({ "ts_ls", "denols" })
 
 		---@diagnostic disable-next-line: param-type-mismatch
 		vim.lsp.config("*", {
