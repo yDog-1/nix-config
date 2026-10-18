@@ -31,6 +31,7 @@ return {
 				typescriptreact = web_formatter,
 				html = web_formatter,
 				css = web_formatter,
+				markdown = { "prettier" },
 				lua = { "stylua" },
 				python = { "ruff_format" },
 				go = { "goimports" },

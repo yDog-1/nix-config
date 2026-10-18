@@ -58,6 +58,16 @@ local function test()
 	equal(workspace .. "/node_modules/.bin/biome", formatters[1].command)
 	vim.fn.delete(app .. "/biome.json")
 	equal({}, conform.list_formatters_to_run(bufnr))
+	write(app .. "/README.md", { "# title" })
+	vim.cmd.edit(app .. "/README.md")
+	vim.bo.filetype = "markdown"
+	local markdown = vim.api.nvim_get_current_buf()
+	equal({}, conform.list_formatters_to_run(markdown))
+	write(app .. "/.prettierrc", { "{}" })
+	formatters = conform.list_formatters_to_run(markdown)
+	equal("prettier", formatters[1].name)
+	vim.cmd.write()
+	equal({ "# TITLE" }, vim.fn.readfile(app .. "/README.md"))
 	print("format regression checks passed")
 end
 
