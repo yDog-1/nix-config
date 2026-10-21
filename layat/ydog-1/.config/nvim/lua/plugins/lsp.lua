@@ -8,6 +8,7 @@ local servers = {
 	"emmylua_ls",
 	"gopls",
 	"golangci_lint_ls",
+	"tsc",
 	"sqls",
 	"graphql",
 	"jsonls",
@@ -34,15 +35,7 @@ return {
 	config = function()
 		local capabilities = require("ddc_source_lsp").make_client_capabilities()
 
-		-- Select the TypeScript server per buffer, independently of the working directory.
-		vim.lsp.config("ts_ls", {
-			root_dir = function(bufnr, on_dir)
-				local root = vim.fs.root(bufnr, { "package.json" })
-				if root then
-					on_dir(root)
-				end
-			end,
-		})
+		-- Use Deno for buffers without a package.json, independently of the working directory.
 		vim.lsp.config("denols", {
 			root_dir = function(bufnr, on_dir)
 				if not vim.fs.root(bufnr, { "package.json" }) then
@@ -50,7 +43,7 @@ return {
 				end
 			end,
 		})
-		vim.lsp.enable({ "ts_ls", "denols" })
+		vim.lsp.enable({ "denols" })
 
 		---@diagnostic disable-next-line: param-type-mismatch
 		vim.lsp.config("*", {

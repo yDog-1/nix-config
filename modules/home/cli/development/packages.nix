@@ -12,7 +12,7 @@ in {
     arduino-language-server
     clang-tools
     emmylua-ls
-    typescript-language-server
+    typescript
     gopls
     golangci-lint-langserver
     sqls
