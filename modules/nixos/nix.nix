@@ -6,6 +6,8 @@
   ];
 
   nix = {
+    daemonIOSchedClass = "idle";
+
     settings = {
       auto-optimise-store = true;
       experimental-features = [
