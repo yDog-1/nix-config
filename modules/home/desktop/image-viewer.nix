@@ -12,6 +12,7 @@
       "image/jpeg" = "org.xfce.ristretto.desktop";
       "image/png" = "org.xfce.ristretto.desktop";
       "image/svg+xml" = "org.xfce.ristretto.desktop";
+      "image/svg+xml-compressed" = "org.xfce.ristretto.desktop";
       "image/tiff" = "org.xfce.ristretto.desktop";
       "image/webp" = "org.xfce.ristretto.desktop";
     };

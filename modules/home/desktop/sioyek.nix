@@ -12,6 +12,11 @@
     })
   ];
 
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications."application/pdf" = "sioyek.desktop";
+  };
+
   xdg.configFile."sioyek/keys_user.config".text = ''
     # Keep document navigation consistent with Vim.
     move_left h
