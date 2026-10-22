@@ -97,6 +97,13 @@ in {
 
     plugins = [
       {
+        plugin = pkgs.tmuxPlugins.fingers;
+        extraConfig = ''
+          set -g @fingers-key "f"
+          set -g @fingers-jump-key "g"
+        '';
+      }
+      {
         plugin = pkgs.tmuxPlugins.catppuccin;
         extraConfig = ''
           set -g @catppuccin_flavor "mocha"
@@ -166,6 +173,8 @@ in {
 
       set -g pane-base-index 1
       set -g renumber-windows on
+
+      bind F command-prompt { find-window -Z "%%" }
 
       bind n split-window -v -c "#{pane_current_path}"
       bind s split-window -v -c "#{pane_current_path}"
