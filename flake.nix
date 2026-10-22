@@ -78,6 +78,10 @@
       url = "github:catppuccin/rofi";
       flake = false;
     };
+    tmux-open-nvim = {
+      url = "github:trevarj/tmux-open-nvim";
+      flake = false;
+    };
     # taskbar for wayland
     # It's provided from the nixpkgs, but it version is 0.18.0.
     # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)

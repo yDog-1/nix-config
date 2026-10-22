@@ -710,6 +710,7 @@
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-25-05": "nixpkgs-25-05",
         "sops-nix": "sops-nix",
+        "tmux-open-nvim": "tmux-open-nvim",
         "ydog-nur": "ydog-nur"
       }
     },
@@ -760,6 +761,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "triplet",
+        "type": "github"
+      }
+    },
+    "tmux-open-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776710996,
+        "narHash": "sha256-lftDhRERenGVDTWFP1o/bfZIk0RsHh2PxoYY8j8/9CQ=",
+        "owner": "trevarj",
+        "repo": "tmux-open-nvim",
+        "rev": "d140ac66e24f1cd26b68638da01a82717a1921bd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "trevarj",
+        "repo": "tmux-open-nvim",
         "type": "github"
       }
     },

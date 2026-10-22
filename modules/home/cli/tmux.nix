@@ -1,8 +1,33 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }: let
+  inherit (import ../../../lib/style/catppucin-colors.nix) colors accent;
+  tmux-open-nvim =
+    pkgs.runCommand "tmux-open-nvim" {
+      src = inputs.tmux-open-nvim;
+      nativeBuildInputs = [pkgs.makeWrapper];
+    } ''
+      install -Dm755 "$src/scripts/ton" "$out/libexec/ton"
+      # Select the strategy per invocation without changing tmux's global options.
+      substituteInPlace "$out/libexec/ton" \
+        --replace-fail 'OPEN_STRATEGY="$(get_tmux_option "ton-open-strategy" ":e")"' \
+          'OPEN_STRATEGY="''${TON_OPEN_STRATEGY:-$(get_tmux_option "ton-open-strategy" ":e")}"'
+      patchShebangs "$out/libexec/ton"
+
+      for command in ton tont; do
+        strategy=":e"
+        if [[ "$command" == tont ]]; then
+          strategy=":tabnew"
+        fi
+        makeWrapper "$out/libexec/ton" "$out/bin/$command" \
+          --set TON_OPEN_STRATEGY "$strategy" \
+          --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.coreutils pkgs.gawk pkgs.procps pkgs.tmux]} \
+          --suffix PATH : ${pkgs.lib.makeBinPath [pkgs.neovim]}
+      done
+    '';
   seshCompletion = pkgs.runCommand "sesh-completion" {} ''
     mkdir -p $out/share/zsh/site-functions
     ${pkgs.sesh}/bin/sesh completion zsh > $out/share/zsh/site-functions/_sesh
@@ -87,6 +112,7 @@ in {
     pkgs.vde-tmux
     seshCompletion
     tmux-codex-usage
+    tmux-open-nvim
     tmux-openrouter-credit
   ];
 
@@ -164,6 +190,10 @@ in {
     terminal = "tmux-256color";
 
     extraConfig = ''
+      set -g @ton-prioritize-window true
+      set -g @ton-menu-style "fg=${colors.text},bg=${colors.base}"
+      set -g @ton-menu-selected-style "fg=${colors.base},bg=${colors.${accent}}"
+
       set -g allow-passthrough on
       set -g visual-activity off
 
