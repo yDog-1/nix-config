@@ -19,6 +19,20 @@
 
   programs = {
     dconf.enable = true;
+    thunar = {
+      enable = true;
+      plugins = [
+        (pkgs.thunar-archive-plugin.overrideAttrs (oldAttrs: {
+          # The plugin searches its own libexec directory for archiver adapters.
+          postInstall =
+            (oldAttrs.postInstall or "")
+            + ''
+              ln -s ${pkgs.xarchiver}/libexec/thunar-archive-plugin/xarchiver.tap \
+                "$out/libexec/thunar-archive-plugin/xarchiver.tap"
+            '';
+        }))
+      ];
+    };
     kdeconnect.enable = true;
     zsh.enable = true;
     hyprland = {
