@@ -21,6 +21,7 @@ local terminal = "wezterm"
 hl.bind((mod .. " + T"), (hl.dsp.exec_cmd(terminal)))
 hl.bind((mod .. " + B"), (hl.dsp.exec_cmd(browser)))
 hl.bind((mod .. " + Space"), (hl.dsp.exec_cmd("rofi -show drun")))
+hl.bind((mod .. " + V"), (hl.dsp.exec_cmd("clipboard-history")))
 hl.bind((mod .. " + E"), (hl.dsp.exec_cmd("thunar")))
 hl.bind((mod .. " + Q"), (hl.dsp.window.close()))
 hl.bind((mod .. " + SHIFT + M"), (hl.dsp.exit()))

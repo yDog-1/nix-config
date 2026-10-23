@@ -1,15 +1,18 @@
 {
   imports = [
     ./browser.nix
+    ./clipboard.nix
     ./hypridle.nix
     ./hyprland
     ./ironbar.nix
+    ./media-player.nix
     ./night-mode.nix
     ./pyprland.nix
     ./rofi.nix
     ./sioyek.nix
     ./packages.nix
     ./swaync.nix
+    ./system-monitor.nix
     ./theme.nix
     ./vim-anywhere.nix
     ./waypaper.nix
