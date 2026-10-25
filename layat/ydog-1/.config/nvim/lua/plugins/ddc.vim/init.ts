@@ -118,6 +118,7 @@ export class Config extends BaseConfig {
         },
         file: {
           trailingSlash: true,
+          filenameChars: "[:keyword:].",
           displayFile: " ",
           displayDir: " ",
           displaySym: "sym",
