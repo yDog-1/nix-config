@@ -50,6 +50,7 @@ export class Config extends BaseConfig {
         },
         lsp: {
           mark: "LSP",
+          dup: "keep",
           // It matches the keyword that follow a hyphen, like `black` in `text-black`.
           keywordPattern: `[-[:keyword:]]*`,
           forceCompletionPattern: String.raw`\.\w*|::\w*|->\w*`,
