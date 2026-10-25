@@ -117,6 +117,7 @@ export class Config extends BaseConfig {
           },
         },
         file: {
+          trailingSlash: true,
           displayFile: " ",
           displayDir: " ",
           displaySym: "sym",

@@ -52,6 +52,29 @@ return {
 				scrollbar_char = "",
 			})
 
+			vim.api.nvim_create_autocmd("User", {
+				group = augroup,
+				pattern = "PumCompleteDone",
+				callback = function()
+					local item = vim.g["pum#completed_item"] or {}
+					if
+						vim.g["pum#completed_event"] ~= "confirm"
+						or item.__sourceName ~= "file"
+						or not vim.endswith(item.word or "", "/")
+					then
+						return
+					end
+
+					-- Reopen completion after pum has finished confirming the directory.
+					vim.schedule(function()
+						local mode = vim.api.nvim_get_mode().mode
+						if mode == "i" or mode == "c" then
+							vim.fn["ddc#map#manual_complete"]({ sources = { "file" } })
+						end
+					end)
+				end,
+			})
+
 			vim.fn["lexima#set_default_rules"]()
 			vim.keymap.set({ "i", "c" }, "<C-n>", function()
 				if vim.fn["pum#visible"]() then
