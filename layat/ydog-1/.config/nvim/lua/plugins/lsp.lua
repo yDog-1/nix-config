@@ -9,6 +9,7 @@ local servers = {
 	"gopls",
 	"golangci_lint_ls",
 	"tsc",
+	"denols",
 	"sqls",
 	"graphql",
 	"jsonls",
@@ -43,7 +44,6 @@ return {
 				end
 			end,
 		})
-		vim.lsp.enable({ "denols" })
 
 		---@diagnostic disable-next-line: param-type-mismatch
 		vim.lsp.config("*", {
