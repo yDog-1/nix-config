@@ -9,7 +9,6 @@ CLAUDE.local.md
 .vscode
 .env
 .direnv
-.envrc
 .nvim.lua
 /result
 .direnv/**
