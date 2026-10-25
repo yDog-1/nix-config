@@ -41,6 +41,7 @@ export class Config extends BaseConfig {
         _: {
           ignoreCase: true,
           matchers: baseMatchers,
+          sorters: ["sorter_itemsize"],
         },
         around: {
           matchers: [...baseMatchers, "matcher_length"],
@@ -54,7 +55,7 @@ export class Config extends BaseConfig {
           // It matches the keyword that follow a hyphen, like `black` in `text-black`.
           keywordPattern: `[-[:keyword:]]*`,
           forceCompletionPattern: String.raw`\.\w*|::\w*|->\w*`,
-          sorters: ["sorter_lsp_kind"],
+          sorters: ["sorter_lsp_kind", "sorter_itemsize"],
           converters: ["converter_kind_labels"],
           maxItems: 20,
         },
@@ -87,7 +88,7 @@ export class Config extends BaseConfig {
         cmdline: {
           mark: " ",
           isVolatile: true,
-          sorters: ["sorter_cmdline_history"],
+          sorters: ["sorter_cmdline_history", "sorter_itemsize"],
           forceCompletionPattern: String.raw`\S/\S*|\.\w*`,
         },
         cmdline_history: {

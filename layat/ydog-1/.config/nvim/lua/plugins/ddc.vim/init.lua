@@ -177,6 +177,7 @@ return {
 	"https://github.com/tani/ddc-fuzzy",
 	"https://github.com/Shougo/ddc-filter-sorter_lsp_kind",
 	"https://github.com/Shougo/ddc-filter-sorter_rank",
+	"https://github.com/ttak0422/ddc-sorter_itemsize",
 	"https://github.com/Shougo/ddc-filter-converter_kind_labels",
 	"https://github.com/Shougo/ddc-filter-matcher_length",
 	"https://github.com/Shougo/ddc-filter-matcher_prefix",
