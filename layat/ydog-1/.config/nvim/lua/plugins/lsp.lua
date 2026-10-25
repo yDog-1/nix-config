@@ -45,6 +45,16 @@ return {
 			end,
 		})
 
+		-- Keep standalone files on Deno while preserving tsc's default root and binary selection.
+		local default_tsc_root_dir = vim.lsp.config.tsc.root_dir
+		vim.lsp.config("tsc", {
+			root_dir = function(bufnr, on_dir)
+				if vim.fs.root(bufnr, { "package.json" }) then
+					default_tsc_root_dir(bufnr, on_dir)
+				end
+			end,
+		})
+
 		---@diagnostic disable-next-line: param-type-mismatch
 		vim.lsp.config("*", {
 			capabilities = capabilities,
