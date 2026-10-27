@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "keybinds": {
+    "session.line.up": "ctrl+k",
+    "session.line.down": "ctrl+j",
+    "session.half.page.up": "ctrl+u",
+    "session.half.page.down": "ctrl+d",
+    "input.newline": "shift+return,ctrl+return,alt+return",
+    "input.move.left": "left,ctrl+b,ctrl+h",
+    "input.move.right": "right,ctrl+f,ctrl+l",
+    "input.move.up": "up,ctrl+k",
+    "input.move.down": "down,ctrl+j",
+    "input.delete.to.line.end": false,
+    "input.delete.to.line.start": false,
+    "input.delete": "delete,shift+delete",
+    "prompt.history.previous": "up,ctrl+k",
+    "prompt.history.next": "down,ctrl+j",
+    "session.child.first": "down,ctrl+j",
+    "session.child.next": "right,l,ctrl+l",
+    "session.child.previous": "left,h,ctrl+h",
+    "session.parent": "up,ctrl+k",
+    "dialog.select.prev": "up,ctrl+p,ctrl+k",
+    "dialog.select.next": "down,ctrl+n,ctrl+j",
+    "prompt.autocomplete.prev": "up,ctrl+p,ctrl+k",
+    "prompt.autocomplete.next": "down,ctrl+n,ctrl+j",
+    "which-key.group.previous": "ctrl+alt+left,ctrl+alt+[,h,ctrl+h",
+    "which-key.group.next": "ctrl+alt+right,ctrl+alt+],l,ctrl+l",
+    "which-key.scroll.up": "ctrl+alt+up,ctrl+alt+p,ctrl+k",
+    "which-key.scroll.down": "ctrl+alt+down,ctrl+alt+n,ctrl+j"
+  }
+}
