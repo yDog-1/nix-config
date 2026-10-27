@@ -1,6 +1,11 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    vivaldi
+{
+  inputs,
+  pkgs,
+  ...
+}: {
+  home.packages = [
+    pkgs.vivaldi
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta
   ];
 
   programs.firefox = {
@@ -11,12 +16,12 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "text/html" = "vivaldi-stable.desktop";
-      "application/xhtml+xml" = "vivaldi-stable.desktop";
-      "x-scheme-handler/http" = "vivaldi-stable.desktop";
-      "x-scheme-handler/https" = "vivaldi-stable.desktop";
-      "x-scheme-handler/about" = "vivaldi-stable.desktop";
-      "x-scheme-handler/unknown" = "vivaldi-stable.desktop";
+      "text/html" = "zen-beta.desktop";
+      "application/xhtml+xml" = "zen-beta.desktop";
+      "x-scheme-handler/http" = "zen-beta.desktop";
+      "x-scheme-handler/https" = "zen-beta.desktop";
+      "x-scheme-handler/about" = "zen-beta.desktop";
+      "x-scheme-handler/unknown" = "zen-beta.desktop";
     };
   };
 }

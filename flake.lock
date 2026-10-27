@@ -711,7 +711,8 @@
         "nixpkgs-25-05": "nixpkgs-25-05",
         "sops-nix": "sops-nix",
         "tmux-open-nvim": "tmux-open-nvim",
-        "ydog-nur": "ydog-nur"
+        "ydog-nur": "ydog-nur",
+        "zen-browser": "zen-browser"
       }
     },
     "sops-nix": {
@@ -885,6 +886,30 @@
       "original": {
         "owner": "yDog-1",
         "repo": "nur-packages",
+        "type": "github"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792595242,
+        "narHash": "sha256-kH/E0uJDslOgYcnmU+c0cm6HrUjsEtvZQKZtuQ1+uvo=",
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
+        "rev": "f19490ac889eabb05bdb7e8dcb85225ee75bd87b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "0xc000022070",
+        "ref": "beta",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }

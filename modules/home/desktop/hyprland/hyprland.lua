@@ -1,4 +1,4 @@
-local browser = "vivaldi --ozone-platform=wayland"
+local browser = "zen-beta"
 local monitors = {
 	primary = {
 		mode = "2560x1440@144.0",

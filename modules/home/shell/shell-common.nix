@@ -2,7 +2,7 @@ _: {
   # 共通環境変数
   home.sessionVariables = {
     EDITOR = "nvim";
-    BROWSER = "\${BROWSER:-\"vivaldi\"}";
+    BROWSER = "zen-beta";
     LC_MESSAGES = "en_US.UTF-8";
 
     # Node.js Management
