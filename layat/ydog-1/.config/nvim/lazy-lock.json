@@ -38,6 +38,7 @@
   "ddu-source-buffer": { "branch": "main", "commit": "1238c09bccb1d4814f36d83ef864cbb2b2ca9895" },
   "ddu-source-file_external": { "branch": "main", "commit": "fd32ecaba6203b7b514c2ae9e12b82e3db621945" },
   "ddu-source-git_status": { "branch": "main", "commit": "d501a212702db543a8084827aa955a85d54d2a78" },
+  "ddu-source-git_worktree": { "branch": "main", "commit": "3b58fe66504ff142e10a57fb19177a7d207a2fc1" },
   "ddu-source-help": { "branch": "main", "commit": "0ee957cf105e4277d7b649fdbd6f83427ffe6710" },
   "ddu-source-highlight": { "branch": "main", "commit": "65af702df0840aa823c5cc48447fe0edaa0683e2" },
   "ddu-source-keymap": { "branch": "main", "commit": "993dc08fdf9fdc1dec91181321fbc9d3a8af20af" },

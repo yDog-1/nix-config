@@ -424,6 +424,22 @@ return {
 				},
 			})
 
+			vim.fn["ddu#custom#patch_local"]("git_worktree", {
+				sources = {
+					{
+						name = "worktree",
+						options = {
+							defaultAction = "cd",
+						},
+					},
+				},
+				uiParams = {
+					ff = {
+						startAutoAction = false,
+					},
+				},
+			})
+
 			local file_ui_names = {
 				"file",
 				"buffer",
@@ -509,6 +525,12 @@ return {
 				"<leader>gs",
 				[[<Cmd>call ddu#start({'name': 'git_status'})<CR>]],
 				{ desc = "Git status" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>gw",
+				[[<Cmd>call ddu#start({'name': 'git_worktree', 'sourceOptions': {'worktree': {'path': getcwd()}}})<CR>]],
+				{ desc = "Change worktree directory" }
 			)
 
 			local grp = vim.api.nvim_create_augroup("ydog-1.ddu", { clear = true })
@@ -643,6 +665,7 @@ return {
 	"https://github.com/uga-rosa/ddu-source-lsp",
 	"https://github.com/matsui54/ddu-source-highlight",
 	"https://github.com/kuuote/ddu-source-git_status",
+	"https://github.com/nekowasabi/ddu-source-git_worktree",
 	"https://github.com/Shougo/ddu-source-vim",
 	-- filter
 	"https://github.com/yuki-yano/ddu-filter-fzf",
