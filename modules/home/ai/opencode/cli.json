@@ -27,5 +27,17 @@
     "which-key.group.next": "ctrl+alt+right,ctrl+alt+],l,ctrl+l",
     "which-key.scroll.up": "ctrl+alt+up,ctrl+alt+p,ctrl+k",
     "which-key.scroll.down": "ctrl+alt+down,ctrl+alt+n,ctrl+j"
-  }
+  },
+  "diffs": {
+    "wrap": "word"
+  },
+  "terminal": {
+    "title": true
+  },
+  "session": {
+    "sidebar": "auto",
+    "scrollbar": false,
+    "thinking": "hide"
+  },
+  "animations": true
 }
