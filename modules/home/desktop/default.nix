@@ -6,6 +6,7 @@
     ./hyprland
     ./ironbar.nix
     ./media-player.nix
+    ./mouse-remap.nix
     ./night-mode.nix
     ./pyprland.nix
     ./rofi.nix

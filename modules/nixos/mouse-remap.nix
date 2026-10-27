@@ -1,32 +1,20 @@
-{
-  lib,
-  pkgs,
-  ...
-}: let
-  settings = {
-    devices = [
-      {
-        input_name = "Getech HUGE TrackBall";
-        output_name = "ELECOM HUGE Remapped";
-        remappings = {
-          BTN_TASK = ["BTN_MIDDLE"];
-        };
-      }
-    ];
-  };
-  configFile = (pkgs.formats.yaml {}).generate "evdevremapkeys-config.yaml" settings;
-  evdevremapkeys = pkgs.evdevremapkeys.override {
-    python3Packages = pkgs.python313Packages;
-  };
-in {
-  services.evdevremapkeys = {
-    enable = true;
-    inherit settings;
-  };
+{pkgs, ...}: {
+  hardware.uinput.enable = true;
 
-  # evdevremapkeys creates virtual input devices through /dev/uinput.
-  systemd.services.evdevremapkeys.serviceConfig = {
-    ExecStart = lib.mkForce "${lib.getExe evdevremapkeys} --config-file ${configFile}";
-    SupplementaryGroups = ["uinput"];
+  services.input-remapper = {
+    enable = true;
+    enableUdevRules = true;
+    package = pkgs.input-remapper.overrideAttrs (old: {
+      # 2.2.1 uses the home path instead of the username in the GUI's FIFO paths.
+      postPatch =
+        (old.postPatch or "")
+        + ''
+          substituteInPlace inputremapper/gui/reader_service.py \
+            --replace-fail 'f"/tmp/input-remapper-{UserUtils.home}/reader-results"' \
+              'f"/tmp/input-remapper-{UserUtils.user}/reader-results"' \
+            --replace-fail 'f"/tmp/input-remapper-{UserUtils.home}/reader-commands"' \
+              'f"/tmp/input-remapper-{UserUtils.user}/reader-commands"'
+        '';
+    });
   };
 }
