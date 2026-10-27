@@ -1,6 +1,9 @@
 {pkgs, ...}: {
   hardware.uinput.enable = true;
 
+  # The GUI starts its privileged input reader through pkexec.
+  security.polkit.enablePkexecWrapper = true;
+
   services.input-remapper = {
     enable = true;
     enableUdevRules = true;
