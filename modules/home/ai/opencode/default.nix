@@ -76,7 +76,6 @@ in {
     "opencode/AGENTS.md".source = ./AGENTS.md;
     "opencode/opencode.json".source = opencodeConfig;
     "opencode/plugins/vde-tmux.ts".text = opencodeVdeTmuxPlugin;
-    "opencode/cli.json".source = ./cli.json;
   };
 
   programs.opencode = {
