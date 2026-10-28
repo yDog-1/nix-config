@@ -46,11 +46,19 @@ uv --no-config pip sync "$candidate/runtime/requirements.lock" \
   --default-index https://pypi.org/simple \
   --torch-backend cu126 --only-binary :all: --require-hashes --strict
 
+# Manager prepends the venv bin directory and also tries `python -m uv`.
+# Both must use Nix's executable, not the generic Linux binary from the wheel.
+ln -sfn "$candidate/runtime/uv/bin/uv" "$candidate/.venv/bin/uv"
+ln -sfn "$candidate/runtime/uv/bin/uvx" "$candidate/.venv/bin/uvx"
+export VIRTUAL_ENV="$candidate/.venv"
+export UV_PYTHON="$candidate/.venv/bin/python"
+
 "$candidate/.venv/bin/python" "$candidate/runtime/check-gpu.py"
 # Exercise core imports/startup without touching the user's DB or custom nodes.
+mkdir -p "$candidate/startup-check/custom_nodes"
 "$candidate/.venv/bin/python" "$candidate/app/main.py" \
   --base-directory "$candidate/startup-check" \
-  --disable-all-custom-nodes --disable-partner-nodes --quick-test-for-ci
+  --enable-manager --disable-all-custom-nodes --disable-partner-nodes --quick-test-for-ci
 printf '%s\n' "$environment_id" >"$candidate/ready"
 
 if [[ -L "$current" ]] && [[ -d "$current" ]]; then

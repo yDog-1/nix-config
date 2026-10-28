@@ -26,6 +26,8 @@ class SetupTests(unittest.TestCase):
         (self.runtime / "check-gpu.py").touch()
         (self.runtime / "constraints.txt").write_text("torch==2.10.0+cu126\n")
         (self.runtime / "requirements.lock").write_text("locked\n")
+        (self.runtime / "uv/bin").mkdir(parents=True)
+        (self.runtime / "uv/bin/uv").symlink_to(self.bin / "uv")
         self.log = self.root / "events"
         self.environment = os.environ | {
             "PATH": f"{self.bin}:{os.environ['PATH']}",
@@ -56,14 +58,23 @@ if [[ "$*" == *"pip compile"* ]]; then
   printf 'new-lock\\n' >"$2"
 elif [[ "$*" == *"pip sync"* ]]; then
   if [[ "${FAIL_SYNC:-0}" == 1 ]]; then exit 1; fi
+  while [[ "$1" != --python ]]; do shift; done
+  # Manager depends on PyPI uv, whose bundled executable cannot run on NixOS.
+  printf '#!/bin/sh\nexit 127\n' >"$(dirname "$2")/uv"
+  chmod +x "$(dirname "$2")/uv"
 elif [[ "$*" == *venv* ]]; then
   destination="${!#}"
   mkdir -p "$destination/bin"
   cat >"$destination/bin/python" <<'PYTHON'
 #!/usr/bin/env bash
 printf '%s\\n' "$@" >>"$EVENT_LOG"
+printf '%s\\n' "${VIRTUAL_ENV:-}" "${UV_PYTHON:-}" >"$EVENT_LOG.env"
 if [[ "$1" == *check-gpu.py && "${FAIL_GPU:-0}" == 1 ]]; then exit 1; fi
 if [[ "$*" == *--quick-test-for-ci* && "${FAIL_STARTUP:-0}" == 1 ]]; then exit 1; fi
+if [[ "$*" == *--quick-test-for-ci* && "$*" == *--enable-manager* ]]; then
+  while [[ "$1" != --base-directory ]]; do shift; done
+  test -d "$2/custom_nodes"
+fi
 PYTHON
   chmod +x "$destination/bin/python"
 else
@@ -107,6 +118,9 @@ fi
         self.assertNotIn("--clear", log)
         self.assertIn("--require-hashes --strict", log)
         self.assertIn("--quick-test-for-ci", log)
+        self.assertIn("--enable-manager", log)
+        self.assertTrue((active / ".venv/bin/uv").is_symlink())
+        self.assertEqual((active / ".venv/bin/uv").resolve(), self.bin / "uv")
 
     def test_rebuild_keeps_previous_and_shared_data(self):
         first = self.setup_ok()
@@ -166,6 +180,11 @@ fi
         self.assertNotIn("--disable-dynamic-vram", args)
         self.assertEqual(args[args.index("--listen") + 1], "0.0.0.0")
         self.assertIn(str(self.data / "output"), args)
+        self.assertEqual(args.count("--enable-manager"), 1)
+        self.assertEqual(
+            Path(f"{self.log}.env").read_text().splitlines(),
+            [str(active / ".venv"), str(active / ".venv/bin/python")],
+        )
 
     def test_launch_preserves_legacy_until_setup_succeeds(self):
         legacy = self.data / "app"
@@ -194,6 +213,7 @@ fi
         result = self.run_script("update-lock.sh", str(output))
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(output.read_text(), "new-lock\n")
+        self.assertIn(str(self.runtime / "app/manager_requirements.txt"), self.log.read_text())
         self.assertEqual(self.run_script("update-lock.sh").returncode, 2)
 
 

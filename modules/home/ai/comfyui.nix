@@ -16,6 +16,10 @@
       path = pkgs.python312;
     }
     {
+      name = "uv";
+      path = pkgs.uv;
+    }
+    {
       name = "requirements.lock";
       path = ./comfyui/requirements.lock;
     }
@@ -51,8 +55,8 @@
       runtimeInputs = [pkgs.coreutils] ++ inputs;
       text = runtimeEnvironment + script;
     };
-  setup = command "comfyui-setup" [pkgs.nix pkgs.uv pkgs.util-linux] (builtins.readFile ./comfyui/setup.sh);
-  launch = command "comfyui" [pkgs.ffmpeg] (builtins.readFile ./comfyui/launch.sh);
+  setup = command "comfyui-setup" [pkgs.nix pkgs.uv pkgs.util-linux pkgs.git] (builtins.readFile ./comfyui/setup.sh);
+  launch = command "comfyui" [pkgs.ffmpeg pkgs.uv pkgs.git] (builtins.readFile ./comfyui/launch.sh);
   repair = command "comfyui-repair" [] ''
     exec ${setup}/bin/comfyui-setup --rebuild "$@"
   '';

@@ -20,8 +20,16 @@ comfyui
 待受アドレスは `0.0.0.0` です。他の端末からは `http://<このマシンのIPアドレス>:8188` で接続します。
 ファイアウォールは自動では開放しません。認証を設定せずに、インターネットへ直接公開しないでください。
 セットアップではモデルをダウンロードしません。候補環境を有効化する前に、CUDA 演算、
-cuDNN を明示的に使う畳み込み演算、ComfyUI の起動を検証します。
+cuDNN を明示的に使う畳み込み演算、Manager を含む ComfyUI の起動を検証します。
 画像生成には、別途入手したチェックポイントとワークフローが必要です。
+
+ComfyUI-Manager は標準で有効です。`custom_nodes` への手動 clone や追加の pip install は不要です。
+本体の `manager_requirements.txt` もハッシュ付き lock に含め、セットアップ・修復時に導入します。
+Manager の依存に含まれる PyPI 版 `uv` は NixOS で実行できないため、venv 内の
+`uv` / `uvx` は GC ルートで保持した Nix 版へのリンクに置き換えます。
+起動時には `VIRTUAL_ENV` と `UV_PYTHON` を指定し、Manager のパッケージ操作も
+現在の専用環境へ向けます。ComfyUI 本体は Nix 管理のため、更新には下記の依存関係の更新手順を使います。
+既存環境から移行する場合は Home Manager を適用してから `comfyui-setup` を再実行してください。
 
 Attention や VRAM 関連の回避策は強制しません。必要な場合だけフラグを指定します。
 

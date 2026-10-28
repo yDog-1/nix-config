@@ -14,6 +14,8 @@ if [[ ! -x "$active/.venv/bin/python" || ! -f "$active/app/main.py" ]]; then
 fi
 export PIP_CONSTRAINT="$active/constraints.txt"
 export UV_CONSTRAINT="$active/constraints.txt"
+export VIRTUAL_ENV="$active/.venv"
+export UV_PYTHON="$active/.venv/bin/python"
 mkdir -p "$data_dir"/{custom_nodes,input,models,output,user} \
   "$CUDA_CACHE_PATH" "$HF_HOME" "$TORCH_HOME"
 exec "$active/.venv/bin/python" "$active/app/main.py" \
@@ -23,4 +25,5 @@ exec "$active/.venv/bin/python" "$active/app/main.py" \
   --user-directory "$data_dir/user" \
   --database-url "sqlite:///$data_dir/user/comfyui.db" \
   --listen 0.0.0.0 \
+  --enable-manager \
   "$@"
