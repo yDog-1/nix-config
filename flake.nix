@@ -141,6 +141,15 @@
     inherit nixos-hardware;
   in {
     checks.${system} = {
+      comfyui-setup =
+        pkgs.runCommand "comfyui-setup-tests" {
+          nativeBuildInputs = [pkgs.python312 pkgs.util-linux];
+        } ''
+          export PYTHONDONTWRITEBYTECODE=1
+          python ${./modules/home/ai/comfyui}/test_setup.py -v
+          touch "$out"
+        '';
+
       pre-commit-check = inputs.git-hooks.lib.${system}.run {
         src = ./.;
         hooks = {
