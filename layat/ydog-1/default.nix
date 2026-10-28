@@ -28,6 +28,11 @@ in
   configEntries
   // vimEntries
   // {
+    # Place once as a writable file; GTK applications manage subsequent edits.
+    ".config/gtk-3.0/bookmarks" = {
+      src = ./.config/gtk-3.0/bookmarks;
+      method = "copy";
+    };
     ".gitconfig".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/.gitconfig";
     ".vimrc".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/.vimrc";
   }

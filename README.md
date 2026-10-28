@@ -51,6 +51,8 @@ home-manager switch --flake ".#${USER}"
 nix develop --command layat apply ydog-1
 ```
 
+GTKブックマーク（`~/.config/gtk-3.0/bookmarks`）は`method = "copy"`で初回のみ配置し、以後の編集は保持します。既存ファイルは上書きせずスキップするため、読み取り専用の場合は`chmod u+w ~/.config/gtk-3.0/bookmarks`で書き込みを許可してください。`--recopy`は編集内容を上書きし、`layat reset`はコピー先も削除するため注意してください。
+
 これでNixOS、Home Manager、dotfilesの復旧は完了です。これらは独立しているため、必要なものをそれぞれ適用します。
 
 ## 確認
