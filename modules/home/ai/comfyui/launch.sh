@@ -22,5 +22,5 @@ exec "$active/.venv/bin/python" "$active/app/main.py" \
   --output-directory "$data_dir/output" \
   --user-directory "$data_dir/user" \
   --database-url "sqlite:///$data_dir/user/comfyui.db" \
-  --listen 127.0.0.1 \
+  --listen 0.0.0.0 \
   "$@"

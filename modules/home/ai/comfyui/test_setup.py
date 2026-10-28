@@ -164,7 +164,7 @@ fi
         self.assertEqual(args[0], str(active / "app/main.py"))
         self.assertEqual(args.count("--lowvram"), 1)
         self.assertNotIn("--disable-dynamic-vram", args)
-        self.assertIn("127.0.0.1", args)
+        self.assertEqual(args[args.index("--listen") + 1], "0.0.0.0")
         self.assertIn(str(self.data / "output"), args)
 
     def test_launch_preserves_legacy_until_setup_succeeds(self):
