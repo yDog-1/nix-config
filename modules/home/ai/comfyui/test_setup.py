@@ -132,6 +132,40 @@ fi
         self.assertTrue((first / ".venv/bin/python").exists())
         self.assertEqual(model.read_text(), "model")
 
+    def test_app_is_a_writable_copy_independent_of_runtime(self):
+        source = self.runtime / "app"
+        (source / "nested").mkdir()
+        (source / "nested/config.json").write_text("original")
+        (source / "main.py").chmod(0o444)
+        (source / "nested/config.json").chmod(0o444)
+        (source / "nested").chmod(0o555)
+        self.addCleanup((source / "nested").chmod, 0o755)
+        active = self.setup_ok()
+        app = active / "app"
+        self.assertFalse(app.is_symlink())
+        self.assertTrue((app / "main.py").stat().st_mode & 0o200)
+        self.assertTrue((app / "nested").stat().st_mode & 0o200)
+        self.assertTrue((app / "nested/config.json").stat().st_mode & 0o200)
+        (app / "web/extensions/pysssss").mkdir(parents=True)
+        (app / "nested/config.json").write_text("changed by extension")
+        self.assertEqual((source / "nested/config.json").read_text(), "original")
+        self.assertFalse((source / "web").exists())
+        self.assertEqual(self.setup_ok(), active)
+        self.assertEqual((app / "nested/config.json").read_text(), "changed by extension")
+
+    def test_setup_migrates_store_link_without_modifying_old_environment(self):
+        first = self.setup_ok()
+        if (first / "app").is_symlink():
+            (first / "app").unlink()
+        else:
+            shutil.rmtree(first / "app")
+        (first / "app").symlink_to("runtime/app")
+        second = self.setup_ok()
+        self.assertNotEqual(first, second)
+        self.assertFalse((second / "app").is_symlink())
+        self.assertTrue((first / "app").is_symlink())
+        self.assertEqual((self.data / "previous").resolve(), first)
+
     def test_new_runtime_id_creates_candidate_without_overwriting_old_one(self):
         first = self.setup_ok()
         second = self.setup_ok(environment_id="updated-id")

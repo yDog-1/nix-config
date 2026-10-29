@@ -23,6 +23,7 @@ done
 
 if ! "$rebuild" && [[ -f "$current/ready" ]] && \
   [[ "$(cat "$current/ready")" == "$environment_id" ]] && \
+  [[ -d "$current/app" && ! -L "$current/app" && -w "$current/app" ]] && \
   [[ -x "$current/.venv/bin/python" ]]; then
   "$current/.venv/bin/python" "$current/runtime/check-gpu.py"
   echo "ComfyUI is already prepared. Start it with: comfyui"
@@ -37,7 +38,10 @@ echo "Preparing candidate: $candidate"
 echo "On failure the current environment is unchanged; the candidate is kept for inspection."
 
 nix-store --realise "$managed_runtime" --add-root "$candidate/runtime" --indirect >/dev/null
-ln -s runtime/app "$candidate/app"
+# Extensions may write beside server.py (for example web/extensions). Keep the
+# pinned source rooted, but never run directly from its read-only store path.
+cp -R --no-preserve=mode "$candidate/runtime/app/." "$candidate/app"
+chmod -R u+w "$candidate/app"
 ln -s runtime/constraints.txt "$candidate/constraints.txt"
 uv --no-config venv --python "$candidate/runtime/python/bin/python" \
   --no-managed-python "$candidate/.venv"
