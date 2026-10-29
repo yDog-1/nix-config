@@ -34,6 +34,34 @@ Manager の依存に含まれる PyPI 版 `uv` は NixOS で実行できない�
 本体の更新は Manager ではなく、下記の依存関係の更新手順を使います。
 既存環境から移行する場合は Home Manager を適用してから `comfyui-setup` を再実行してください。
 
+### カスタムノードの依存を追加する
+
+Manager で拡張を追加した後や、更新・修復で venv を作り直した後には、ComfyUI を停止して
+以下を実行できます。拡張を追加するたびに Nix 設定や本体用 lock を変更する必要はありません。
+
+```sh
+comfyui-install-deps --dry-run
+comfyui-install-deps
+comfyui-check
+comfyui
+```
+
+`custom_nodes/` 直下の各拡張の `requirements.txt` を収集し、現在の venv に
+`uv pip install` でまとめて導入します。シンボリックリンクの拡張も対象ですが、
+隠しディレクトリと名前が `.disabled` で終わる拡張は除外します。
+入れ子の拡張検索、`pyproject.toml`、独自の `install.py`、OS ライブラリの導入は対象外です。
+requirements ファイルや Python パッケージのビルド処理も信頼できるものだけを使用してください。
+
+- `--dry-run` は venv を変更せず解決結果を表示します。通信やキャッシュ更新は発生し得ます。
+- すべての requirements を一度に解決し、GPU 関連の `constraints.txt` と cu126 を適用します。
+  競合がある場合はエラーにし、制約を自動的に緩めません。
+- `pip sync` ではないため無関係なパッケージは削除しませんが、解決に必要な依存の
+  バージョンは変更される場合があります。本体用 lock の全パッケージを固定するものではありません。
+- セットアップ・修復・このコマンドの同時実行はロックで防ぎます。ただし ComfyUI の起動や
+  Manager のパッケージ操作はロックしないため、実行中はそれらを避けてください。
+- 現在の venv を直接変更します。トランザクションや失敗時の自動ロールバックはありません。
+  導入後は ComfyUI を再起動してください。問題があれば `comfyui-repair` で基礎環境を作り直せます。
+
 Attention や VRAM 関連の回避策は強制しません。必要な場合だけフラグを指定します。
 
 ```sh

@@ -62,6 +62,10 @@ elif [[ "$*" == *"pip sync"* ]]; then
   # Manager depends on PyPI uv, whose bundled executable cannot run on NixOS.
   printf '#!/bin/sh\nexit 127\n' >"$(dirname "$2")/uv"
   chmod +x "$(dirname "$2")/uv"
+elif [[ "$*" == *"pip install"* ]]; then
+  printf '%s\\n' "$@" >"$EVENT_LOG.uv-args"
+  printf '%s\\n' "$VIRTUAL_ENV" "$UV_PYTHON" "$PIP_CONSTRAINT" "$UV_CONSTRAINT" >"$EVENT_LOG.env"
+  if [[ "${FAIL_INSTALL:-0}" == 1 ]]; then exit 23; fi
 elif [[ "$*" == *venv* ]]; then
   destination="${!#}"
   mkdir -p "$destination/bin"
@@ -249,6 +253,96 @@ fi
         self.assertEqual(output.read_text(), "new-lock\n")
         self.assertIn(str(self.runtime / "app/manager_requirements.txt"), self.log.read_text())
         self.assertEqual(self.run_script("update-lock.sh").returncode, 2)
+
+    def extension_requirements(self, name, contents="example-package\n"):
+        node = self.data / "custom_nodes" / name
+        node.mkdir(parents=True)
+        requirements = node / "requirements.txt"
+        requirements.write_text(contents)
+        return requirements
+
+    def test_install_deps_resolves_extensions_together_in_active_venv(self):
+        active = self.setup_ok()
+        first = self.extension_requirements("first node")
+        second = self.extension_requirements("second")
+        self.extension_requirements("ignored.disabled")
+        self.extension_requirements(".hidden")
+        external = self.root / "external node"
+        external.mkdir()
+        (external / "requirements.txt").write_text("linked-package\n")
+        (self.data / "custom_nodes/linked").symlink_to(external)
+        self.log.write_text("")
+        result = self.run_script("install-deps.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        args = Path(f"{self.log}.uv-args").read_text().splitlines()
+        self.assertEqual(args[:3], ["--no-config", "pip", "install"])
+        self.assertEqual(args[args.index("--python") + 1], str(active / ".venv/bin/python"))
+        self.assertEqual(args[args.index("--constraint") + 1], str(active / "constraints.txt"))
+        self.assertEqual(args[args.index("--torch-backend") + 1], "cu126")
+        self.assertEqual(args.count("--requirement"), 3)
+        self.assertIn(str(first), args)
+        self.assertIn(str(second), args)
+        self.assertIn(str(self.data / "custom_nodes/linked/requirements.txt"), args)
+        self.assertNotIn("ignored.disabled/requirements.txt", "\n".join(args))
+        self.assertNotIn(".hidden/requirements.txt", "\n".join(args))
+        self.assertEqual(self.log.read_text().count("pip install"), 1)
+        self.assertNotIn("pip sync", self.log.read_text())
+        self.assertEqual(
+            Path(f"{self.log}.env").read_text().splitlines(),
+            [str(active / ".venv"), str(active / ".venv/bin/python"),
+             str(active / "constraints.txt"), str(active / "constraints.txt")],
+        )
+        self.assertEqual((self.data / "current").resolve(), active)
+        self.assertEqual((active / ".venv/bin/uv").resolve(), self.bin / "uv")
+
+    def test_install_deps_dry_run_does_not_replace_venv_tools(self):
+        active = self.setup_ok()
+        self.extension_requirements("node")
+        uv = active / ".venv/bin/uv"
+        uv.unlink()
+        uv.write_text("sentinel")
+        result = self.run_script("install-deps.sh", "--dry-run")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("--dry-run", Path(f"{self.log}.uv-args").read_text().splitlines())
+        self.assertEqual(uv.read_text(), "sentinel")
+        self.assertIn("venv was not changed", result.stdout)
+
+    def test_install_deps_no_requirements_is_a_noop(self):
+        self.setup_ok()
+        self.log.write_text("")
+        result = self.run_script("install-deps.sh")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Nothing to install", result.stdout)
+        self.assertEqual(self.log.read_text(), "")
+
+    def test_install_deps_propagates_failure_without_switching_current(self):
+        active = self.setup_ok()
+        self.extension_requirements("conflicting-node")
+        result = self.run_script("install-deps.sh", FAIL_INSTALL="1")
+        self.assertEqual(result.returncode, 23)
+        self.assertNotIn("dependencies installed", result.stdout)
+        self.assertEqual((self.data / "current").resolve(), active)
+
+    def test_install_deps_rejects_setup_lock_and_incomplete_environment(self):
+        active = self.setup_ok()
+        with (self.data / ".setup.lock").open("w") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            result = self.run_script("install-deps.sh")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Another ComfyUI", result.stderr)
+        (active / "constraints.txt").unlink()
+        result = self.run_script("install-deps.sh")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("incomplete", result.stderr)
+
+    def test_install_deps_requires_setup_and_valid_arguments(self):
+        result = self.run_script("install-deps.sh")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("comfyui-setup first", result.stderr)
+        for args in (("--unknown",), ("--dry-run", "extra")):
+            result = self.run_script("install-deps.sh", *args)
+            self.assertEqual(result.returncode, 2)
+        self.assertFalse(self.data.exists())
 
 
 if __name__ == "__main__":

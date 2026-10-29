@@ -69,6 +69,7 @@
     exec "$active/.venv/bin/python" "$active/runtime/check-gpu.py" "$@"
   '';
   updateLock = command "comfyui-update-lock" [pkgs.uv] (builtins.readFile ./comfyui/update-lock.sh);
+  installDeps = command "comfyui-install-deps" [pkgs.uv pkgs.util-linux pkgs.git] (builtins.readFile ./comfyui/install-deps.sh);
 in {
-  home.packages = [launch setup repair check updateLock];
+  home.packages = [launch setup repair check updateLock installDeps];
 }
