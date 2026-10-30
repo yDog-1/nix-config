@@ -23,6 +23,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    comfyui-gtx1080-nix = {
+      url = "github:yDog-1/comfyui-gtx1080-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake/beta";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -141,15 +145,6 @@
     inherit nixos-hardware;
   in {
     checks.${system} = {
-      comfyui-setup =
-        pkgs.runCommand "comfyui-setup-tests" {
-          nativeBuildInputs = [pkgs.python312 pkgs.util-linux];
-        } ''
-          export PYTHONDONTWRITEBYTECODE=1
-          python ${./modules/home/ai/comfyui}/test_setup.py -v
-          touch "$out"
-        '';
-
       pre-commit-check = inputs.git-hooks.lib.${system}.run {
         src = ./.;
         hooks = {
@@ -239,6 +234,7 @@
 
       modules = [
         cfg.homePath
+        inputs.comfyui-gtx1080-nix.homeModules.default
         agent-skills.homeManagerModules.default
         inputs.sops-nix.homeManagerModules.sops
       ];

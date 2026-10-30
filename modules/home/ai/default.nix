@@ -1,6 +1,5 @@
 {
   imports = [
-    ./comfyui.nix
     ./opencode
   ];
 }

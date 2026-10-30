@@ -179,6 +179,26 @@
         "type": "github"
       }
     },
+    "comfyui-gtx1080-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793367038,
+        "narHash": "sha256-aOrinZUfjnPUkGr5SivWZ+TDOIR/dOtKBQKNyluPxpM=",
+        "owner": "yDog-1",
+        "repo": "comfyui-gtx1080-nix",
+        "rev": "dba317b9c7a705112b9c63fc8c9e5983c8119f66",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yDog-1",
+        "repo": "comfyui-gtx1080-nix",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1789760033,
@@ -719,6 +739,7 @@
         "awesome-copilot": "awesome-copilot",
         "catppuccin-rofi": "catppuccin-rofi",
         "catppuccin-yazi": "catppuccin-yazi",
+        "comfyui-gtx1080-nix": "comfyui-gtx1080-nix",
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",
         "ironbar": "ironbar",
