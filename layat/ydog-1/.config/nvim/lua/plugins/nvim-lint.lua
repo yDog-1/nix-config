@@ -49,7 +49,6 @@ return {
 			lint.linters_by_ft = {
 				gitcommit = { "gitlint" },
 				dockerfile = { "hadolint" },
-				yaml = { "yamllint" },
 				markdown = { "markdownlint" },
 			}
 			-- --msg-filename reads the saved message, not stdin.

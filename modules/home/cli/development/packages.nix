@@ -30,7 +30,6 @@ in {
     gitlint
     gitleaks
     hadolint
-    yamllint
     markdownlint-cli
     golangci-lint
     typos
