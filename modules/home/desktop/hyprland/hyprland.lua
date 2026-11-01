@@ -29,6 +29,14 @@ hl.bind((mod .. " + G"), (hl.dsp.window.float({ action = "toggle" })))
 hl.bind((mod .. " + I"), (hl.dsp.exec_cmd("vim-anywhere-wayland")))
 hl.bind((mod .. " + F"), (hl.dsp.window.fullscreen()))
 hl.bind((mod .. " + N"), (hl.dsp.exec_cmd("night-mode-toggle")))
+hl.bind((mod .. " + SHIFT + B"), function()
+	local window = hl.get_active_window()
+	if not window then
+		return
+	end
+
+	hl.dispatch(hl.dsp.window.tag({ tag = "no-window-decorations", window = window }))
+end)
 hl.bind("XF86PowerOff", (hl.dsp.exec_cmd("sleep 1 && hyprctl dispatch 'hl.dsp.dpms({ action = \"disable\" })'")), {
 	dont_inhibit = true,
 	locked = true,
@@ -120,6 +128,12 @@ hl.config({
 		["force_default_wallpaper"] = 0,
 		["key_press_enables_dpms"] = true,
 	},
+})
+
+hl.window_rule({
+	match = { tag = "no-window-decorations" },
+	no_blur = true,
+	border_size = 0,
 })
 
 -- settings.device
