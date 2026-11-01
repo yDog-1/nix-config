@@ -196,6 +196,8 @@ in {
 
       set -g allow-passthrough on
       set -g visual-activity off
+      set -s copy-command '${pkgs.wl-clipboard}/bin/wl-copy'
+      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel
 
       set -s extended-keys on
       set -s extended-keys-format csi-u
