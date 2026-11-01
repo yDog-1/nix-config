@@ -11,6 +11,8 @@
     substituteInPlace "$out" \
       --replace-fail '$os' "" \
       --replace-fail '$time\' "" \
+      --replace-fail '$cmd_duration\' "" \
+      --replace-fail 'show_notifications = true' 'show_notifications = false' \
       --replace-fail '[](fg:sapphire bg:lavender)' "" \
       --replace-fail '[ ](fg:lavender)' '[ ](fg:sapphire)' \
       --replace-fail '❯' '\$' \
