@@ -3,8 +3,6 @@
     packages = with pkgs; [
       sheldon
     ];
-
-    file.".p10k.zsh".source = ./p10k.zsh;
   };
 
   programs.zsh = {
@@ -17,8 +15,6 @@
         fzf_default_completion=expand-or-complete
         source <(${pkgs.fzf}/bin/fzf --zsh)
         (( ''${+widgets[zeno-completion]} )) && bindkey '^I' zeno-completion
-
-        [[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
       fi
     '';
 

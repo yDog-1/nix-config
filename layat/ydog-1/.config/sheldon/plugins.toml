@@ -3,9 +3,6 @@ shell = "zsh"
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 
-[plugins.powerlevel10k]
-github = "romkatv/powerlevel10k"
-
 [plugins."zeno.zsh"]
 github = "yuki-yano/zeno.zsh"
 use = ["zeno-plugin.zsh"]
