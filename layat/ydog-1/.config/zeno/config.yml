@@ -130,7 +130,7 @@ completions:
   - name: sesh session completion
     patterns:
       - "^sesh (connect|cn|preview) $"
-    sourceCommand: "sesh list --hide-duplicates"
+    sourceCommand: "{ sesh list --hide-duplicates; ghq list --full-path; } | awk '!seen[$0]++'"
     options:
       --prompt: "'sesh session> '"
       --preview: "sesh preview {}"
@@ -142,6 +142,40 @@ completions:
     options:
       --prompt: "'sesh window> '"
 
+  - name: wt switch completion
+    patterns:
+      - "^wt switch $"
+    sourceCommand: >-
+      { git worktree list --porcelain | sed -n 's|^branch refs/heads/||p';
+      git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads; }
+      | awk '!seen[$0]++'
+    options:
+      --prompt: "'wt switch> '"
+      --preview: "git log --color=always --oneline --stat -n 5 {} --"
+
+  - name: wt remove completion
+    patterns:
+      - "^wt remove( --no-delete-branch| --foreground)* $"
+    sourceCommand: >-
+      wt list --format=json | jq -r '.items[] | select(.worktree != null) |
+      if .worktree.detached or .branch == null then .worktree.path else .branch end'
+    options:
+      --prompt: "'wt remove> '"
+      --multi: true
+      --preview: >-
+        if test -d {}; then
+        git -C {} status --short;
+        git -C {} log --color=always --oneline --stat -n 5;
+        else git log --color=always --oneline --stat -n 5 {} --; fi
+
+  - name: wt merge completion
+    patterns:
+      - "^wt merge( --no-squash| --no-commit| --no-remove)* $"
+    sourceCommand: "git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads"
+    options:
+      --prompt: "'wt merge> '"
+      --preview: "git log --color=always --oneline --stat -n 5 {} --"
+
   - name: ghq completion
     patterns:
       - "^ghq (rm) $"
@@ -149,6 +183,60 @@ completions:
     options:
       --prompt: "'ghq> '" # fzfのプロンプトをカスタマイズ
     callback: "awk '{print $1}'" # 選択された行からリポジトリのパスのみを抽出
+
+  - name: comma package completion
+    patterns:
+      - "^, $"
+    sourceCommand: "nix-search-tv print | grep '^nixpkgs/ '"
+    options:
+      --prompt: "'comma package> '"
+      --preview: "nix-search-tv preview {}"
+    callback: >-
+      while IFS= read -r package; do
+      nix-search-tv preview --json "$package" | jq -r '.meta.mainProgram // .pname // empty';
+      done
+
+  - name: package script completion
+    patterns:
+      - "^(pnpm|bun) run $"
+    sourceCommand: >-
+      if test -f package.json; then
+      jq -r '.scripts // {} | to_entries[] | [.key, .value] | @tsv' package.json;
+      fi
+    options:
+      --prompt: "'package script> '"
+      --delimiter: "'\t'"
+      --preview: "printf '%s\\n' {2..}"
+    callback: "cut -f1"
+
+  - name: nixpkgs run package completion
+    patterns:
+      - "^nix run $"
+    sourceCommand: "nix-search-tv print | grep '^nixpkgs/ '"
+    options:
+      --prompt: "'nixpkgs> '"
+      --preview: "nix-search-tv preview {}"
+    callback: "sed 's|^nixpkgs/ |nixpkgs#|'"
+
+  - name: nixpkgs shell package completion
+    patterns:
+      - "^nix shell( [^- ][^ ]*)* $"
+    sourceCommand: "nix-search-tv print | grep '^nixpkgs/ '"
+    options:
+      --prompt: "'nixpkgs> '"
+      --multi: true
+      --preview: "nix-search-tv preview {}"
+    callback: "sed 's|^nixpkgs/ |nixpkgs#|'"
+
+  - name: local flake build completion
+    patterns:
+      - "^nix build $"
+    sourceCommand: >-
+      if test -f flake.nix; then
+      nix eval --impure --json --file "${XDG_CONFIG_HOME:-$HOME/.config}/zeno/nix-build-targets.nix"
+      | jq -r '.[]'; fi
+    options:
+      --prompt: "'local flake build> '"
 
   - name: file completion
     patterns:
