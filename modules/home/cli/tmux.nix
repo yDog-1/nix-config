@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (import ../../../lib/style/catppucin-colors.nix) colors accent;
+  inherit (import ../../../lib/style/catppuccin-colors.nix) colors accent;
   tmux-open-nvim =
     pkgs.runCommand "tmux-open-nvim" {
       src = inputs.tmux-open-nvim;

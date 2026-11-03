@@ -92,7 +92,7 @@
       flake = false;
     };
     # taskbar for wayland
-    # It's provided from the nixpkgs, but it version is 0.18.0.
+    # It's provided from the nixpkgs, but its version is 0.18.0.
     # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)
     # The version isn't released yet, but the master branch has the feature.
     ironbar.url = "github:JakeStanger/ironbar";

@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  catppuccin = import ../../../../lib/style/catppucin-colors.nix;
+  catppuccin = import ../../../../lib/style/catppuccin-colors.nix;
   c = catppuccin.colors;
 in {
   # 参考: https://zenn.dev/ril/articles/introduce-nix-search-tv

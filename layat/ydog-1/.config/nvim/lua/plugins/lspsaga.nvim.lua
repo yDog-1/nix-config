@@ -8,7 +8,7 @@ return {
 	keys = {
 		{ "<Leader>cr", "<cmd>Lspsaga rename<CR>", desc = "rename" },
 		{ "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", desc = "next diagnostic" },
-		{ "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "next diagnostic" },
+		{ "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "previous diagnostic" },
 	},
 	opts = {
 		lightbulb = {

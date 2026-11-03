@@ -53,7 +53,7 @@ export class Config extends BaseConfig {
           mark: "LSP",
           minAutoCompleteLength: 1,
           dup: "keep",
-          // It matches the keyword that follow a hyphen, like `black` in `text-black`.
+          // It matches the keyword that follows a hyphen, like `black` in `text-black`.
           keywordPattern: `[-[:keyword:]]*`,
           forceCompletionPattern: String.raw`\.\w*|::\w*|->\w*`,
           sorters: ["sorter_lsp_kind", "sorter_itemsize"],
@@ -213,7 +213,7 @@ export class Config extends BaseConfig {
       postFilters: ["postfilter_score", "sorter_head", "converter_fuzzy"],
     });
 
-    // Godot's LSP server returns completion function items with bracket like `func(`.
+    // Godot's LSP server returns completion function items with a bracket like `func(`.
     // And it returns the completion text with quotation marks like `"move-right"` for the TEXT completion items.
     // This configuration removes the brackets and quotation marks from the completion text.
     args.contextBuilder.setFiletype("gdscript", {

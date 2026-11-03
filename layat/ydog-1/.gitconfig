@@ -13,12 +13,11 @@
 	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
 [core]
 	quotepath = false
-  excludeFile = ~/.config/git/ignore
+  excludesFile = ~/.config/git/ignore
 [gui]
 	encoding = utf-8
-[i18n "commit"]
-	encoding = utf-8
 [i18n]
+	commitEncoding = utf-8
 	logoutputencoding = utf-8
 [pull]
 	rebase = true

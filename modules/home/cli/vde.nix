@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  inherit (import ../../../lib/style/catppucin-colors.nix) colors;
+  inherit (import ../../../lib/style/catppuccin-colors.nix) colors;
   vdeConfig = {
     statusline = {
       category = {

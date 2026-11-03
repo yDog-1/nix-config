@@ -119,7 +119,7 @@ return {
 				set({ "n" }, "h", "<Plug>(gin-action-stage)", opts({ desc = "Stage" }))
 				set({ "n" }, "l", "<Plug>(gin-action-unstage)", opts({ desc = "Unstage" }))
 				set({ "n" }, "xx", "<Plug>(gin-action-patch)", opts({ desc = "Patch" }))
-				set({ "n" }, "xc", "<Plug>(gin-action-chaperon)", opts({ desc = "Resolve confrict" }))
+				set({ "n" }, "xc", "<Plug>(gin-action-chaperon)", opts({ desc = "Resolve conflict" }))
 			end,
 		})
 

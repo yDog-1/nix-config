@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  catppuccin = import ../../../lib/style/catppucin-colors.nix;
+  catppuccin = import ../../../lib/style/catppuccin-colors.nix;
   python = pkgs.python313;
   catppuccinPython = python.pkgs.catppuccin.overridePythonAttrs (_: {
     doCheck = false;
