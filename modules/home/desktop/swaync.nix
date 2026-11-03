@@ -8,7 +8,7 @@ in {
     settings = {
       positionX = "right";
       positionY = "top";
-      control-center-margin-top = 20;
+      control-center-margin-top = 56;
       control-center-margin-bottom = 0;
       control-center-margin-right = 20;
       control-center-margin-left = 0;
@@ -35,6 +35,7 @@ in {
       widgets = [
         "title"
         "dnd"
+        "volume"
         "mpris"
         "notifications"
       ];
@@ -46,6 +47,10 @@ in {
         };
         dnd = {
           text = "Do Not Disturb";
+        };
+        volume = {
+          label = "󰕾";
+          show-per-app = true;
         };
         label = {
           max-lines = 5;
@@ -313,6 +318,26 @@ in {
       .widget-dnd > switch slider {
         background: @background;
         border-radius: 8px;
+      }
+
+      .widget-volume {
+        margin: 8px;
+        padding: 8px;
+        background: @background;
+        border-radius: 10px;
+        color: @foreground;
+      }
+      .widget-volume scale trough {
+        background: @background-second;
+        border-radius: 8px;
+      }
+      .widget-volume scale highlight {
+        background: @accent;
+        border-radius: 8px;
+      }
+      .widget-volume scale slider {
+        background: @foreground;
+        border-radius: 50%;
       }
 
       /* Label widget */

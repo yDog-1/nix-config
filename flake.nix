@@ -87,11 +87,6 @@
       url = "github:trevarj/tmux-open-nvim";
       flake = false;
     };
-    # taskbar for wayland
-    # It's provided from the nixpkgs, but its version is 0.18.0.
-    # I wanna use vertical volume slider, which is added in 0.19.0. (issue#1305)
-    # The version isn't released yet, but the master branch has the feature.
-    ironbar.url = "github:JakeStanger/ironbar";
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -132,9 +127,6 @@
 
       overlays = [
         ydog-nur.overlays.default
-        (_: _: {
-          ironbar = inputs.ironbar.packages.${system}.default;
-        })
         llm-agents.overlays.shared-nixpkgs
       ];
     };

@@ -4,7 +4,6 @@
     ./clipboard.nix
     ./hypridle.nix
     ./hyprland
-    ./ironbar.nix
     ./kitty.nix
     ./media-player.nix
     ./mouse-remap.nix
@@ -18,6 +17,7 @@
     ./theme.nix
     ./vim-anywhere.nix
     ./waypaper.nix
+    ./waybar.nix
     ./xdg-user-dirs.nix
   ];
 }
