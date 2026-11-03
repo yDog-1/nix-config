@@ -4,7 +4,7 @@
   ...
 }: let
   terminalTargetClasses = [
-    "org.wezfurlong.wezterm"
+    "kitty"
   ];
 
   terminalTargetClassLines = lib.concatMapStringsSep "\n" (class: "        ${lib.escapeShellArg class}") terminalTargetClasses;

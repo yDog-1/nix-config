@@ -15,7 +15,11 @@
   xdg = {
     configFile = {
       "xfce4/helpers.rc".text = ''
-        TerminalEmulator=wezterm
+        TerminalEmulator=kitty
+      '';
+
+      "xdg-terminals.list".text = ''
+        kitty.desktop
       '';
 
       "Thunar/uca.xml" = {
@@ -28,8 +32,8 @@
               <icon>utilities-terminal</icon>
               <name>Open Terminal Here</name>
               <unique-id>1792674492960118-1</unique-id>
-              <command>${pkgs.wezterm}/bin/wezterm start --cwd %f</command>
-              <description>Open WezTerm in this directory</description>
+              <command>${pkgs.kitty}/bin/kitty --directory %f</command>
+              <description>Open kitty in this directory</description>
               <patterns>*</patterns>
               <startup-notify/>
               <directories/>
@@ -39,15 +43,15 @@
       };
     };
 
-    dataFile."xfce4/helpers/wezterm.desktop".text = ''
+    dataFile."xfce4/helpers/kitty.desktop".text = ''
       [Desktop Entry]
       Version=1.0
       Type=X-XFCE-Helper
-      Name=WezTerm
-      Icon=org.wezfurlong.wezterm
+      Name=kitty
+      Icon=kitty
       X-XFCE-Category=TerminalEmulator
-      X-XFCE-Commands=${pkgs.wezterm}/bin/wezterm start --cwd .;
-      X-XFCE-CommandsWithParameter=${pkgs.wezterm}/bin/wezterm start --cwd . -- %s;
+      X-XFCE-Commands=${pkgs.kitty}/bin/kitty --directory .;
+      X-XFCE-CommandsWithParameter=${pkgs.kitty}/bin/kitty --directory . -- %s;
     '';
 
     mimeApps = {

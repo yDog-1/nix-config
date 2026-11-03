@@ -15,7 +15,7 @@ local monitors = {
 	},
 }
 local mod = "SUPER"
-local terminal = "wezterm"
+local terminal = "kitty"
 
 -- settings.bind
 hl.bind((mod .. " + T"), (hl.dsp.exec_cmd(terminal)))

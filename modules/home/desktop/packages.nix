@@ -4,6 +4,8 @@
     ./file-management.nix
   ];
 
+  home.sessionVariables.TERMINAL = "kitty";
+
   home.packages = with pkgs; [
     hyprshot
     waypaper
@@ -33,7 +35,7 @@
             --set WEBKIT_DISABLE_DMABUF_RENDERER 1
         '';
     }))
-    wezterm
+    kitty
     anki
     krita
 

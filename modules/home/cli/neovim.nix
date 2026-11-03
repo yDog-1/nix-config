@@ -13,11 +13,11 @@
       exec ${pkgs.neovim}/bin/nvim "$@"
     '';
   };
-  nvimWezterm = pkgs.writeShellApplication {
-    name = "nvim-wezterm";
+  nvimKitty = pkgs.writeShellApplication {
+    name = "nvim-kitty";
     text = ''
-      exec ${pkgs.wezterm}/bin/wezterm start -- ${pkgs.zsh}/bin/zsh -lic \
-        'exec ${nvim}/bin/nvim -- "$@"' nvim-wezterm "$@"
+      exec ${pkgs.kitty}/bin/kitty -- ${pkgs.zsh}/bin/zsh -lic \
+        'exec ${nvim}/bin/nvim -- "$@"' nvim-kitty "$@"
     '';
   };
   textMimeTypes = [
@@ -56,7 +56,7 @@
     "application/x-desktop"
     "application/x-ini"
   ];
-  textApplications = lib.genAttrs textMimeTypes (_: ["nvim-wezterm.desktop"]);
+  textApplications = lib.genAttrs textMimeTypes (_: ["nvim-kitty.desktop"]);
 in {
   home.packages = [
     nvim
@@ -64,11 +64,11 @@ in {
 
   sops.secrets.openrouter_api_key = {};
 
-  xdg.desktopEntries.nvim-wezterm = {
-    name = "Neovim (WezTerm)";
+  xdg.desktopEntries.nvim-kitty = {
+    name = "Neovim (kitty)";
     genericName = "Text Editor";
-    comment = "Edit text files with Neovim in WezTerm";
-    exec = "${nvimWezterm}/bin/nvim-wezterm %F";
+    comment = "Edit text files with Neovim in kitty";
+    exec = "${nvimKitty}/bin/nvim-kitty %F";
     icon = "nvim";
     terminal = false;
     categories = ["Utility" "TextEditor"];
