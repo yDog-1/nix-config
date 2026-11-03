@@ -7,7 +7,7 @@ in {
     themeFile = "Catppuccin-Mocha";
 
     font = {
-      name = "Moralerspace Argon HW";
+      name = "PlemolJP Console NF";
       size = 13.0;
     };
 

@@ -75,10 +75,6 @@
       flake = false;
     };
 
-    moralerspace-hw = {
-      url = "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip";
-      flake = false;
-    };
     catppuccin-yazi = {
       url = "github:catppuccin/yazi";
       flake = false;

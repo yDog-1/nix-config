@@ -495,19 +495,6 @@
         "type": "github"
       }
     },
-    "moralerspace-hw": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1753739498,
-        "narHash": "sha256-gd195o0acZL8AhGvcLLQYxd1VWvUYjpVRMOT5D7zDME=",
-        "type": "tarball",
-        "url": "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://github.com/yuru7/moralerspace/releases/download/v2.0.0/MoralerspaceHW_v2.0.0.zip"
-      }
-    },
     "namaka": {
       "inputs": {
         "haumea": [
@@ -747,7 +734,6 @@
         "llm-agents": "llm-agents",
         "mattpocock-skills": "mattpocock-skills",
         "mcp-servers-nix": "mcp-servers-nix",
-        "moralerspace-hw": "moralerspace-hw",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
