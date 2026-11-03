@@ -31,6 +31,9 @@
   "diffs": {
     "wrap": "word"
   },
+  "tabs": {
+    "mode": "off"
+  },
   "terminal": {
     "title": true
   },
