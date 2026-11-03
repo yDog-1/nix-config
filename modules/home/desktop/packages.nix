@@ -19,6 +19,7 @@
     simple-scan
     system-config-printer
     pavucontrol
+    easyeffects
 
     heroic
     discord
