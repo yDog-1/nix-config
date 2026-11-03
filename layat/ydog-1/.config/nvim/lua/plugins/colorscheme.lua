@@ -1,32 +1,34 @@
 return {
 	{
-		"https://github.com/rebelot/kanagawa.nvim",
+		"https://github.com/catppuccin/nvim",
+		name = "catppuccin",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			require("kanagawa").setup({
-				transparent = true,
-				colors = {
-					theme = {
-						all = {
-							ui = {
-								bg_gutter = "none",
-							},
-						},
-					},
-				},
-				overrides = function(colors)
-					local palette_colors = colors.palette
+			require("catppuccin").setup({
+				flavour = "mocha",
+				transparent_background = true,
+				custom_highlights = function(colors)
 					return {
+						SignColumn = { bg = "none" },
 						NormalFloat = { bg = "none" },
-						FloatBorder = { fg = palette_colors.fujiWhite, bg = "none" },
+						FloatBorder = { fg = colors.text, bg = "none" },
 						FloatTitle = { bg = "none" },
 						Pmenu = { bg = "none" },
-						CursorLine = { bg = palette_colors.sumiInk5 },
+						CursorLine = { bg = colors.surface0 },
 					}
 				end,
+				lsp_styles = {
+					underlines = {
+						errors = { "undercurl" },
+						hints = { "undercurl" },
+						warnings = { "undercurl" },
+						information = { "undercurl" },
+						ok = { "undercurl" },
+					},
+				},
 			})
-			vim.cmd.colorscheme("kanagawa")
+			vim.cmd.colorscheme("catppuccin-mocha")
 		end,
 	},
 }
