@@ -362,6 +362,23 @@
         "type": "github"
       }
     },
+    "hypr-dots": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747460691,
+        "narHash": "sha256-b8kI4XV/hg6vsd6UKSnlMAJFdh4tloeTUfHfi5p7a9Y=",
+        "owner": "notdanna",
+        "repo": "hypr.dots",
+        "rev": "111a2840ea3caeb1bd1b3a850b4bf8253af0f738",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notdanna",
+        "repo": "hypr.dots",
+        "rev": "111a2840ea3caeb1bd1b3a850b4bf8253af0f738",
+        "type": "github"
+      }
+    },
     "layat": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -663,6 +680,7 @@
         "comfyui-gtx1080-nix": "comfyui-gtx1080-nix",
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",
+        "hypr-dots": "hypr-dots",
         "layat": "layat",
         "llm-agents": "llm-agents",
         "mattpocock-skills": "mattpocock-skills",

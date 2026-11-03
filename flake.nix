@@ -83,6 +83,10 @@
       url = "github:catppuccin/rofi";
       flake = false;
     };
+    hypr-dots = {
+      url = "github:notdanna/hypr.dots/111a2840ea3caeb1bd1b3a850b4bf8253af0f738";
+      flake = false;
+    };
     tmux-open-nvim = {
       url = "github:trevarj/tmux-open-nvim";
       flake = false;
