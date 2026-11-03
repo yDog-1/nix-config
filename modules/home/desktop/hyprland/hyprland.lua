@@ -136,6 +136,12 @@ hl.window_rule({
 	border_size = 0,
 })
 
+hl.window_rule({
+	match = { class = [[^\.proton-authenticator-wrapped_$]] },
+	tile = true,
+	suppress_event = "maximize",
+})
+
 -- settings.device
 hl.device({
 	["accel_profile"] = "adaptive",
