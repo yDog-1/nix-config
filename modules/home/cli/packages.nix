@@ -19,7 +19,6 @@
     imagemagick
     ghostscript
 
-    go
     nodejs
     deno
     bun
