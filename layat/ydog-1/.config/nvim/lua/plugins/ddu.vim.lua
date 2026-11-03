@@ -155,7 +155,15 @@ return {
 				sourceParams = {
 					rg = {
 						inputType = "migemo",
-						args = { "--column", "--no-heading", "--color=never", "--ignore-case" },
+						args = {
+							"--column",
+							"--no-heading",
+							"--color=never",
+							"--ignore-case",
+							"--hidden",
+							"--follow",
+							"--glob=!.git",
+						},
 					},
 				},
 				uiParams = {
