@@ -92,7 +92,7 @@
 
             if [ -s "$target_file" ]; then
               target_address="$(cat "$target_file")"
-              hyprctl dispatch focuswindow "address:$target_address" >/dev/null || true
+              hyprctl dispatch "hl.dsp.focus({ window = $(printf 'address:%s' "$target_address" | jq -Rs .) })" >/dev/null
               sleep 0.1
             fi
 
