@@ -5,5 +5,6 @@ return {
 		backend = "kitty",
 		processor = "magick_cli",
 		tmux_show_only_in_active_window = true,
+		window_overlap_clear_enabled = true,
 	},
 }
