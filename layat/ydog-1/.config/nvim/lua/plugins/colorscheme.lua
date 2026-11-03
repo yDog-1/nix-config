@@ -16,6 +16,7 @@ return {
 						FloatTitle = { bg = "none" },
 						Pmenu = { bg = "none" },
 						CursorLine = { bg = colors.surface0 },
+						Visual = { fg = colors.crust, bg = colors.rosewater },
 					}
 				end,
 				lsp_styles = {
