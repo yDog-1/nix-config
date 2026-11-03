@@ -5,6 +5,7 @@
     ./hypridle.nix
     ./hyprland
     ./ironbar.nix
+    ./kitty.nix
     ./media-player.nix
     ./mouse-remap.nix
     ./night-mode.nix
