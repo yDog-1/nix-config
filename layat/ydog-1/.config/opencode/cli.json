@@ -43,5 +43,8 @@
     "thinking": "hide",
     "permissions": "autoaccept"
   },
-  "animations": true
+  "animations": true,
+  "theme": {
+    "name": "catppuccin"
+  }
 }
