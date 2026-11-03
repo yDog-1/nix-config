@@ -13,7 +13,6 @@
 
     git
     gh
-    lazygit
     delta
 
     imagemagick

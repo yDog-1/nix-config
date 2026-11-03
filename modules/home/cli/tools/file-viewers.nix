@@ -1,6 +1,9 @@
 {
   programs = {
-    bat.enable = true;
+    bat = {
+      enable = true;
+      config.theme = "Catppuccin Mocha";
+    };
     eza = {
       enable = true;
       enableZshIntegration = true;
