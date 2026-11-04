@@ -35,13 +35,19 @@ def select_player(players, previous):
     return min(candidates) if candidates else None
 
 
-def main(action=None):
+def main(action=None, icon=None):
     output = re.sub(r"[^a-zA-Z0-9_-]", "_", os.environ.get("WAYBAR_OUTPUT_NAME", "default"))
     state = pathlib.Path(os.environ["XDG_RUNTIME_DIR"]) / f"waybar-media-{output}.json"
     try:
-        previous = json.loads(state.read_text())["player"]
+        data = json.loads(state.read_text())
+        previous = data["player"]
     except (OSError, ValueError, KeyError):
         previous = ""
+        data = {}
+    if icon:
+        text = {"previous": "", "play": "" if data.get("status") == "Playing" else "", "next": ""}[icon] if previous else ""
+        print(json.dumps({"text": text, "class": data.get("status", "Stopped")}))
+        return
     players = playerctl("-l").splitlines()
     if action:
         if action not in ("previous", "play-pause", "next"):
@@ -56,10 +62,13 @@ def main(action=None):
     else:
         player, status, text = "", "Stopped", ""
     temporary = state.with_suffix(f".{os.getpid()}.tmp")
-    temporary.write_text(json.dumps({"player": player}))
+    temporary.write_text(json.dumps({"player": player, "status": status}))
     temporary.replace(state)
     print(json.dumps({"text": html.escape(text), "class": status, "alt": status}))
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else None)
+    if len(sys.argv) == 3 and sys.argv[1] == "--icon":
+        main(icon=sys.argv[2])
+    else:
+        main(sys.argv[1] if len(sys.argv) > 1 else None)

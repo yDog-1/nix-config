@@ -4,7 +4,8 @@
     settings = {
       positionX = "right";
       positionY = "top";
-      control-center-margin-top = 48;
+      # Layer-shell already excludes the bar's reserved zone; add only the gap.
+      control-center-margin-top = 8;
       control-center-margin-bottom = 12;
       control-center-margin-right = 20;
       control-center-margin-left = 0;
@@ -23,7 +24,7 @@
       timeout-critical = 0;
       keyboard-shortcuts = true;
       image-visibility = "when-available";
-      transition-time = 150;
+      transition-time = 300;
       hide-on-clear = true;
       hide-on-action = true;
       widgets = ["title" "dnd" "notifications"];

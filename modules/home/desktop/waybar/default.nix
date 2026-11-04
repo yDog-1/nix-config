@@ -31,6 +31,30 @@
       exec python3 ${./media.py} "$@"
     '';
   };
+  popupPython = pkgs.python3.withPackages (ps: [ps.pygobject3]);
+  notifications = pkgs.writeShellApplication {
+    name = "waybar-notifications";
+    runtimeInputs = [pkgs.libnotify];
+    text = ''
+      exec ${popupPython}/bin/python3 ${./notifications.py} "$@"
+    '';
+  };
+  mediaButton = name: action: {
+    format = "{text}";
+    return-type = "json";
+    exec = "${lib.getExe media} --icon ${name}";
+    interval = 1;
+    hide-empty-text = true;
+    tooltip-format =
+      {
+        previous = "Previous";
+        play = "Play / pause";
+        next = "Next";
+      }.${
+        name
+      };
+    on-click = "${lib.getExe media} ${action}";
+  };
   audio = pkgs.writeShellApplication {
     name = "waybar-audio-output";
     runtimeInputs = [pkgs.python3 pkgs.pulseaudio pkgs.libnotify config.programs.rofi.finalPackage];
@@ -73,6 +97,13 @@
       on-click-middle = "${lib.getExe media} play-pause";
       on-click-right = "${lib.getExe media} next";
     };
+    "group/media" = {
+      orientation = "horizontal";
+      modules = ["custom/media-previous" "custom/media-play" "custom/media-next" "custom/playerlabel"];
+    };
+    "custom/media-previous" = mediaButton "previous" "previous";
+    "custom/media-play" = mediaButton "play" "play-pause";
+    "custom/media-next" = mediaButton "next" "next";
     "custom/record".on-click = "${lib.getExe record} fullscreen";
     "custom/section".on-click = "${lib.getExe record} section";
     "custom/stop".on-click = "${lib.getExe record} stop";
@@ -81,7 +112,7 @@
       format = "{text} {icon}";
       exec-if = "${pkgs.coreutils}/bin/test -x ${swaync}";
       exec = "${swaync} -swb";
-      on-click = "${swaync} -t -sw";
+      on-click = lib.getExe notifications;
       on-click-right = "${swaync} -d -sw";
     };
     "custom/weather".exec = "${pkgs.wttrbar}/bin/wttrbar --custom-indicator '{ICON}{temp_C}°C'";
@@ -105,7 +136,24 @@ in {
         /* Referenced but undefined in upstream; use its primary accent. */
         @define-color main-color @primary;
       ''
-      + builtins.replaceStrings [''@import "../matugen/matugen-waybar.css";'' "#window"] ["" "#custom-window"] (builtins.readFile "${upstream}/dots/waybar/purple/style.css");
+      + builtins.replaceStrings [''@import "../matugen/matugen-waybar.css";'' "#window"] ["" "#custom-window"] (builtins.readFile "${upstream}/dots/waybar/purple/style.css")
+      + ''
+        #media {
+          background: alpha(@tertiary_container, 0.8);
+          color: @on_tertiary_container;
+          border-radius: 10px;
+          margin: 6px 4px;
+          padding: 0 4px;
+        }
+        #media #custom-playerlabel { background: transparent; margin: 0; padding: 0 8px; }
+        #custom-media-previous, #custom-media-play, #custom-media-next {
+          padding: 0 8px;
+          border-radius: 6px;
+        }
+        #custom-media-previous:hover, #custom-media-play:hover, #custom-media-next:hover {
+          background: alpha(@primary, 0.2);
+        }
+      '';
   };
   xdg.configFile = {
     "waybar/config".source = generated;

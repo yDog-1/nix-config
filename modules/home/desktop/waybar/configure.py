@@ -14,6 +14,7 @@ def configure(source, overrides):
         modules.setdefault(name, {}).update(values)
     modules.pop("custom/updates")
     modules["group/info"]["modules"].remove("custom/updates")
+    modules["group/info"]["modules"] = ["group/media" if name == "custom/playerlabel" else name for name in modules["group/info"]["modules"]]
     modules.pop("hyprland/window")
 
     bars = []
@@ -27,6 +28,10 @@ def configure(source, overrides):
         bar["output"] = output
         for action in ("exec", "on-click", "on-click-middle", "on-click-right"):
             bar["custom/playerlabel"][action] = f'WAYBAR_OUTPUT_NAME={output} {bar["custom/playerlabel"][action]}'
+        for name in ("previous", "play", "next"):
+            for action in ("exec", "on-click"):
+                bar[f"custom/media-{name}"][action] = f'WAYBAR_OUTPUT_NAME={output} {bar[f"custom/media-{name}"][action]}'
+        bar["custom/notifications"]["on-click"] += f" {output}"
         bar["custom/record"]["on-click"] = f'WAYBAR_OUTPUT_NAME={output} {bar["custom/record"]["on-click"]}'
         bar["position"] = "top"
         bar["layer"] = "top"

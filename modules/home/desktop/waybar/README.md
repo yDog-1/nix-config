@@ -19,16 +19,29 @@ Wallpaper changes do not regenerate the palette.
   Chrome, Brave, LibreWolf, Floorp, Vivaldi, Opera and Edge names are recognized.
   Only media exposed by the browser can be displayed. Playing media takes
   precedence over paused media; equal-priority players retain the current choice.
-  Left / middle / right click sends previous / play-pause / next to the exact
-  displayed player instance. If it exits, clicks do not control another player.
+  Alongside the title, separate `` / `` (or `` while playing) / `` buttons
+  send previous / play-pause / next on left click to the exact displayed player.
+  All three buttons hide when there is no browser media. The title also retains
+  its left / middle / right click shortcuts. If the player exits, clicks do not
+  control another player.
 - The update counter and its script are removed.
 - Audio: left click opens an output-device chooser below the bar on the pointer's
   monitor; right click toggles mute; middle click opens Pavucontrol; scrolling
   adjusts volume by 5%. Choosing a device changes the default sink and moves
   existing playback streams. Canceling the chooser makes no changes.
 - SwayNC is notification-only: title/clear-all, DND and notification history.
-  Its palette matches Waybar; both the panel and toast notifications have a top
-  offset below the bar. Media and volume controls are not included in SwayNC.
+  Its palette matches Waybar. Clicking the notification icon opens the panel
+  below/right of the click, on that icon's monitor. The outer panel width includes
+  its padding/border; placement respects monitor scaling/rotation and clamps at
+  screen edges. The helper changes only the in-memory right margin over D-Bus
+  (`write_to_file=false`), then selects the output before opening. Clicking again
+  closes it. Layer-shell excludes the bar's reserved zone; an 8px gap is added.
+  Toast notifications retain their separate top offset. Media and volume controls
+  are not included in SwayNC.
+- SwayNC transitions, Waybar drawers, and Hyprland layer/popup animations use
+  300ms. The compositor settings target only `layers`, `fadeLayers`, `fadePopups`;
+  ordinary window/workspace animations and notification dismissal timeouts are
+  unchanged. `transition-time` in SwayNC alone does not control panel opening.
 - Drawers expand horizontally within the bar. Calendar tooltips, tray menus and
   the Rofi network/device menus appear below it.
 
@@ -50,3 +63,6 @@ Run helper regression tests with:
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s modules/home/desktop/waybar -p 'test_*.py'
 ```
+
+Set `WAYBAR_CONFIG` and `SWAYNC_CONFIG` to the built JSON files to include the
+generated-configuration regression tests (otherwise these three tests skip).

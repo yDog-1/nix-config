@@ -93,6 +93,12 @@ hl.bind((mod .. " + 0"), (hl.dsp.focus({ workspace = 10 })))
 hl.bind((mod .. " + SHIFT + 0"), (hl.dsp.window.move({ workspace = 10 })))
 
 -- settings.config
+-- Layer-shell panels and popup fades match Waybar's 300ms drawers.
+-- Animation speeds are expressed in units of 100ms.
+for _, leaf in ipairs({ "layers", "fadeLayers", "fadePopups" }) do
+	hl.animation({ leaf = leaf, enabled = true, speed = 3, bezier = "default" })
+end
+
 hl.config({
 	["animations"] = {
 		["enabled"] = true,

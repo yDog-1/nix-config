@@ -44,6 +44,11 @@ class MediaTests(unittest.TestCase):
             with contextlib.redirect_stdout(output):
                 media.main()
             self.assertIn("&lt;title&gt; &amp;", json.loads(output.getvalue())["text"])
+            for icon, expected in [("previous", ""), ("play", ""), ("next", "")]:
+                icon_output = io.StringIO()
+                with contextlib.redirect_stdout(icon_output):
+                    media.main(icon=icon)
+                self.assertEqual(json.loads(icon_output.getvalue())["text"], expected)
             self.assertEqual(json.loads((pathlib.Path(directory) / "waybar-media-DP-3.json").read_text())["player"], "chromium.two")
             statuses["firefox.one"] = "Playing"
             media.main("play-pause")
@@ -52,6 +57,16 @@ class MediaTests(unittest.TestCase):
             calls.clear()
             media.main("next")
             self.assertEqual(calls, [("-l",)])
+
+    def test_play_icon_for_paused_media_and_hide_without_media(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"XDG_RUNTIME_DIR": directory, "WAYBAR_OUTPUT_NAME": "DP-3"}):
+            state = pathlib.Path(directory) / "waybar-media-DP-3.json"
+            for data, expected in [({"player": "firefox", "status": "Paused"}, ""), ({"player": "", "status": "Stopped"}, "")]:
+                state.write_text(json.dumps(data))
+                output = io.StringIO()
+                with contextlib.redirect_stdout(output):
+                    media.main(icon="play")
+                self.assertEqual(json.loads(output.getvalue())["text"], expected)
 
     def test_no_browser_hides_label_and_stable_selection(self):
         with patch.object(media, "playerctl", return_value="Playing"):
