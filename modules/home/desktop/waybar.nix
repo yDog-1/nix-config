@@ -8,18 +8,34 @@
   upstream = inputs.hypr-dots;
   python = pkgs.python3.withPackages (ps: [ps.json5]);
   pactl = "${pkgs.pulseaudio}/bin/pactl";
-  playerctl = "${pkgs.playerctl}/bin/playerctl";
   swaync = "${pkgs.swaynotificationcenter}/bin/swaync-client";
+  windowRules = pkgs.runCommand "waybar-window-rules.json" {nativeBuildInputs = [python];} ''
+    python -c 'import json, json5; print(json.dumps(json5.load(open("${upstream}/dots/waybar/purple/modules.jsonc"))["hyprland/window"]["rewrite"]))' > "$out"
+  '';
+  window = pkgs.writeShellApplication {
+    name = "waybar-window";
+    runtimeInputs = [pkgs.python3];
+    text = ''
+      exec python3 ${./waybar/window.py} ${windowRules}
+    '';
+  };
   record = pkgs.writeShellApplication {
     name = "waybar-record";
     runtimeInputs = with pkgs; [coreutils jq libnotify slurp systemd wf-recorder xdg-user-dirs];
     text = builtins.readFile ./waybar/record.sh;
   };
-  updates = pkgs.writeShellApplication {
-    name = "waybar-updates";
-    runtimeInputs = [pkgs.python3];
+  media = pkgs.writeShellApplication {
+    name = "waybar-browser-media";
+    runtimeInputs = [pkgs.python3 pkgs.playerctl];
     text = ''
-      exec python3 ${./waybar/updates.py} /home/ydog-1/nix-config/flake.lock
+      exec python3 ${./waybar/media.py} "$@"
+    '';
+  };
+  audio = pkgs.writeShellApplication {
+    name = "waybar-audio-output";
+    runtimeInputs = [pkgs.python3 pkgs.pulseaudio pkgs.libnotify config.programs.rofi.finalPackage];
+    text = ''
+      exec python3 ${./waybar/audio.py} ${./waybar/audio.rasi}
     '';
   };
   networkPython = pkgs.python3.withPackages (ps: [ps.pygobject3]);
@@ -31,24 +47,31 @@
       exec ${networkPython}/bin/python3 ${upstream}/dots/rofi/network/network.py "$@"
     '';
   };
-  # Only executable paths / host compatibility override the upstream modules.
+  # Keep the upstream layout while applying local interaction preferences.
   overrides = {
     pulseaudio = {
-      on-click = "${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
+      on-click = lib.getExe audio;
+      on-click-right = "${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
       on-click-middle = "${pkgs.pavucontrol}/bin/pavucontrol";
       on-scroll-up = "${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
       on-scroll-down = "${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
     };
     network.on-click = lib.getExe network;
-    "custom/updates" = {
-      exec = lib.getExe updates;
-      hide-empty-text = true;
+    "custom/window" = {
+      format = "{text}";
+      return-type = "json";
+      exec = lib.getExe window;
+      interval = 1;
+      tooltip = false;
+      max-length = 35;
     };
     "custom/playerlabel" = {
-      exec = ''${playerctl} -p spotify metadata --format '{"text": "{{artist}} : {{markup_escape(title)}}", "tooltip": "Spotify : {{markup_escape(title)}}", "alt": "{{status}}", "class": "{{status}}"}' -F'';
-      on-click = ''${pkgs.bash}/bin/bash -c 'player=$(${playerctl} -l | ${pkgs.gnugrep}/bin/grep -E "spotify|cider" | ${pkgs.coreutils}/bin/head -n 1); ${playerctl} -p "$player" previous' '';
-      on-click-middle = ''${pkgs.bash}/bin/bash -c 'player=$(${playerctl} -l | ${pkgs.gnugrep}/bin/grep -E "spotify|cider" | ${pkgs.coreutils}/bin/head -n 1); ${playerctl} -p "$player" play-pause' '';
-      on-click-right = ''${pkgs.bash}/bin/bash -c 'player=$(${playerctl} -l | ${pkgs.gnugrep}/bin/grep -E "spotify|cider" | ${pkgs.coreutils}/bin/head -n 1); ${playerctl} -p "$player" next' '';
+      exec = lib.getExe media;
+      interval = 2;
+      hide-empty-text = true;
+      on-click = "${lib.getExe media} previous";
+      on-click-middle = "${lib.getExe media} play-pause";
+      on-click-right = "${lib.getExe media} next";
     };
     "custom/record".on-click = "${lib.getExe record} fullscreen";
     "custom/section".on-click = "${lib.getExe record} section";
@@ -82,7 +105,7 @@ in {
         /* Referenced but undefined in upstream; use its primary accent. */
         @define-color main-color @primary;
       ''
-      + builtins.replaceStrings [''@import "../matugen/matugen-waybar.css";''] [""] (builtins.readFile "${upstream}/dots/waybar/purple/style.css");
+      + builtins.replaceStrings [''@import "../matugen/matugen-waybar.css";'' "#window"] ["" "#custom-window"] (builtins.readFile "${upstream}/dots/waybar/purple/style.css");
   };
   xdg.configFile = {
     "waybar/config".source = generated;
