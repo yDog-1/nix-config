@@ -8,6 +8,24 @@
   };
 in {
   home.packages = with pkgs; [
+    # Runtimes and compilers
+    nodejs
+    deno
+    bun
+    pnpm
+    python3
+    python3Packages.pip
+    uv
+    cargo
+    rustc
+    gcc
+
+    # Version control
+    git
+    gh
+    delta
+    ghq
+
     # LSP Servers
     arduino-language-server
     clang-tools
@@ -35,6 +53,7 @@ in {
     typos
 
     # Formatters
+    gdscript-formatter
     prettier
     stylua
     # Temporary measures for https://github.com/NixOS/nixpkgs/issues/509480

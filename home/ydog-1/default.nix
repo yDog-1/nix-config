@@ -5,10 +5,13 @@
 }: {
   imports = [
     ../../modules/home/desktop
-    ../../modules/home/cli
+    ../../modules/home/development
+    ../../modules/home/editors
+    ../../modules/home/terminal
+    ../../modules/home/tools
     ../../modules/home/shell
     ../../modules/home/ai
-    ../../modules/home/skk
+    ../../modules/home/input
     ../../modules/home/secrets
   ];
 

@@ -1,5 +1,5 @@
 let
-  catppuccin = import ../../../../lib/style/catppuccin-colors.nix;
+  catppuccin = import ../../../lib/style/catppuccin-colors.nix;
   c = catppuccin.colors;
 in {
   programs.fzf = {

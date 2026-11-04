@@ -1,6 +1,6 @@
 {
   imports = [
-    ./direnv.nix
+    ./packages.nix
     ./file-search.nix
     ./file-viewers.nix
     ./fzf.nix

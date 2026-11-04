@@ -16,26 +16,26 @@
     name = "waybar-window";
     runtimeInputs = [pkgs.python3];
     text = ''
-      exec python3 ${./waybar/window.py} ${windowRules}
+      exec python3 ${./window.py} ${windowRules}
     '';
   };
   record = pkgs.writeShellApplication {
     name = "waybar-record";
     runtimeInputs = with pkgs; [coreutils jq libnotify slurp systemd wf-recorder xdg-user-dirs];
-    text = builtins.readFile ./waybar/record.sh;
+    text = builtins.readFile ./record.sh;
   };
   media = pkgs.writeShellApplication {
     name = "waybar-browser-media";
     runtimeInputs = [pkgs.python3 pkgs.playerctl];
     text = ''
-      exec python3 ${./waybar/media.py} "$@"
+      exec python3 ${./media.py} "$@"
     '';
   };
   audio = pkgs.writeShellApplication {
     name = "waybar-audio-output";
     runtimeInputs = [pkgs.python3 pkgs.pulseaudio pkgs.libnotify config.programs.rofi.finalPackage];
     text = ''
-      exec python3 ${./waybar/audio.py} ${./waybar/audio.rasi}
+      exec python3 ${./audio.py} ${./audio.rasi}
     '';
   };
   networkPython = pkgs.python3.withPackages (ps: [ps.pygobject3]);
@@ -91,7 +91,7 @@
       nativeBuildInputs = [python];
       overridesFile = pkgs.writeText "waybar-overrides.json" (builtins.toJSON overrides);
     } ''
-      python ${./waybar/configure.py} ${upstream}/dots/waybar/purple "$overridesFile" "$out"
+      python ${./configure.py} ${upstream}/dots/waybar/purple "$overridesFile" "$out"
     '';
 in {
   home.packages = [pkgs.nerd-fonts.jetbrains-mono];

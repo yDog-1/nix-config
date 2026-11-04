@@ -2,9 +2,10 @@
   imports = [
     ./browser.nix
     ./clipboard.nix
+    ./file-management.nix
+    ./image-viewer.nix
     ./hypridle.nix
     ./hyprland
-    ./kitty.nix
     ./media-player.nix
     ./mouse-remap.nix
     ./night-mode.nix
@@ -16,8 +17,8 @@
     ./system-monitor.nix
     ./theme.nix
     ./vim-anywhere.nix
-    ./waypaper.nix
-    ./waybar.nix
+    ./waypaper
+    ./waybar
     ./xdg-user-dirs.nix
   ];
 }

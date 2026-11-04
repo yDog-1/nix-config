@@ -10,18 +10,18 @@
       value = entries.${name};
     }) (builtins.attrNames entries));
 
-  configFileEntries = prefixEntries ".config" (import ./file-tree.nix ./.config);
+  configFileEntries = prefixEntries ".config" (import ../lib/file-tree.nix ./files/.config);
   configEntries =
     builtins.mapAttrs (name: _: {
       # Keep dotfiles outside the Nix store so they survive garbage collection.
-      src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/.config/${pkgs.lib.removePrefix ".config/" name}";
+      src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.config/${pkgs.lib.removePrefix ".config/" name}";
     })
     configFileEntries;
 
-  vimFileEntries = prefixEntries ".vim" (import ./file-tree.nix ./.vim);
+  vimFileEntries = prefixEntries ".vim" (import ../lib/file-tree.nix ./files/.vim);
   vimEntries =
     builtins.mapAttrs (name: _: {
-      src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/.vim/${pkgs.lib.removePrefix ".vim/" name}";
+      src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.vim/${pkgs.lib.removePrefix ".vim/" name}";
     })
     vimFileEntries;
 in
@@ -30,9 +30,9 @@ in
   // {
     # Place once as a writable file; GTK applications manage subsequent edits.
     ".config/gtk-3.0/bookmarks" = {
-      src = ./.config/gtk-3.0/bookmarks;
+      src = ./files/.config/gtk-3.0/bookmarks;
       method = "copy";
     };
-    ".gitconfig".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/.gitconfig";
-    ".vimrc".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/.vimrc";
+    ".gitconfig".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.gitconfig";
+    ".vimrc".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.vimrc";
   }

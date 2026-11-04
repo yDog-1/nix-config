@@ -2,7 +2,7 @@
   "proseWrap": "preserve",
   "overrides": [
     {
-      "files": "layat/ydog-1/.config/yamllint/config",
+      "files": "layat/ydog-1/files/.config/yamllint/config",
       "options": {
         "parser": "yaml"
       }

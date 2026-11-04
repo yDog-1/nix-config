@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  wallpapers = import ./wallpaper-sources.nix;
+  wallpapers = import ./sources.nix;
 in {
   services.hyprpaper.enable = true;
 

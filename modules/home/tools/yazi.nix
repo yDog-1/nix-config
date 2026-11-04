@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  catppuccin = import ../../../../lib/style/catppuccin-colors.nix;
+  catppuccin = import ../../../lib/style/catppuccin-colors.nix;
   catppuccinYazi = pkgs.runCommand "catppuccin-yazi-${catppuccin.flavor}-${catppuccin.accent}" {} ''
     mkdir -p $out
     cp ${inputs.catppuccin-yazi}/themes/${catppuccin.flavor}/catppuccin-${catppuccin.flavor}-${catppuccin.accent}.toml $out/flavor.toml

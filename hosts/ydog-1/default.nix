@@ -1,6 +1,8 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./mounts.nix
+    ./users.nix
 
     ../../modules/nixos/boot.nix
     ../../modules/nixos/bluetooth.nix
@@ -9,7 +11,6 @@
     ../../modules/nixos/input.nix
     ../../modules/nixos/locale.nix
     ../../modules/nixos/mouse-remap.nix
-    ../../modules/nixos/mounts.nix
     ../../modules/nixos/networking.nix
     ../../modules/nixos/nix.nix
     ../../modules/nixos/nvidia.nix
@@ -17,7 +18,6 @@
     ../../modules/nixos/scan-print.nix
     ../../modules/nixos/sound.nix
     ../../modules/nixos/ssh.nix
-    ../../modules/nixos/users.nix
     ../../modules/nixos/gaming.nix
   ];
 

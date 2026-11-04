@@ -1,12 +1,7 @@
 {pkgs, ...}: {
-  imports = [
-    ./image-viewer.nix
-    ./file-management.nix
-  ];
-
-  home.sessionVariables.TERMINAL = "kitty";
-
   home.packages = with pkgs; [
+    xclip
+    wl-clipboard
     hyprshot
     waypaper
     nwg-displays

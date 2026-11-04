@@ -4,11 +4,19 @@
 
 - This flake targets one `x86_64-linux` machine and exposes three independently applied outputs: `nixosConfigurations.ydog-1`, `homeConfigurations."ydog-1"`, and `layat.x86_64-linux.ydog-1`.
 - NixOS starts at `hosts/ydog-1/default.nix`; standalone Home Manager starts at `home/ydog-1/default.nix`. Nix modules are not auto-discovered: import additions from these entrypoints or an existing module aggregator.
-- `layat/ydog-1/file-tree.nix` auto-collects regular files in `.config` and `.vim`; `.gitconfig` and `.vimrc` are also layat-managed. They become out-of-store symlinks to this checkout, which is intentionally fixed at `/home/ydog-1/nix-config` (`programs.nh.flake` uses the same path).
+- `layat/lib/file-tree.nix` auto-collects regular files in `layat/ydog-1/files/.config` and `layat/ydog-1/files/.vim`; `.gitconfig` and `.vimrc` under `files/` are also layat-managed. They become out-of-store symlinks to this checkout, which is intentionally fixed at `/home/ydog-1/nix-config` (`programs.nh.flake` uses the same path).
 - NixOS owns Hyprland, greetd/UWSM, Xwayland, and portals (`modules/nixos/desktop.nix`); Home Manager only places `modules/home/desktop/hyprland/hyprland.lua`. Do not enable a second Home Manager Hyprland module/package or portal.
 - Neovim dotfiles belong to layat; Home Manager provides the wrapped executable and generated `nvim/after/lsp/nixd.lua`. Place local LSP overrides in `after/lsp/` so they take precedence over nvim-lspconfig defaults.
-- OpenCode's editable base config is `modules/home/ai/opencode/opencode.json`; Home Manager generates the live config and merges MCP settings. Do not edit the generated target. `cli.json` is managed by layat under `layat/ydog-1/.config/opencode/`.
+- OpenCode's editable base config is `modules/home/ai/opencode/opencode.json`; Home Manager generates the live config and merges MCP settings. Do not edit the generated target. `cli.json` is managed by layat under `layat/ydog-1/files/.config/opencode/`.
 - Flake overlays apply to Home Manager, checks, packages, and the dev shell, but not the separately constructed NixOS `pkgs`.
+
+## Directory conventions
+
+- Host-specific mounts and users belong in `hosts/ydog-1/`; shared NixOS feature settings belong in `modules/nixos/`.
+- Home Manager modules are grouped by purpose: `ai`, `development`, `editors`, `terminal`, `tools`, `shell`, `desktop`, `input`, and `secrets`.
+- A feature with only Nix configuration uses `<feature>.nix`; a feature with supporting files uses `<feature>/default.nix` alongside those files.
+- Category `default.nix` files collect imports. `packages.nix` files define packages rather than importing other feature modules.
+- `nix/checks.nix` and `nix/devshell.nix` implement flake tooling; `flake.nix` connects inputs and outputs.
 
 ## Checks
 
@@ -19,7 +27,7 @@
 
 ## Compatibility and secrets
 
-- Treat `hosts/ydog-1/hardware-configuration.nix` as generated hardware data; put normal system changes in `modules/nixos`.
+- Treat `hosts/ydog-1/hardware-configuration.nix` as generated hardware data; put host-specific changes in sibling modules and shared system changes in `modules/nixos`.
 - Preserve `networking.hostName = "nixos"` and the existing `system.stateVersion` / `home.stateVersion` values; these are intentional compatibility choices.
 - Sunshine uses Boost from `nixpkgs-25-05` because Boost 1.89 stalls on this host's RDRAND implementation; avoid removing this override without checking compatibility.
 - SOPS age private key is external at `${XDG_CONFIG_HOME}/sops/age/keys.txt` and is needed for Home Manager activation. `.sops.yaml` only matches `secrets/*.yaml` (not nested paths); encrypted `secrets/default.yaml` is repository data.
