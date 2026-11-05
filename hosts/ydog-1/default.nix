@@ -14,6 +14,7 @@
     ../../modules/nixos/networking.nix
     ../../modules/nixos/nix.nix
     ../../modules/nixos/nvidia.nix
+    ../../modules/nixos/ollama.nix
     ../../modules/nixos/power.nix
     ../../modules/nixos/scan-print.nix
     ../../modules/nixos/sound.nix
