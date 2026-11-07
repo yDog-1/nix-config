@@ -18,6 +18,9 @@ local mod = "SUPER"
 local terminal = "kitty"
 
 -- settings.bind
+hl.bind("XF86AudioRaiseVolume", (hl.dsp.exec_cmd("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+")))
+hl.bind("XF86AudioLowerVolume", (hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")))
+hl.bind("XF86AudioMute", (hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")))
 hl.bind((mod .. " + T"), (hl.dsp.exec_cmd(terminal)))
 hl.bind((mod .. " + B"), (hl.dsp.exec_cmd(browser)))
 hl.bind((mod .. " + Space"), (hl.dsp.exec_cmd("rofi -show drun")))
