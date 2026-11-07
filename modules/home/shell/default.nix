@@ -2,7 +2,7 @@
   imports = [
     ./shell-common.nix
     ./zsh-config.nix
-    ./sheldon.nix
+    ./sheldon
     ./starship.nix
     ./aliases.nix
   ];

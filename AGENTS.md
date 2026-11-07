@@ -7,6 +7,7 @@
 - `layat/lib/file-tree.nix` auto-collects regular files in `layat/ydog-1/files/.config` and `layat/ydog-1/files/.vim`; `.gitconfig` and `.vimrc` under `files/` are also layat-managed. They become out-of-store symlinks to this checkout, which is intentionally fixed at `/home/ydog-1/nix-config` (`programs.nh.flake` uses the same path).
 - NixOS owns Hyprland, greetd/UWSM, Xwayland, and portals (`modules/nixos/desktop.nix`); Home Manager only places `modules/home/desktop/hyprland/hyprland.lua`. Do not enable a second Home Manager Hyprland module/package or portal.
 - Neovim dotfiles belong to layat; Home Manager provides the wrapped executable and generated `nvim/after/lsp/nixd.lua`. Place local LSP overrides in `after/lsp/` so they take precedence over nvim-lspconfig defaults.
+- Sheldon configuration belongs to Home Manager at `modules/home/shell/sheldon/plugins.toml`, not layat. Activation runs `sheldon-sync` after `linkGeneration` to prepare plugin dependencies; interactive startup must not repeat that preparation.
 - OpenCode's editable base config is `modules/home/ai/opencode/opencode.json`; Home Manager generates the live config and merges MCP settings. Do not edit the generated target. `cli.json` is managed by layat under `layat/ydog-1/files/.config/opencode/`.
 - Flake overlays apply to Home Manager, checks, packages, and the dev shell, but not the separately constructed NixOS `pkgs`.
 

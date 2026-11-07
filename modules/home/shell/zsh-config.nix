@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [
     ./zsh-keybindings.nix
   ];
@@ -23,33 +27,37 @@
     autocd = true; # ディレクトリ名だけでcd
 
     # その他のZshオプション
-    initContent = ''
-      # 補完システムを最初に初期化
-      fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
-      autoload -Uz compinit
-      compinit -C
+    initContent = lib.mkMerge [
+      # Initialize once, before Sheldon/fzf and other compdef consumers.
+      (lib.mkOrder 550 ''
+        fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
+        autoload -Uz compinit
+        compinit
+      '')
 
-      # 補完の詳細設定
-      zstyle ':completion:*' menu select
-      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
-      zstyle ':completion:*' group-name '''
-      zstyle ':completion:*:descriptions' format '%B%d%b'
+      (lib.mkOrder 1000 ''
+        # 補完の詳細設定
+        zstyle ':completion:*' menu select
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+        zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+        zstyle ':completion:*' group-name '''
+        zstyle ':completion:*:descriptions' format '%B%d%b'
 
-      # ディレクトリスタック
-      setopt AUTO_PUSHD
-      setopt PUSHD_IGNORE_DUPS
-      setopt PUSHD_SILENT
+        # ディレクトリスタック
+        setopt AUTO_PUSHD
+        setopt PUSHD_IGNORE_DUPS
+        setopt PUSHD_SILENT
 
-      # コマンド履歴
-      setopt HIST_REDUCE_BLANKS
-      setopt HIST_VERIFY
-      setopt BANG_HIST
+        # コマンド履歴
+        setopt HIST_REDUCE_BLANKS
+        setopt HIST_VERIFY
+        setopt BANG_HIST
 
-      # その他の便利なオプション
-      setopt INTERACTIVE_COMMENTS
-      setopt NO_BEEP
-      setopt EXTENDED_GLOB
-    '';
+        # その他の便利なオプション
+        setopt INTERACTIVE_COMMENTS
+        setopt NO_BEEP
+        setopt EXTENDED_GLOB
+      '')
+    ];
   };
 }

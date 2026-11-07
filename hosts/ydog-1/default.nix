@@ -17,6 +17,7 @@
     ../../modules/nixos/ollama.nix
     ../../modules/nixos/power.nix
     ../../modules/nixos/scan-print.nix
+    ../../modules/nixos/shell.nix
     ../../modules/nixos/sound.nix
     ../../modules/nixos/ssh.nix
     ../../modules/nixos/gaming.nix

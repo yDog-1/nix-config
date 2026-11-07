@@ -75,6 +75,24 @@ GTKブックマーク（`~/.config/gtk-3.0/bookmarks`）は`method = "copy"`で�
 
 これでNixOS、Home Manager、dotfilesの復旧は完了です。これらは独立しているため、必要なものをそれぞれ適用します。
 
+## Zshプラグインの更新
+
+補完初期化はHome Manager側だけで行うため、変更時はNixOSとHome Managerの両方を適用します。
+
+Sheldonの設定はHome Manager管理の`modules/home/shell/sheldon/plugins.toml`で編集します。`home-manager switch`で設定を配置した後、プラグインの同期とzenoのDeno依存キャッシュ準備を自動実行するため、設定変更後の手動同期は不要です。layatではこのファイルを管理しません。
+
+既存構成からの移行も`home-manager switch`で行います。移行前のlayat管理リンクは置き換えられます。リポジトリ更新後は旧リンクが一時的に切れるため、Home Managerも続けて適用してください。
+
+`home-manager switch`ではプラグインを最新版へ一括更新せず、既存のロックを尊重します。プラグイン自体を最新版へ更新するときだけ、次を使います。
+
+```bash
+sheldon-sync --update
+```
+
+このコマンドはプラグインの更新後にzenoのDeno依存キャッシュを準備し、失敗時にはエラーを返します。依存キャッシュの再準備は`sheldon-sync`、再インストールは`sheldon-sync --reinstall`で行います。
+
+初回の依存取得や更新にはネットワーク接続が必要です。同期やキャッシュ準備に失敗した場合はHome Managerの適用もエラーになります。通常のシェル起動ではキャッシュ準備を実行しません。Enter時の展開・履歴機能は維持します。
+
 ## 確認
 
 ```bash

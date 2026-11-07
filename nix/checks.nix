@@ -4,6 +4,14 @@
   self,
   system,
 }: {
+  sheldon-sync =
+    pkgs.runCommand "sheldon-sync-tests" {
+      nativeBuildInputs = [pkgs.bash pkgs.coreutils pkgs.diffutils];
+    } ''
+      bash ${../modules/home/shell/sheldon/test-sync.sh} ${../modules/home/shell/sheldon/sync.sh}
+      touch "$out"
+    '';
+
   pre-commit-check = inputs.git-hooks.lib.${system}.run {
     src = ../.;
     hooks = {
