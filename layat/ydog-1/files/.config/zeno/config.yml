@@ -218,9 +218,10 @@ completions:
       --preview: "nix-search-tv preview {}"
     callback: "sed 's|^nixpkgs/ |nixpkgs#|'"
 
-  - name: nixpkgs shell package completion
+  - name: nixpkgs shell and profile package completion
     patterns:
       - "^nix shell( [^- ][^ ]*)* $"
+      - "^nix profile add( [^- ][^ ]*)* $"
     sourceCommand: "nix-search-tv print | grep '^nixpkgs/ '"
     options:
       --prompt: "'nixpkgs> '"
