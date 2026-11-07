@@ -23,3 +23,4 @@
 	rebase = true
 [ghq]
   root = ~/.local/share/ghq
+  user = yDog-1
