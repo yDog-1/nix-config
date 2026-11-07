@@ -1,20 +1,20 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    ristretto
+    gthumb
   ];
 
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "image/avif" = "org.xfce.ristretto.desktop";
-      "image/bmp" = "org.xfce.ristretto.desktop";
-      "image/gif" = "org.xfce.ristretto.desktop";
-      "image/jpeg" = "org.xfce.ristretto.desktop";
-      "image/png" = "org.xfce.ristretto.desktop";
-      "image/svg+xml" = "org.xfce.ristretto.desktop";
-      "image/svg+xml-compressed" = "org.xfce.ristretto.desktop";
-      "image/tiff" = "org.xfce.ristretto.desktop";
-      "image/webp" = "org.xfce.ristretto.desktop";
+      "image/avif" = "org.gnome.gthumb.desktop";
+      "image/bmp" = "org.gnome.gthumb.desktop";
+      "image/gif" = "org.gnome.gthumb.desktop";
+      "image/jpeg" = "org.gnome.gthumb.desktop";
+      "image/png" = "org.gnome.gthumb.desktop";
+      "image/svg+xml" = "org.gnome.gthumb.desktop";
+      "image/svg+xml-compressed" = "org.gnome.gthumb.desktop";
+      "image/tiff" = "org.gnome.gthumb.desktop";
+      "image/webp" = "org.gnome.gthumb.desktop";
     };
   };
 }
