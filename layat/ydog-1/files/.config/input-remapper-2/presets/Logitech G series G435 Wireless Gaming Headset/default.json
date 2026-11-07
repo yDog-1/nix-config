@@ -1,0 +1,26 @@
+[
+  {
+    "input_combination": [
+      {
+        "type": 1,
+        "code": 115,
+        "origin_hash": "ad71b03721db1addea6996fc41a05381"
+      }
+    ],
+    "target_uinput": "keyboard",
+    "output_symbol": "KEY_VOLUMEUP",
+    "mapping_type": "key_macro"
+  },
+  {
+    "input_combination": [
+      {
+        "type": 1,
+        "code": 114,
+        "origin_hash": "ad71b03721db1addea6996fc41a05381"
+      }
+    ],
+    "target_uinput": "keyboard",
+    "output_symbol": "KEY_VOLUMEDOWN",
+    "mapping_type": "key_macro"
+  }
+]

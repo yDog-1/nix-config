@@ -1,6 +1,7 @@
 {
   "version": "2.2.1",
   "autoload": {
-    "Getech HUGE TrackBall": "ELECOM HUGE"
+    "Getech HUGE TrackBall": "ELECOM HUGE",
+    "Logitech G series G435 Wireless Gaming Headset": "default"
   }
 }
