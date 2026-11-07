@@ -229,6 +229,18 @@ completions:
       --preview: "nix-search-tv preview {}"
     callback: "sed 's|^nixpkgs/ |nixpkgs#|'"
 
+  - name: nix profile remove completion
+    patterns:
+      - "^nix profile remove( [^- ][^ ]*)* $"
+    sourceCommand: >-
+      nix profile list --json
+      | jq -r '.elements | to_entries[] | [.key, (.value.originalUrl // .value.storePaths[0])] | @tsv'
+    options:
+      --prompt: "'nix profile remove> '"
+      --multi: true
+      --delimiter: "'\t'"
+    callback: "cut -f1"
+
   - name: local flake build completion
     patterns:
       - "^nix build $"
