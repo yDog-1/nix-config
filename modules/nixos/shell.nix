@@ -1,4 +1,7 @@
 {
-  # Home Manager initializes completion after assembling the user's fpath.
-  programs.zsh.enableCompletion = false;
+  programs.zsh = {
+    # Link system completion files, but let Home Manager initialize compinit once.
+    enableCompletion = true;
+    enableGlobalCompInit = false;
+  };
 }
