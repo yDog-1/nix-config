@@ -154,7 +154,7 @@ in {
       {
         plugin = pkgs.tmuxPlugins.continuum;
         extraConfig = ''
-          set -g @continuum-restore "on"
+          set -g @continuum-restore "off"
           set -g @continuum-save-interval "15"
 
           # Define status-right before continuum appends its autosave hook.
