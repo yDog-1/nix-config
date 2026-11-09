@@ -40,7 +40,7 @@ hl.bind((mod .. " + SHIFT + B"), function()
 
 	hl.dispatch(hl.dsp.window.tag({ tag = "no-window-decorations", window = window }))
 end)
-hl.bind("XF86PowerOff", (hl.dsp.exec_cmd("sleep 1 && hyprctl dispatch 'hl.dsp.dpms({ action = \"disable\" })'")), {
+hl.bind("XF86PowerOff", (hl.dsp.exec_cmd("systemctl suspend")), {
 	dont_inhibit = true,
 	locked = true,
 })
