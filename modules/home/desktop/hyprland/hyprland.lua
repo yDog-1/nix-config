@@ -220,6 +220,7 @@ hl.workspace_rule({
 
 -- extraConfig
 hl.on("hyprland.start", function()
+	hl.exec_cmd('tmux new-session -Ad -s home -c "$HOME"')
 	-- Make Xwayland games see the DP monitor as the primary display.
 	hl.exec_cmd("xrandr --output " .. monitors.primary.output .. " --primary")
 	hl.exec_cmd("uwsm app -- waybar")
