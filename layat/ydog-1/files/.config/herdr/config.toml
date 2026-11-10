@@ -1,0 +1,82 @@
+onboarding = false
+
+[theme]
+name = "catppuccin"
+
+[terminal]
+new_cwd = "follow"
+kitty_graphics = true
+
+[update]
+# The binary is updated through Nix, not Herdr's self-updater.
+version_check = false
+
+[keys]
+# Match stock tmux, not the custom bindings in terminal/tmux.nix.
+# Herdr tabs correspond to tmux windows; workspaces correspond to sessions.
+prefix = "ctrl+b"
+help = "prefix+?"
+detach = "prefix+d"
+split_vertical = "prefix+percent"
+split_horizontal = "prefix+double_quote"
+focus_pane_left = "prefix+left"
+focus_pane_down = "prefix+down"
+focus_pane_up = "prefix+up"
+focus_pane_right = "prefix+right"
+cycle_pane_next = "prefix+o"
+last_pane = "prefix+semicolon"
+close_pane = "prefix+x"
+zoom = "prefix+z"
+copy_mode = "prefix+["
+resize_pane_left = "prefix+ctrl+left"
+resize_pane_down = "prefix+ctrl+down"
+resize_pane_up = "prefix+ctrl+up"
+resize_pane_right = "prefix+ctrl+right"
+
+new_tab = "prefix+c"
+rename_tab = "prefix+comma"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
+close_tab = "prefix+ampersand"
+rename_workspace = "prefix+$"
+workspace_picker = "prefix+s"
+goto = "prefix+w"
+previous_workspace = "prefix+("
+next_workspace = "prefix+)"
+
+# Keep Herdr-only controls away from the stock tmux actions above.
+settings = "prefix+alt+s"
+open_notification_target = "prefix+alt+o"
+# Keep the built-in sidebar, worktree, resize-mode, and directional swap keys.
+# No sesh, vde-tmux, fingers, editprompt, or external status commands are used.
+
+[ui]
+mouse_capture = true
+copy_on_select = true
+prompt_new_tab_name = false
+pane_outer_borders = false
+pane_gaps = false
+tab_bar_position = "bottom"
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },
+  { type = "datetime", format = "%H:%M" },
+]
+sidebar_start_collapsed = false
+agent_panel_sort = "priority"
+show_agent_labels_on_pane_borders = true
+status_indicators = "symbols"
+
+[ui.toast]
+delivery = "herdr"
+delay_seconds = 1
+
+[session]
+# Layouts persist automatically; native conversation resume additionally needs
+# an existing supported integration. Do not install or modify integrations here.
+resume_agents_on_restore = true
+
+[experimental]
+# Do not persist terminal contents, which can contain secrets.
+pane_history = false
