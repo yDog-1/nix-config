@@ -1,3 +1,6 @@
 {pkgs, ...}: {
-  home.packages = [pkgs.herdr];
+  home.packages = [
+    pkgs.herdr
+    pkgs.herdr-core
+  ];
 }
