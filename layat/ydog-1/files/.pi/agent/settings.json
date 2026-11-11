@@ -1,0 +1,7 @@
+{
+  "$schema": "https://pi.dev/schemas/settings.schema.json",
+  "lastChangelogVersion": "1.5.0",
+  "deviceId": "93153516-2a0e-4018-9aeb-e3c1cffe54ff",
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-6.1-sol"
+}

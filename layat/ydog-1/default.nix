@@ -34,5 +34,7 @@ in
       method = "copy";
     };
     ".gitconfig".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.gitconfig";
+    ".pi/agent/keybindings.json".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.pi/agent/keybindings.json";
+    ".pi/agent/settings.json".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.pi/agent/settings.json";
     ".vimrc".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.vimrc";
   }
