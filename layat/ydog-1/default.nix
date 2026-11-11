@@ -4,37 +4,28 @@
   pkgs,
   ...
 }: let
-  prefixEntries = prefix: entries:
-    builtins.listToAttrs (map (name: {
-      name = "${prefix}/${name}";
-      value = entries.${name};
-    }) (builtins.attrNames entries));
+  inherit (pkgs) lib;
 
-  configFileEntries = prefixEntries ".config" (import ../lib/file-tree.nix ./files/.config);
-  configEntries =
-    builtins.mapAttrs (name: _: {
+  files = lib.fileset.toList (
+    lib.fileset.fileFilter
+    (file: file.type == "regular" && file.name != "default.nix")
+    ./files
+  );
+
+  entries = lib.listToAttrs (map (file: let
+      name = lib.removePrefix "${toString ./files}/" (toString file);
+    in {
+      inherit name;
       # Keep dotfiles outside the Nix store so they survive garbage collection.
-      src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.config/${pkgs.lib.removePrefix ".config/" name}";
+      value.src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/${name}";
     })
-    configFileEntries;
-
-  vimFileEntries = prefixEntries ".vim" (import ../lib/file-tree.nix ./files/.vim);
-  vimEntries =
-    builtins.mapAttrs (name: _: {
-      src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.vim/${pkgs.lib.removePrefix ".vim/" name}";
-    })
-    vimFileEntries;
+    files);
 in
-  configEntries
-  // vimEntries
+  entries
   // {
     # Place once as a writable file; GTK applications manage subsequent edits.
     ".config/gtk-3.0/bookmarks" = {
       src = ./files/.config/gtk-3.0/bookmarks;
       method = "copy";
     };
-    ".gitconfig".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.gitconfig";
-    ".pi/agent/keybindings.json".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.pi/agent/keybindings.json";
-    ".pi/agent/settings.json".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.pi/agent/settings.json";
-    ".vimrc".src = inputs.layat.lib.mkOutOfStoreSymlink "${flakePath}/layat/ydog-1/files/.vimrc";
   }

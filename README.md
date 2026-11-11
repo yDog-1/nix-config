@@ -23,7 +23,6 @@ cd "$HOME/nix-config"
 | `modules/home/`            | 用途別のHome Manager設定                                      |
 | `layat/ydog-1/default.nix` | dotfilesの配布定義                                            |
 | `layat/ydog-1/files/`      | ホームディレクトリと同じ構造のdotfiles                        |
-| `layat/lib/`               | 配布対象を収集する補助関数                                    |
 | `lib/`                     | 共通のNix関数・テーマデータ                                   |
 | `secrets/`                 | SOPSで暗号化したデータ                                        |
 
@@ -68,6 +67,8 @@ home-manager switch --flake ".#${USER}"
 ```bash
 nix develop --command layat apply ydog-1
 ```
+
+`layat/ydog-1/files/`以下の通常ファイルを、ホームディレクトリと同じ相対パスへ自動配置します（`default.nix`とシンボリックリンクは対象外）。新しいファイルは`git add`で追跡対象に加え、上記のコマンドを再実行してください。配布定義への個別追加は不要です。
 
 旧構成から更新する場合も、マージ後に`$HOME/nix-config`からこのコマンドを再実行し、リンク先を`layat/ydog-1/files/`へ更新します。worktreeでのレビュー中は適用せず、ビルドによる確認に留めます。
 

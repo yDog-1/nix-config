@@ -39,4 +39,5 @@
 
   nixos-ydog-1 = self.nixosConfigurations.ydog-1.config.system.build.toplevel;
   home-ydog-1 = self.homeConfigurations."ydog-1".activationPackage;
+  layat-ydog-1 = self.layat.${system}.ydog-1;
 }
