@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   inputs,
   config,
   ...
@@ -83,7 +82,7 @@ in {
     enable = true;
   };
 
-  home.packages = [worktrunkCommitMessage];
+  home.packages = [worktrunkCommitMessage pkgs.ast-grep];
 
   programs.agent-skills = {
     enable = true;
@@ -93,100 +92,41 @@ in {
         path = inputs.ast-grep-skill;
         subdir = "ast-grep/skills";
       };
-      agent-browser = {
-        path = inputs.agent-browser-skill;
-        subdir = "skills";
-      };
-      awesome-copilot = {
-        path = inputs.awesome-copilot;
-        subdir = "skills";
-      };
-      mattpocock = {
-        path = inputs.mattpocock-skills;
-        subdir = "skills";
-      };
     };
 
-    # reference to "https://github.com/ryoppippi/dotfiles/blob/c6c366b8fde0851ded440c9560f860af2a235490/nix/modules/home/agent-skills.nix#L46"
     skills.explicit = {
       worktrunk = {
         from = "local";
         path = "worktrunk";
       };
-      ast-grep = let
-        astGrepBin = lib.getExe pkgs.ast-grep;
-      in {
+      ast-grep = {
         from = "ast-grep";
         path = "ast-grep";
         packages = [pkgs.ast-grep];
+        rewriteCommands = false;
         transform = {
           original,
           dependencies,
         }: let
           patched =
             builtins.replaceStrings
-            ["| ast-grep " "ast-grep scan " "ast-grep run "]
-            ["| ${astGrepBin} " "${astGrepBin} scan " "${astGrepBin} run "]
+            [
+              ''rule: {pattern: 'console.log(\$ARG)'}''
+              ''rule: {pattern: "console.log($ARG)"}''
+            ]
+            [
+              ''{id: console-log, language: javascript, rule: {pattern: 'console.log(\$ARG)'}}''
+              ''{id: console-log, language: javascript, rule: {pattern: "console.log($ARG)"}}''
+            ]
             original;
         in ''
           ${patched}
 
+          For AST inspection, use `ast-grep run --pattern '<code>' --lang <language> --debug-query=cst`.
+          The `dump_syntax_tree` name in the rule reference is not a CLI command.
+
           ${dependencies}
         '';
-      };
-      agent-browser = let
-        agentBrowserBin = lib.getExe pkgs.llm-agents.agent-browser;
-      in {
-        from = "agent-browser";
-        path = "agent-browser";
-        packages = [pkgs.llm-agents.agent-browser];
-        transform = {original, ...}:
-          builtins.replaceStrings
-          [
-            "Bash(agent-browser:*), Bash(npx agent-browser:*)"
-            "Install: `npm i -g agent-browser && agent-browser install`\n\n"
-            "agent-browser skills "
-            "`agent-browser`"
-          ]
-          [
-            "Bash(${agentBrowserBin}:*)"
-            ""
-            "${agentBrowserBin} skills "
-            "`${agentBrowserBin}`"
-          ]
-          original;
-      };
-      git-commit = {
-        from = "awesome-copilot";
-        path = "git-commit";
-      };
-      grill-with-docs = {
-        from = "mattpocock";
-        path = "engineering/grill-with-docs";
-      };
-      prototype = {
-        from = "mattpocock";
-        path = "engineering/prototype";
-      };
-      diagnosing-bugs = {
-        from = "mattpocock";
-        path = "engineering/diagnosing-bugs";
-      };
-      tdd = {
-        from = "mattpocock";
-        path = "engineering/tdd";
-      };
-      code-review = {
-        from = "mattpocock";
-        path = "engineering/code-review";
-      };
-      handoff = {
-        from = "mattpocock";
-        path = "productivity/handoff";
-      };
-      teach = {
-        from = "mattpocock";
-        path = "productivity/teach";
       };
     };
 

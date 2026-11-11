@@ -62,18 +62,6 @@
       url = "github:ast-grep/agent-skill";
       flake = false;
     };
-    agent-browser-skill = {
-      url = "github:vercel-labs/agent-browser";
-      flake = false;
-    };
-    awesome-copilot = {
-      url = "github:github/awesome-copilot";
-      flake = false;
-    };
-    mattpocock-skills = {
-      url = "github:mattpocock/skills";
-      flake = false;
-    };
 
     catppuccin-yazi = {
       url = "github:catppuccin/yazi";
