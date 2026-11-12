@@ -16,6 +16,10 @@
     };
 
     skills.explicit = {
+      comma = {
+        from = "local";
+        path = "comma";
+      };
       worktrunk = {
         from = "local";
         path = "worktrunk";
