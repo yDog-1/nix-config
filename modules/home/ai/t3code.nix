@@ -4,6 +4,29 @@
   pkgs,
   ...
 }: let
+  configureDesktop = pkgs.writeShellApplication {
+    name = "t3code-configure-desktop";
+    runtimeInputs = [pkgs.coreutils pkgs.jq];
+    text = ''
+      umask 077
+      settings=${lib.escapeShellArg "${config.home.homeDirectory}/.t3/userdata/desktop-settings.json"}
+      mkdir -p "$(dirname "$settings")"
+      tmp="$(mktemp "$settings.XXXXXX")"
+      trap 'rm -f "$tmp"' EXIT
+      if [ -e "$settings" ]; then
+        jq -e -s '
+          if length == 1 and (.[0] | type == "object") then
+            .[0] | .localEnvironmentEnabled = false
+          else
+            error("desktop settings must contain exactly one object")
+          end
+        ' "$settings" > "$tmp"
+      else
+        printf '%s\n' '{"localEnvironmentEnabled":false}' > "$tmp"
+      fi
+      mv "$tmp" "$settings"
+    '';
+  };
   t3Service = pkgs.writeShellApplication {
     name = "t3code-service";
     runtimeInputs = [pkgs.coreutils pkgs.tailscale];
@@ -21,6 +44,10 @@
   '';
 in {
   sops.secrets.openrouter_api_key = {};
+
+  home.activation.t3codeRemoteOnly = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run ${lib.getExe configureDesktop}
+  '';
 
   systemd.user.services.t3code = {
     Unit = {
