@@ -1,7 +1,18 @@
-let
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  lazygitCompletion = pkgs.runCommand "lazygit-zsh-completion" {} ''
+    ${lib.getExe pkgs.lazygit} completion zsh > "$out"
+  '';
   catppuccin = import ../../../lib/style/catppuccin-colors.nix;
   c = catppuccin.colors;
 in {
+  programs.zsh.initContent = lib.mkOrder 1500 ''
+    source ${lazygitCompletion}
+  '';
+
   programs.lazygit = {
     enable = true;
     enableBashIntegration = false;

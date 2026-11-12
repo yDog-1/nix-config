@@ -11,13 +11,7 @@ in {
     # Runtimes and compilers
     nodejs
     deno
-    bun
     pnpm
-    python3
-    python3Packages.pip
-    uv
-    cargo
-    rustc
     gcc
 
     # Version control

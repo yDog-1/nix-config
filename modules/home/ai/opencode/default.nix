@@ -2,8 +2,13 @@
   pkgs,
   inputs,
   config,
+  lib,
   ...
 }: let
+  opencodeCompletion = pkgs.runCommand "opencode-zsh-completion" {} ''
+    export HOME="$TMPDIR"
+    ${pkgs.llm-agents.opencode2}/bin/opencode2 --completions zsh > "$out"
+  '';
   opencode = pkgs.writeShellApplication {
     name = "opencode";
     runtimeInputs = [pkgs.coreutils];
@@ -77,12 +82,18 @@ in {
     "opencode/plugins/vde-tmux.ts".text = opencodeVdeTmuxPlugin;
   };
 
-  programs.opencode = {
-    package = opencode;
-    enable = true;
-  };
-
   home.packages = [worktrunkCommitMessage pkgs.ast-grep];
+
+  programs = {
+    opencode = {
+      package = opencode;
+      enable = true;
+    };
+
+    zsh.initContent = lib.mkOrder 1500 ''
+      source ${opencodeCompletion}
+    '';
+  };
 
   programs.agent-skills = {
     enable = true;

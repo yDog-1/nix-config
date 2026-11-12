@@ -4,6 +4,22 @@
   self,
   system,
 }: {
+  zsh-command-completions =
+    pkgs.runCommand "zsh-command-completions-tests" {
+      nativeBuildInputs = [pkgs.zsh pkgs.coreutils pkgs.gnugrep pkgs.python3Packages.pip inputs.layat.packages.${system}.layat];
+    } ''
+      export HOME="$TMPDIR/home"
+      export ZDOTDIR="$HOME"
+      export XDG_CONFIG_HOME="$HOME/.config"
+      export XDG_CACHE_HOME="$HOME/.cache"
+      export TERM=xterm-256color
+      export NIX_PROFILES=${pkgs.python3Packages.pip}
+      mkdir -p "$HOME"
+      cp ${self.homeConfigurations.ydog-1.config.home.file."./.zshrc".source} "$HOME/.zshrc"
+      zsh -f ${../modules/home/shell/completions/test.zsh}
+      touch "$out"
+    '';
+
   sheldon-sync =
     pkgs.runCommand "sheldon-sync-tests" {
       nativeBuildInputs = [pkgs.bash pkgs.coreutils pkgs.diffutils];

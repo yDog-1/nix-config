@@ -1,7 +1,20 @@
-let
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  fzfCompletion = pkgs.runCommand "fzf-zsh-completion" {} ''
+    ${lib.getExe pkgs.carapace} fzf zsh > "$out"
+    substituteInPlace "$out" \
+      --replace-fail 'carapace fzf zsh' '${lib.getExe pkgs.carapace} fzf zsh'
+  '';
   catppuccin = import ../../../lib/style/catppuccin-colors.nix;
   c = catppuccin.colors;
 in {
+  programs.zsh.initContent = lib.mkOrder 1500 ''
+    source ${fzfCompletion}
+  '';
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = false;
