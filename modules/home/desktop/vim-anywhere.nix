@@ -4,7 +4,7 @@
   ...
 }: let
   terminalTargetClasses = [
-    "kitty"
+    "com.mitchellh.ghostty"
   ];
 
   terminalTargetClassLines = lib.concatMapStringsSep "\n" (class: "        ${lib.escapeShellArg class}") terminalTargetClasses;

@@ -65,7 +65,7 @@
   networkPython = pkgs.python3.withPackages (ps: [ps.pygobject3]);
   network = pkgs.writeShellApplication {
     name = "waybar-network";
-    runtimeInputs = with pkgs; [config.programs.rofi.finalPackage libnotify networkmanager networkmanagerapplet procps kitty];
+    runtimeInputs = with pkgs; [config.programs.rofi.finalPackage libnotify networkmanager networkmanagerapplet procps ghostty];
     text = ''
       export GI_TYPELIB_PATH="${lib.makeSearchPath "lib/girepository-1.0" [pkgs.networkmanager pkgs.glib]}''${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
       exec ${networkPython}/bin/python3 ${upstream}/dots/rofi/network/network.py "$@"
@@ -167,7 +167,7 @@ in {
       [dmenu_passphrase]
       obscure = true
       [editor]
-      terminal = kitty
+      terminal = ghostty
     '';
   };
 }

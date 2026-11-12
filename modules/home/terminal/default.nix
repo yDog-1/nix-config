@@ -1,10 +1,10 @@
 {pkgs, ...}: {
   imports = [
     ./herdr.nix
-    ./kitty.nix
+    ./ghostty.nix
     ./tmux.nix
   ];
 
-  home.sessionVariables.TERMINAL = "kitty";
+  home.sessionVariables.TERMINAL = "ghostty";
   home.packages = [pkgs.zellij];
 }

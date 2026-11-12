@@ -11,7 +11,7 @@ in {
   xdg.desktopEntries.reboot-to-firmware = {
     name = "UEFI設定へ再起動";
     comment = "UEFI設定画面へ再起動します";
-    exec = "${pkgs.kitty}/bin/kitty -- /run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl reboot --firmware-setup";
+    exec = "${pkgs.ghostty}/bin/ghostty -e /run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl reboot --firmware-setup";
     icon = "system-reboot";
     terminal = false;
     categories = ["System"];
@@ -21,7 +21,7 @@ in {
   programs.rofi = {
     enable = true;
     settings = {
-      terminal = "${pkgs.kitty}/bin/kitty";
+      terminal = "${pkgs.ghostty}/bin/ghostty";
       kb-move-char-forward = "Right";
       kb-element-next = "";
       kb-element-prev = "";

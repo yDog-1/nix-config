@@ -13,11 +13,11 @@
       exec ${pkgs.neovim}/bin/nvim "$@"
     '';
   };
-  nvimKitty = pkgs.writeShellApplication {
-    name = "nvim-kitty";
+  nvimGhostty = pkgs.writeShellApplication {
+    name = "nvim-ghostty";
     text = ''
-      exec ${pkgs.kitty}/bin/kitty -- ${pkgs.zsh}/bin/zsh -lic \
-        'exec ${nvim}/bin/nvim -- "$@"' nvim-kitty "$@"
+      exec ${pkgs.ghostty}/bin/ghostty -e ${pkgs.zsh}/bin/zsh -lic \
+        'exec ${nvim}/bin/nvim -- "$@"' nvim-ghostty "$@"
     '';
   };
   textMimeTypes = [
@@ -56,7 +56,7 @@
     "application/x-desktop"
     "application/x-ini"
   ];
-  textApplications = lib.genAttrs textMimeTypes (_: ["nvim-kitty.desktop"]);
+  textApplications = lib.genAttrs textMimeTypes (_: ["nvim-ghostty.desktop"]);
 in {
   home.packages = [
     nvim
@@ -64,11 +64,11 @@ in {
 
   sops.secrets.openrouter_api_key = {};
 
-  xdg.desktopEntries.nvim-kitty = {
-    name = "Neovim (kitty)";
+  xdg.desktopEntries.nvim-ghostty = {
+    name = "Neovim (ghostty)";
     genericName = "Text Editor";
-    comment = "Edit text files with Neovim in kitty";
-    exec = "${nvimKitty}/bin/nvim-kitty %F";
+    comment = "Edit text files with Neovim in ghostty";
+    exec = "${nvimGhostty}/bin/nvim-ghostty %F";
     icon = "nvim";
     terminal = false;
     categories = ["Utility" "TextEditor"];

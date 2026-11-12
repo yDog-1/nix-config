@@ -15,11 +15,11 @@
   xdg = {
     configFile = {
       "xfce4/helpers.rc".text = ''
-        TerminalEmulator=kitty
+        TerminalEmulator=ghostty
       '';
 
       "xdg-terminals.list".text = ''
-        kitty.desktop
+        com.mitchellh.ghostty.desktop
       '';
 
       "Thunar/uca.xml" = {
@@ -32,8 +32,8 @@
               <icon>utilities-terminal</icon>
               <name>Open Terminal Here</name>
               <unique-id>1792674492960118-1</unique-id>
-              <command>${pkgs.kitty}/bin/kitty --directory %f</command>
-              <description>Open kitty in this directory</description>
+              <command>${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory=%f</command>
+              <description>Open ghostty in this directory</description>
               <patterns>*</patterns>
               <startup-notify/>
               <directories/>
@@ -43,15 +43,15 @@
       };
     };
 
-    dataFile."xfce4/helpers/kitty.desktop".text = ''
+    dataFile."xfce4/helpers/ghostty.desktop".text = ''
       [Desktop Entry]
       Version=1.0
       Type=X-XFCE-Helper
-      Name=kitty
-      Icon=kitty
+      Name=ghostty
+      Icon=ghostty
       X-XFCE-Category=TerminalEmulator
-      X-XFCE-Commands=${pkgs.kitty}/bin/kitty --directory .;
-      X-XFCE-CommandsWithParameter=${pkgs.kitty}/bin/kitty --directory . -- %s;
+      X-XFCE-Commands=${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory=inherit;
+      X-XFCE-CommandsWithParameter=${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory=inherit -e %s;
     '';
 
     mimeApps = {
