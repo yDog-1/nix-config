@@ -1,6 +1,21 @@
 let
   catppuccin = import ../../../lib/style/catppuccin-colors.nix;
 in {
+  nixpkgs.overlays = [
+    (_final: prev: {
+      ghostty = prev.symlinkJoin {
+        name = "ghostty-no-ime";
+        paths = [prev.ghostty];
+        nativeBuildInputs = [prev.makeWrapper];
+        postBuild = ''
+          wrapProgram "$out/bin/ghostty" \
+            --set GTK_IM_MODULE none
+        '';
+        meta = prev.ghostty.meta;
+      };
+    })
+  ];
+
   programs.ghostty = {
     enable = true;
     enableZshIntegration = false;
