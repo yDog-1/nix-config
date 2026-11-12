@@ -5,6 +5,13 @@
   "defaultProvider": "openai",
   "defaultModel": "gpt-6.1-sol",
   "defaultTools": ["+codemode"],
+  "packages": [
+    "npm:pi-web-access",
+    "git:github.com/michael-denyer/pstack-claude"
+  ],
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0"
+  },
   "editorPaddingX": 1,
   "hideThinkingBlock": true
 }
