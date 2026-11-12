@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   imports = [
-    ./herdr.nix
     ./ghostty.nix
     ./tmux.nix
   ];
