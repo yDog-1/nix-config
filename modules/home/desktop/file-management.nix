@@ -32,7 +32,7 @@
               <icon>utilities-terminal</icon>
               <name>Open Terminal Here</name>
               <unique-id>1792674492960118-1</unique-id>
-              <command>${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory=%f</command>
+              <command>${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory="%f"</command>
               <description>Open ghostty in this directory</description>
               <patterns>*</patterns>
               <startup-notify/>
@@ -51,7 +51,7 @@
       Icon=ghostty
       X-XFCE-Category=TerminalEmulator
       X-XFCE-Commands=${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory=inherit;
-      X-XFCE-CommandsWithParameter=${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory=inherit -e %s;
+      X-XFCE-CommandsWithParameter=${pkgs.ghostty}/bin/ghostty --window-inherit-working-directory=false --working-directory=inherit --command="%s";
     '';
 
     mimeApps = {

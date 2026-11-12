@@ -16,8 +16,14 @@
   nvimGhostty = pkgs.writeShellApplication {
     name = "nvim-ghostty";
     text = ''
-      exec ${pkgs.ghostty}/bin/ghostty -e ${pkgs.zsh}/bin/zsh -lic \
-        'exec ${nvim}/bin/nvim -- "$@"' nvim-ghostty "$@"
+      quoted_args=""
+      for arg in "$@"; do
+        quoted_args="$quoted_args $(printf '%q' "$arg")"
+      done
+      exec ${pkgs.ghostty}/bin/ghostty \
+        --gtk-single-instance=false \
+        --quit-after-last-window-closed=true \
+        --command="exec ${pkgs.zsh}/bin/zsh -lic 'exec ${nvim}/bin/nvim -- \"\$@\"' nvim-ghostty$quoted_args"
     '';
   };
   textMimeTypes = [

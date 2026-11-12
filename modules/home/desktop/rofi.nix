@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -11,7 +12,7 @@ in {
   xdg.desktopEntries.reboot-to-firmware = {
     name = "UEFI設定へ再起動";
     comment = "UEFI設定画面へ再起動します";
-    exec = "${pkgs.ghostty}/bin/ghostty -e /run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl reboot --firmware-setup";
+    exec = "${pkgs.ghostty}/bin/ghostty --working-directory=${config.home.homeDirectory} --gtk-single-instance=false --quit-after-last-window-closed=true --command=\"/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl reboot --firmware-setup\"";
     icon = "system-reboot";
     terminal = false;
     categories = ["System"];
