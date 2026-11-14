@@ -27,8 +27,12 @@
     capSysAdmin = false;
     openFirewall = true;
     # Boost 1.89 stalls on this host's broken RDRAND implementation.
-    package = pkgs.sunshine.override {
-      boost = inputs.nixpkgs-25-05.legacyPackages.${pkgs.stdenv.hostPlatform.system}.boost;
-    };
+    package =
+      (pkgs.sunshine.override {
+        boost = inputs.nixpkgs-25-05.legacyPackages.${pkgs.stdenv.hostPlatform.system}.boost;
+      }).overrideAttrs (old: {
+        # Keep the current C++ runtime ahead of the older Boost dependency's GCC runtime.
+        runtimeDependencies = [pkgs.stdenv.cc.cc.lib] ++ old.runtimeDependencies;
+      });
   };
 }
