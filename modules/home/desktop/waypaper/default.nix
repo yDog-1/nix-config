@@ -35,7 +35,7 @@ in {
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "${lib.getExe pkgs.waypaper} --random";
+      ExecStart = "${lib.getExe pkgs.waypaper} --random --backend hyprpaper --folder %h/Pictures/Wallpapers --monitor All";
     };
   };
 
