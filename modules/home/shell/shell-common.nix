@@ -1,4 +1,12 @@
-_: {
+{
+  config,
+  lib,
+  ...
+}: {
+  xdg.configFile."uwsm/env".text = ''
+    export EDITOR=${lib.escapeShellArg config.home.sessionVariables.EDITOR}
+  '';
+
   # 共通環境変数
   home.sessionVariables = {
     EDITOR = "nvim";
