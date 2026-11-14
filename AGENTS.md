@@ -20,6 +20,12 @@
 - Category `default.nix` files collect imports. `packages.nix` files define packages rather than importing other feature modules.
 - `nix/checks.nix` and `nix/devshell.nix` implement flake tooling; `flake.nix` connects inputs and outputs.
 
+## Development shell
+
+- Run `nix develop` from the repository root to enter the default development shell, or `nix develop --command <command>` to run one command in it. The shell provides the enabled hook tools and `layat`. `.envrc` contains `use flake` for direnv users.
+- Entering the shell runs the `git-hooks.nix` shell hook from `nix/devshell.nix`. It generates `.pre-commit-config.yaml` as a symlink to the Nix store and installs the configured Git pre-commit hook. Edit hook definitions in `nix/checks.nix`, not the generated config. Re-enter the shell after changing them. An existing non-symlink `.pre-commit-config.yaml` prevents installation and is not overwritten.
+- Hook installation can uninstall existing pre-commit-managed hooks and change the repository's local `core.hooksPath`; worktrees share the common hooks directory. Account for these side effects before entering the shell in a worktree or a repository with custom hooks.
+
 ## Checks
 
 - `nix flake check --print-build-logs` runs repository hooks and builds the NixOS closure and Home Manager activation package.
