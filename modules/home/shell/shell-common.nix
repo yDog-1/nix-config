@@ -24,6 +24,7 @@ _: {
   ];
 
   systemd.user.sessionVariables = {
+    EDITOR = "nvim";
     PATH = "$HOME/.nix-profile/bin";
   };
 }

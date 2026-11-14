@@ -23,7 +23,7 @@
       exec ${pkgs.ghostty}/bin/ghostty \
         --gtk-single-instance=false \
         --quit-after-last-window-closed=true \
-        --command="exec ${pkgs.zsh}/bin/zsh -lic 'exec ${nvim}/bin/nvim -- \"\$@\"' nvim-ghostty$quoted_args"
+        --command="exec ${nvim}/bin/nvim --$quoted_args"
     '';
   };
   textMimeTypes = [
