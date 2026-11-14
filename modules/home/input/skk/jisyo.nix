@@ -35,7 +35,7 @@ in {
     dictionaries;
 
   # 環境変数設定
-  home.sessionVariables = {
+  systemd.user.sessionVariables = {
     # 辞書ディレクトリパス
     SKK_DICT_PATH = skkDataDir;
 
