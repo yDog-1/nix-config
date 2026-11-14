@@ -13,6 +13,14 @@
       exec ${pkgs.neovim}/bin/nvim "$@"
     '';
   };
+  ng = pkgs.symlinkJoin {
+    name = "ng";
+    paths = [pkgs.ng];
+    nativeBuildInputs = [pkgs.makeWrapper];
+    postBuild = ''
+      wrapProgram "$out/bin/ng" --add-flags "--nvim ${nvim}/bin/nvim"
+    '';
+  };
   nvimGhostty = pkgs.writeShellApplication {
     name = "nvim-ghostty";
     text = ''
@@ -66,6 +74,7 @@
 in {
   home.packages = [
     nvim
+    ng
   ];
 
   sops.secrets.openrouter_api_key = {};

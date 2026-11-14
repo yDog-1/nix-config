@@ -1,5 +1,9 @@
 local o = vim.opt
 
+if vim.g.ng then
+	o.guifont = "PlemolJP Console NF:h13"
+end
+
 -- ヘルプ言語
 o.helplang = "ja,en"
 
