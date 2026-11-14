@@ -140,6 +140,11 @@ hl.config({
 })
 
 hl.window_rule({
+	match = { class = [[^com\.ydog\.vim_anywhere$]] },
+	no_anim = true,
+})
+
+hl.window_rule({
 	match = { tag = "no-window-decorations" },
 	no_blur = true,
 	border_size = 0,

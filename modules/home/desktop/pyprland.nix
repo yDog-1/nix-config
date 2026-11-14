@@ -12,7 +12,8 @@
     command = "ghostty --class=com.ydog.vim_anywhere --working-directory=${config.home.homeDirectory} --gtk-single-instance=false --quit-after-last-window-closed=true --command=\"${config.home.profileDirectory}/bin/vim-anywhere-editor\""
     class = "com.ydog.vim_anywhere"
     size = "80% 70%"
-    position = "10% 10%"
+    position = "10% 15%"
+    animation = ""
     lazy = true
   '';
 
