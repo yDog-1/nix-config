@@ -1,5 +1,5 @@
 * {
-    font: "JetBrainsMono Nerd Font 11";
+    font: "@popup-font@";
     background-color: transparent;
     text-color: #e4e1e9;
 }
@@ -9,16 +9,15 @@ window {
     x-offset: -20px;
     y-offset: 48px;
     width: 460px;
-    border: 1px;
-    border-color: #cba6f7;
-    border-radius: 10px;
+    border: 0;
+    border-radius: @popup-radius@;
     background-color: #0b0a10;
 }
 mainbox { padding: 14px; spacing: 12px; children: [inputbar, listview]; }
-inputbar { spacing: 10px; children: [prompt, entry]; }
+inputbar { spacing: 10px; padding: 8px; border-radius: @popup-radius@; background-color: #313244; children: [prompt, entry]; }
 prompt { text-color: #cba6f7; }
 entry { placeholder: "Search devices…"; }
 listview { lines: 8; fixed-height: false; spacing: 4px; }
-element { padding: 10px; border-radius: 6px; }
+element { padding: 10px; border-radius: @popup-radius@; }
 element selected.normal { background-color: #4c3349; text-color: #ffd7f3; }
 element-text { text-color: inherit; }

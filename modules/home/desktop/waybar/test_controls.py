@@ -100,6 +100,28 @@ class AudioTests(unittest.TestCase):
         self.assertIn(("move-sink-input", "20", "headphones"), calls)
         self.assertIn(("move-sink-input", "21", "headphones"), calls)
 
+    def test_microphone_selection_changes_default_and_moves_streams(self):
+        sources = [
+            {"index": 1, "name": "speaker.monitor", "description": "Monitor"},
+            {"index": 2, "name": "microphone", "description": "Microphone"},
+        ]
+        calls = []
+
+        def pactl(*args):
+            calls.append(args)
+            if args == ("-f", "json", "list", "sources"):
+                return json.dumps(sources)
+            if args == ("get-default-source",):
+                return "old-microphone"
+            if args == ("-f", "json", "list", "source-outputs"):
+                return json.dumps([{"index": 30}])
+            return ""
+
+        with patch.object(audio, "pactl", side_effect=pactl), patch.object(audio.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, "0\n")):
+            audio.choose_output("theme.rasi", "source")
+        self.assertIn(("set-default-source", "microphone"), calls)
+        self.assertIn(("move-source-output", "30", "microphone"), calls)
+
     def test_cancel_does_not_change_audio(self):
         with patch.object(audio, "pactl", side_effect=[json.dumps(self.sinks), "speakers"]) as pactl, patch.object(audio.subprocess, "run", return_value=subprocess.CompletedProcess([], 1, "")):
             audio.choose_output("theme.rasi")

@@ -12,6 +12,19 @@
 - OpenCode's editable base config is `modules/home/ai/opencode/opencode.json`; Home Manager generates the live config and merges MCP settings. Do not edit the generated target. `cli.json` is managed by layat under `layat/ydog-1/files/.config/opencode/`.
 - Flake overlays apply to Home Manager, checks, packages, and the dev shell, but not the separately constructed NixOS `pkgs`.
 
+## Waybar dependencies
+
+- Waybar configuration and helper scripts live in `modules/home/desktop/waybar/`. Hyprland starts Waybar through UWSM; Home Manager's Waybar systemd service stays disabled. The configuration and base CSS come from the pinned `hypr-dots` input, with local overrides applied by `configure.py`.
+- Notifications use SwayNC from `modules/home/desktop/swaync.nix`. The Waybar notification helper uses Python with PyGObject for D-Bus, `hyprctl` for monitor placement, and `notify-send` for errors.
+- The Nix logo opens `wlogout` through `logout.py` and `hyprctl`. Its actions use `systemctl` for suspend, reboot, and poweroff, and `uwsm stop` for logout.
+- Audio selection uses Rofi from `modules/home/desktop/rofi.nix` and `pactl` from PulseAudio to select devices and move streams. The middle-click controls open Pavucontrol. `notify-send` reports errors.
+- The input-method indicator uses Python with PyGObject and the fcitx5 D-Bus menu; clicking it opens `fcitx5-config-qt`. Weather uses `wttrbar`. Waybar uses `PlemolJP Console NF`, supplied by the NixOS font configuration in `modules/nixos/fonts/default.nix`.
+
+## Waybar styling
+
+- Keep the appearance of the entire Waybar experience consistent, not just the bar itself. When changing the theme, check hover tooltips, tray right-click menus, SwayNC notifications and panel, the wlogout power menu, the Rofi audio-device chooser, and other windows opened by Waybar controls. Coordinate colors, fonts, borders, corner shapes, and hover and focus states across these surfaces.
+- The shared Catppuccin palette lives in `lib/style/catppuccin-colors.nix`, and popup font and corner settings live in `lib/style/popup.nix`. Waybar and wlogout styles live in `modules/home/desktop/waybar/default.nix`, the audio chooser theme in `modules/home/desktop/waybar/audio.rasi`, and SwayNC styles in `modules/home/desktop/swaync.nix`. Check the styling of other dependency windows as well, including Pavucontrol and the fcitx5 configuration tool. Verify affected surfaces on screen when possible, including tooltips and tray context menus.
+
 ## Directory conventions
 
 - Host-specific mounts and users belong in `hosts/ydog-1/`; shared NixOS feature settings belong in `modules/nixos/`.

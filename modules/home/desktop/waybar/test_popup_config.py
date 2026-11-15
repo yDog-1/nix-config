@@ -14,22 +14,49 @@ class PopupConfigTests(unittest.TestCase):
         with open(os.environ["SWAYNC_CONFIG"]) as file:
             self.notifications = json.load(file)
 
-    def test_independent_left_click_media_buttons(self):
+    def test_layout_and_tray_drawer(self):
         for bar in self.bars:
-            group = bar.get("group/media", {}).get("modules", [])
-            for name, action in [("previous", "previous"), ("play", "play-pause"), ("next", "next")]:
-                key = f"custom/media-{name}"
-                self.assertIn(key, group)
-                self.assertIn(action, bar[key]["on-click"])
-                self.assertTrue(bar[key]["format"])
-            self.assertIn("group/media", bar["group/info"]["modules"])
+            self.assertIn("", bar["custom/window"]["format"])
+            self.assertEqual([name for name in bar["modules-left"] if not name.startswith("custom/segment-")], ["custom/window", "ext/workspaces", "group/apps"])
+            self.assertEqual(bar["ext/workspaces"]["on-click"], "activate")
+            self.assertFalse(bar["ext/workspaces"]["all-outputs"])
+            self.assertIn("waybar-logout", bar["custom/window"]["on-click"])
+            self.assertIn(bar["output"], bar["custom/window"]["on-click"])
+            self.assertTrue(pathlib.Path(bar["custom/input-method"]["on-click"]).is_file())
+            self.assertEqual(bar["modules-center"], ["group/date-clock", "custom/weather"])
+            self.assertEqual(bar["group/date-clock"]["modules"], ["custom/date", "clock"])
+            self.assertEqual([name for name in bar["modules-right"] if not name.startswith("custom/segment-")], ["group/tray", "custom/input-method", "group/audio", "custom/notifications", "group/power"])
+            self.assertEqual(bar["group/tray"]["modules"], ["custom/tray-toggle", "tray"])
+            self.assertEqual(bar["custom/tray-toggle"]["format"], "&lt;")
+            self.assertNotIn("format-alt", bar["clock"])
+            self.assertIn("%Y/%-m/%-d(%a)", bar["custom/date"]["exec"])
+            self.assertIn("--tab=4", bar["pulseaudio#microphone"]["on-click-middle"])
+            self.assertTrue(bar["pulseaudio"]["tooltip"])
+            self.assertEqual(bar["pulseaudio"]["tooltip-format"], "{desc}")
+            self.assertEqual(bar["pulseaudio#microphone"]["tooltip-format"], "{source_desc}")
+            self.assertTrue(bar["pulseaudio#microphone"]["tooltip"])
+            self.assertEqual(bar["height"], 27)
+            self.assertFalse(bar["group/tray"]["drawer"].get("click-to-reveal", False))
+            self.assertEqual(bar["group/tray"]["drawer"]["transition-duration"], 200)
+            self.assertEqual(bar["group/audio"]["modules"], ["pulseaudio", "pulseaudio#microphone"])
+            self.assertIn("set-source-volume", bar["pulseaudio#microphone"]["on-scroll-up"])
+            self.assertIn("--lang ja", bar["custom/weather"]["exec"])
+            self.assertEqual(bar["custom/weather"]["interval"], 600)
+            self.assertFalse(bar["custom/weather"]["exec-on-event"])
+            self.assertIn("{icon}", bar["pulseaudio"]["format"])
+            self.assertIn("{volume}%", bar["pulseaudio"]["format"])
+            for name, group in bar.items():
+                if name.startswith("group/") and name != "group/tray":
+                    self.assertNotIn("drawer", group)
+            for name in ("custom/record", "custom/section", "custom/stop", "network"):
+                self.assertNotIn(name, bar)
+            self.assertEqual(bar["group/apps"]["modules"], ["custom/cpu", "custom/memory", "custom/disk"])
+            for name in ("cpu", "memory", "disk"):
+                self.assertEqual(bar[f"custom/{name}"]["return-type"], "json")
+                self.assertTrue(bar[f"custom/{name}"]["exec"].endswith(f" {name}"))
 
-    def test_notification_transition_matches_drawers(self):
-        for bar in self.bars:
-            self.assertEqual(self.notifications["transition-time"], bar["group/utils"]["drawer"]["transition-duration"])
-        compositor = (pathlib.Path(__file__).parent.parent / "hyprland" / "hyprland.lua").read_text()
-        self.assertIn('ipairs({ "layers", "fadeLayers", "fadePopups" })', compositor)
-        self.assertIn('leaf = leaf, enabled = true, speed = 3, bezier = "default"', compositor)
+    def test_notification_transition_is_instant(self):
+        self.assertEqual(self.notifications["transition-time"], 0)
 
     def test_notification_click_positions_panel(self):
         for bar in self.bars:
