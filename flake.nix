@@ -36,6 +36,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    bootvine = {
+      url = "git+https://codeberg.org/wvhulle/bootvine";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
@@ -163,6 +167,7 @@
       modules =
         [
           cfg.hostPath
+          inputs.bootvine.nixosModules.default
           inputs.nix-index-database.nixosModules.default
         ]
         ++ (with nixos-hardware.nixosModules; [
