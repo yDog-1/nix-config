@@ -23,5 +23,7 @@
     ../../modules/nixos/gaming.nix
   ];
 
+  hardware.i2c.enable = true;
+
   system.stateVersion = "25.11";
 }

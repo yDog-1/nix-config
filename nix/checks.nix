@@ -20,6 +20,23 @@
       touch "$out"
     '';
 
+  swaync-helpers =
+    pkgs.runCommand "swaync-helper-tests" {
+      nativeBuildInputs = [pkgs.python3];
+    } ''
+      export PYTHONDONTWRITEBYTECODE=1
+      python -m unittest discover -s ${../modules/home/desktop/swaync} -p 'test_*.py'
+      touch "$out"
+    '';
+
+  swaync-idle-inhibit =
+    pkgs.runCommand "swaync-idle-inhibit-tests" {
+      nativeBuildInputs = [pkgs.bash pkgs.coreutils];
+    } ''
+      bash ${../modules/home/desktop/swaync/test-idle-inhibit.sh} ${../modules/home/desktop/swaync/idle-inhibit.sh}
+      touch "$out"
+    '';
+
   sheldon-sync =
     pkgs.runCommand "sheldon-sync-tests" {
       nativeBuildInputs = [pkgs.bash pkgs.coreutils pkgs.diffutils];

@@ -29,15 +29,21 @@ Wallpaper changes do not regenerate the palette.
   for input devices and recording streams. Choosing a device changes the default
   and moves existing streams. A single click selects a device. Escape closes the
   chooser without changes; clicking outside does not reliably close it on Wayland.
-- SwayNC is notification-only: title/clear-all, DND and notification history.
-  Its palette matches Waybar. Clicking the notification icon opens the panel
+- SwayNC provides display brightness sliders, an MPRIS player, buttons for idle
+  inhibition and region screenshots, per-application notification rules, and
+  notifications with clear-all and DND controls. Its palette matches Waybar.
+  Clicking the notification icon opens the panel
   below/right of the click, on that icon's monitor. The outer panel width includes
   its padding/border; placement respects monitor scaling/rotation and clamps at
   screen edges. The helper changes only the in-memory right margin over D-Bus
   (`write_to_file=false`), then selects the output before opening. Clicking again
   closes it. Layer-shell excludes the bar's reserved zone; an 8px gap is added.
-  Toast notifications retain their separate top offset. Media and volume controls
-  are not included in SwayNC.
+  Toast notifications retain their separate top offset. Volume controls remain
+  in Waybar. The App rules button closes the panel and opens Rofi with the
+  applications that have sent notifications; choosing one cycles it through
+  On, Silent, and Off. Rules live in `$XDG_STATE_HOME/swaync/rules.json` and are
+  merged into the config the daemon was started with. SwayNC never watches the
+  config file, so the helper reloads it with `swaync-client --reload-config`.
 - The Waybar tray drawer opens and closes over 200ms. SwayNC transitions
   and Hyprland layer and popup animations are disabled. Ordinary window and
   workspace animations and notification dismissal timeouts are unchanged.

@@ -13,7 +13,7 @@
     ./rofi.nix
     ./sioyek.nix
     ./packages.nix
-    ./swaync.nix
+    ./swaync
     ./system-monitor.nix
     ./theme.nix
     ./vim-anywhere.nix
