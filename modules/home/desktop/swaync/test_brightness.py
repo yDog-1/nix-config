@@ -24,11 +24,20 @@ class BrightnessTest(unittest.TestCase):
     def test_get_scales_monitor_range(self):
         output, calls = self.run_action(["lg", "get"])
         self.assertEqual(output, "50\n")
-        self.assertEqual(calls[0].args[0], ["ddcutil", "--model", "MP59G", "--terse", "getvcp", "10"])
+        self.assertEqual(calls[0].args[0], ["ddcutil", "--model", "MP59G", "--terse", "--skip-ddc-checks", "getvcp", "10"])
 
     def test_set_selects_model_and_scales(self):
         _, calls = self.run_action(["pixio", "set", "75"])
-        self.assertEqual(calls[1].args[0], ["ddcutil", "--model", "PX277h/PX276h", "--terse", "setvcp", "10", "60"])
+        self.assertEqual(calls[1].args[0], ["ddcutil", "--model", "PX277h/PX276h", "--terse", "--skip-ddc-checks", "setvcp", "10", "60"])
+
+    def test_ignores_flock_diagnostics_before_the_reading(self):
+        noisy = (
+            "(flock_lock_by_fd              )           Max wait time 0 milliseconds exceeded after 2 flock() calls\n"
+            "(flock_lock_by_fd              )           flock() for /dev/i2c-9 failed on 2 calls\n"
+            "VCP 10 C 40 80\n"
+        )
+        output, _ = self.run_action(["lg", "get"], noisy)
+        self.assertEqual(output, "50\n")
 
     def test_rejects_bad_reading_and_value(self):
         with self.assertRaises(ValueError):
