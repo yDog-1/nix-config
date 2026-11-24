@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795359877,
-        "narHash": "sha256-I6Lqb3qWgtxdg0oUtllR+F0mzSt387wXzqAVx3natI4=",
+        "lastModified": 1795449913,
+        "narHash": "sha256-jlI2MfXCEzLZtBiwiL8bLo5yh10jJzt4+1JtM5t9Bm0=",
         "owner": "akitaonrails",
         "repo": "ai-usagebar",
-        "rev": "cdbd6a2be5743e375508d351714535f192a8deee",
+        "rev": "240c77586398b51f615903e30ab095c84414fc39",
         "type": "github"
       },
       "original": {
@@ -68,11 +68,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1795177966,
-        "narHash": "sha256-sRE3N7Wl1M3kQ2v9UX+skYbG3GK+fQ9JANn9MjJV5ZQ=",
+        "lastModified": 1795417174,
+        "narHash": "sha256-YZhRJqsSuwA/Xh5RSELzVh1j7q9d+gwCc4iQs6cd4J0=",
         "ref": "refs/heads/main",
-        "rev": "958cfa1b54451a7481f315de76bcf5a4400e2793",
-        "revCount": 150,
+        "rev": "0e7acf85f85084b30c681658a4b8fc1c3a90b0a3",
+        "revCount": 152,
         "type": "git",
         "url": "https://codeberg.org/wvhulle/bootvine"
       },
@@ -458,11 +458,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1795390077,
-        "narHash": "sha256-CBSSo6G0XIc334sk5Ys5xYOoRyH6ejLZ9ZNKl1XyL7k=",
+        "lastModified": 1795493782,
+        "narHash": "sha256-2Ca5tmZHj19S2cEqUAMwk6vXdVfhOGjMII2xLz1PRRc=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "047fb45688a7c8b1f42e3042e0b13a984e0de597",
+        "rev": "cb0acdd8d8aeccd31b3e5fb7a535dc5d601d807a",
         "type": "github"
       },
       "original": {
@@ -748,11 +748,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794866654,
-        "narHash": "sha256-Y28AMB8lyKjASdJ0BVsR2AqR1cUsVuo8RVVpzHoECho=",
+        "lastModified": 1795471345,
+        "narHash": "sha256-2p8/wnENYHU2Z79Ir/rpq+V1sMI9mSD6xGAlvlbVBUY=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "7c637afdccdf9bcf35c4a2d67b58a77c1fd843a4",
+        "rev": "d5abe5e53200ad48254e8e6bd95e6cef94e66577",
         "type": "github"
       },
       "original": {
@@ -902,11 +902,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795393312,
-        "narHash": "sha256-R0KBN1nAPKaqOaWHiG7XldmO2f3gA1BDcP4k7u2Mtac=",
+        "lastModified": 1795494506,
+        "narHash": "sha256-GhJ7RikveT5DNQiCAloQ3uksLkvURgJm6y8y49+z8EM=",
         "owner": "yDog-1",
         "repo": "nur-packages",
-        "rev": "f6db00f6da606b7b26a9622cd490fba8cf7bcf0b",
+        "rev": "43c0cd66914796f94b6404f5dc4c4269fba8447b",
         "type": "github"
       },
       "original": {
