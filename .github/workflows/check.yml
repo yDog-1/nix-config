@@ -45,7 +45,7 @@ jobs:
           authToken: ${{ secrets.CACHIXAUTH_TOKEN }}
 
       - name: Check flake
-        run: nix flake check --print-build-logs
+        run: nix flake check --accept-flake-config --print-build-logs
 
       - name: Build packages
         shell: bash
@@ -60,4 +60,4 @@ jobs:
             echo "No packages were discovered to build." >&2
             exit 1
           fi
-          nix build --no-link --print-build-logs "${packages[@]}"
+          nix build --accept-flake-config --no-link --print-build-logs "${packages[@]}"
