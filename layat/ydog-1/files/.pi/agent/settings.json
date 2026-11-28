@@ -1,6 +1,6 @@
 {
   "$schema": "https://pi.dev/schemas/settings.schema.json",
-  "lastChangelogVersion": "1.5.0",
+  "lastChangelogVersion": "1.6.0",
   "deviceId": "93153516-2a0e-4018-9aeb-e3c1cffe54ff",
   "defaultProvider": "openai",
   "defaultModel": "gpt-6.1-terra",
@@ -10,7 +10,7 @@
     "git:github.com/michael-denyer/pstack-claude"
   ],
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0"
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.48.0"
   },
   "editorPaddingX": 1,
   "hideThinkingBlock": true
