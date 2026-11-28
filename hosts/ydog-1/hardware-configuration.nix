@@ -13,7 +13,7 @@
 
   boot = {
     initrd = {
-      availableKernelModules = ["xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
+      availableKernelModules = ["nvme" "xhci_pci_renesas" "xhci_pci" "ahci" "usbhid" "sd_mod"];
       kernelModules = [];
     };
     kernelModules = ["kvm-amd"];
@@ -21,12 +21,12 @@
   };
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/7a9f4727-386b-4d4f-9715-404d47637043";
+    device = "/dev/disk/by-uuid/b6dc44cf-35e9-4f11-bf4f-246bdec33438";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/09D2-2FC6";
+    device = "/dev/disk/by-uuid/42DB-C3F4";
     fsType = "vfat";
     options = ["fmask=0077" "dmask=0077"];
   };
